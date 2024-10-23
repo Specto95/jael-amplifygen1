@@ -1,0 +1,39 @@
+  .userView__container {
+    display: flex;
+    height: fit-content;  
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-block: var(--p-xs);
+  }
+  
+  /* para el Sucursal (titulo) y Name Goes here */
+  .userView__branchName {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* la rallita  */
+  .userView__line {
+    height: 40px;
+    border: var(--border-1px);
+    margin-inline: .6rem;
+  }
+
+  /* para el "BC-2540 y el Role" */
+  .userView__branchID {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--text-primary);
+  }
+
+  .userView__logo-container{
+    margin-left: 5rem;
+  }
+  
+  

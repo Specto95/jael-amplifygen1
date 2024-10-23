@@ -1,0 +1,14 @@
+.PDVSpinner__container{
+    height: 50vh;
+    width: var(--w-full);
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+.PDV-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}

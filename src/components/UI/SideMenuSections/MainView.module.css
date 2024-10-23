@@ -1,0 +1,7 @@
+.section__module{
+    background-color: var(--bg-main);
+    border-radius: var(--radius-md);
+    padding: var(--p-md);
+    min-height: fit-content;
+    max-height: 90%;
+}

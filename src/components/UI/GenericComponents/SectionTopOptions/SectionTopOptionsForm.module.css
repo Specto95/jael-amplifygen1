@@ -1,0 +1,24 @@
+.STOF__searchOut-container{
+    position: relative;
+    width: var(--w-searchTopOptions);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-secondary);
+    border: var(--border-2px);
+    font-weight: bold;
+}
+
+.STOF__search-input{
+    width: var(--full);
+    padding: var(--1rem);
+    background-color: var(--bg-secondary);
+    font-weight: bold;
+}
+
+.STOF__search-icon{
+    position: absolute;
+    right: var(--1rem);
+    top: .75rem;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+}

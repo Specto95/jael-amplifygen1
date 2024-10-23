@@ -1,0 +1,4 @@
+.mainOperation{
+    display: flex;
+    min-height: var(--h-fullScreen);
+}

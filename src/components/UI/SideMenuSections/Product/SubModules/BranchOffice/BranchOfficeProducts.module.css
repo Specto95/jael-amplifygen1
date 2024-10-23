@@ -1,0 +1,9 @@
+.BOP__Select{
+    position: relative;
+    width: var(--w-full);
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    font-weight: bold;
+    border: var(--border-3px);
+    overflow: hidden;
+}

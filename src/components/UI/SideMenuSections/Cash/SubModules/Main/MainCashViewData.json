@@ -1,0 +1,96 @@
+{
+  "data": [
+    {
+      "name": "John Doe",
+      "userType": "employee",
+      "movementType": "OUTCOME",
+      "id": "1a2b3c4d-5e6f-7g8h-9i10-j11k12l13m14",
+      "total": 1500,
+      "branchOfficeName": "PTO. VALLARTA",
+      "date": "2023-09-01",
+      "cutOffDay": 1
+    },
+    {
+      "name": "Jane Smith",
+      "userType": "client",
+      "movementType": "INCOME",
+      "id": "2a3b4c5d-6e7f-8g9h-10i11-j12k13l14m15",
+      "total": 200,
+      "branchOfficeName": "PTO. VALLARTA",
+      "date": "2023-09-02",
+      "cutOffDay": 1
+    },
+    {
+      "name": "Dylan Smith",
+      "userType": "client",
+      "movementType": "INCOME",
+      "id": "3a3b4c5d-6e7f-8g9h-10i11-j12k13l14m15",
+      "total": 3200,
+      "branchOfficeName": "TEPIC",
+      "date": "2023-09-03",
+      "cutOffDay": 1
+    },
+    {
+      "name": "Alice Bob",
+      "userType": "employee",
+      "movementType": "OUTCOME",
+      "id": "3a4b5c6d-7e8f-9g10-h11i12-j13k14l15m16",
+      "total": 1200,
+      "branchOfficeName": "GUADALAJARA",
+      "date": "2023-08-01",
+      "cutOffDay": 1
+    },
+    {
+      "name": "Charlie Dee",
+      "userType": "client",
+      "movementType": "INCOME",
+      "id": "4a5b6c7d-8e9f-10g11-h12i13-j14k15l16m17",
+      "total": 350,
+      "branchOfficeName": "GUADALAJARA",
+      "date": "2023-08-02",
+      "cutOffDay": 1
+    },
+
+    {
+      "name": "Edgar Alvarez",
+      "userType": "employee",
+      "movementType": "OUTCOME",
+      "id": "5a6b6c7d-8e9f-10g11-h12i13-j14k15l16m17",
+      "total": 2350,
+      "branchOfficeName": "TEPIC",
+      "date": "2023-08-03",
+      "cutOffDay": 1
+    },
+    {
+      "name": "Roice Williams",
+      "userType": "employee",
+      "movementType": "OUTCOME",
+      "id": "7a4b5c6d-7e8f-9g10-h11i12-j13k14l15m16",
+      "total": 3000,
+      "branchOfficeName": "TEQUILA",
+      "date": "2023-07-01",
+      "cutOffDay": 1
+    },
+    {
+      "name": "Charlie Dee",
+      "userType": "client",
+      "movementType": "INCOME",
+      "id": "8a5b6c7d-8e9f-10g11-h12i13-j14k15l16m17",
+      "total": 750,
+      "branchOfficeName": "GUADALAJARA",
+      "date": "2023-07-02",
+      "cutOffDay": 1
+    },
+
+    {
+      "name": "Robin Adams",
+      "userType": "employee",
+      "movementType": "OUTCOME",
+      "id": "9a6b6c7d-8e9f-10g11-h12i13-j14k15l16m17",
+      "total": 950,
+      "branchOfficeName": "MERIDA",
+      "date": "2023-07-03",
+      "cutOffDay": 1
+    }
+  ]
+}

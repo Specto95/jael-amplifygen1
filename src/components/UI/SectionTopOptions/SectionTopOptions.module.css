@@ -1,0 +1,125 @@
+.STO__section, .STO__sectionNoMB{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-block: var(--m-sm);
+}
+
+.STO__sectionNoMB{
+    margin-block: 0;
+}
+
+@media screen and (min-width: 1200px){
+    .STO__section{
+        flex-direction: column
+    }
+}
+
+.STO__container{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-1);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.STO__search-container{
+    position: relative;
+    width: var(--w-searchTopOptions);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.STO__search-containerFull{
+    position: relative;
+    width: var(--w-full);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.STO__search-input{
+    width: var(--w-full);
+    padding: var(--p-sm);
+    background-color: var(--bg-secondary);
+    font-weight: bold;
+}
+
+.STO__search-inputSecondary{
+    width: var(--w-full);
+    padding: var(--p-sm);
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+    font-weight: bold;
+}
+
+.STO__search-inputSecondary::placeholder{
+    color: var(--bg-secondary);
+}
+
+.STO__search-icon{
+    position: absolute;
+    right: 1rem;
+    top: .75rem;
+    color: var(--text-primary);
+    font-size: var(--fs-xl);
+    cursor: pointer;
+}
+
+.STO__buttons-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-1);
+}
+
+.section__filterContainer{
+    width: var(--w-filterContainer);
+    display: flex;
+    gap: var(--gap-1);
+    justify-content: flex-end;
+}
+
+.section__filter-iconContainer{
+    width: var(--w-filter);
+    height: var(--h-button);
+    margin-right: var(--m-sm);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: .5rem 1rem;
+    border-radius: var(--radius-sm);
+    border: var(--border-2px);
+    cursor: pointer;
+}
+
+.section__filter-icon{
+    font-size: var(--fs-md);
+    font-weight: bold;
+}
+
+.section__options-container{
+    width: var(--w-full);
+    display: flex;
+    justify-content: space-between;
+}
+
+.section__filters-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gap-1);
+    flex-wrap: wrap;
+}
+
+.section__filters-flex{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-1);
+}
+
+.font-md{
+    font-size: var(--fs-xxs);
+}

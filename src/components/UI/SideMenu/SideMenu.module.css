@@ -1,0 +1,128 @@
+.sidebar, .sidebarOperation {
+    position: sticky;
+    top: 0;
+    height: var(--h-fullScreen);
+    display: flex;
+    width: var(--w-sidebar);
+    padding: var(--p-xs);
+    flex-direction: column;
+    background: var(--bg-primary);
+    overflow-y: auto;
+}
+
+@media screen and (max-width: 991px){
+    .sidebar{
+        display: none;
+    } 
+}
+
+@media screen and (max-width: 1536px){
+    .sidebarOperation{
+        display: none;
+    }
+}
+
+.sidebar__logout{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    min-width: fit-content;
+    font-size: 1.4rem;
+    gap: 1rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-xs);
+    padding: .5rem;
+    transition: background-color .5s ease-in-out;
+}
+
+.sidebar__logout:hover{
+    background-color: var(--bg-main);
+}
+
+.sidebar__buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar__buttons-container, .sidebar__buttons-containerNoPM{
+    display: flex;
+    margin-block: var(--m-sm);
+    align-items: center;
+    color: var(--text-primary);
+    gap: var(--gap-2);
+    padding: var(--p-xs);
+    cursor: pointer;
+}
+
+.sidebar__buttons-containerNoPM{
+    margin-block: 0;
+    padding: 0;
+}
+
+.sidebar__buttons-container:hover, .sidebar__buttons-containerNoPM:hover{
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.sidebar__subMenuSelected, .sidebar__midMenuSelected, .sidebar_twoSubMenuSelected {
+    font-weight: bold;
+    cursor: pointer;
+    padding-left: 4rem;
+    padding-block: var(--m-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2);
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.sidebar_twoSubMenuSelected{
+    padding-left: 6rem;
+}
+
+.sidebar__midMenuSelected{
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+
+.sidebar__buttons-container:hover img, .sidebar__buttons-containerNoPM:hover img{
+    filter: brightness(0) saturate(100%) invert(95%) sepia(0%) saturate(18%) hue-rotate(27deg) brightness(105%) contrast(105%);
+}
+
+.sidebar__subSection{
+    font-weight: bold;
+    cursor: pointer;
+    /* text-align: center; */
+    padding-left: 4rem;
+    padding-block: var(--m-xs);
+}
+
+.sidebar__subSection-li{
+    font-weight: bold;
+    cursor: pointer;
+    padding-left: 6rem;
+    padding-block: var(--m-xs);
+}
+
+.sidebar__subSection:hover, .sidebar__subSection-li:hover{
+    background-color: var(--bg-main);
+}
+
+
+.sidebar__box-logo {
+    margin: var(--m-xs);
+    border: var(--border-3px);
+    width: var(--logo-dimensions);
+    height: var(--logo-dimensions);
+    line-height: var(--logo-dimensions);
+    border-radius: var(--radius-sm);
+}
+
+.sidebar__logo {
+    color: var(--text-primary);
+    text-align: center;
+    font-weight: var(--fw-bold);
+}

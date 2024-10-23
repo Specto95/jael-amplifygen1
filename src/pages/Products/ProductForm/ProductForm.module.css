@@ -1,0 +1,119 @@
+.productform{
+    width: var(--w-full);
+    background-color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    /* margin-block: var(--m-lg); */
+    padding: var(--p-sm-pc);
+}
+
+@media screen and (max-width: 991px){
+    .productform{
+        padding: var(--p-xs-pc);
+        text-align: center;
+    }
+}
+
+.productform__left{
+    display: flex;
+    flex-direction: column;
+    width: var(--w-half);
+}
+
+@media screen and (max-width: 1200px){
+    .productform__left{
+        width: var(--w-full);
+    }
+}
+
+/******** LEFT  */
+
+@media screen and (max-width: 991px){
+    .flex-buttons{
+        justify-content: center;
+    }
+}
+
+.productform__input{
+    width: var(--w-input);
+    padding: var(--p-sm);
+    color: var(--text-primary);
+    border: var(--border-3px);
+    border-radius: var(--radius-xs);
+}
+
+.productform__input::placeholder{
+    color: var(--text-primary);
+}
+
+.productform__right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: var(--w-half);
+}
+
+@media screen and (max-width: 1200px){
+    .productform__right{
+        width: var(--w-full);
+    }
+}
+
+/********************** RIGHT */
+
+.productform__center-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.productform_withphoto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--w-withPhoto);
+    height: var(--h-withPhoto);
+    font-size: var(--fs-xxs);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    border: var(--border-2px);
+}
+
+.productform__withphoto-text{
+    font-weight: normal;
+}
+
+.productform__previsualizacion-text, .productform__uploadfile-text{
+    display: block;
+    margin-block: var(--m-sm);
+    cursor: pointer;
+}
+
+.productform__uploadfile-text{
+    background-color: var(--text-primary);
+    width: fit-content;
+    color: var(--bg-secondary);
+    padding: var(--p-uploadfile);
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
+.productform__dragfile-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--w-dragFile);
+    height: var(--h-dragFile);
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    border: var(--border-2px);
+}
+
+.productform__dragfile{
+    display: none;
+}
+
+

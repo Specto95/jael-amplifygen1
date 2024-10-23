@@ -1,0 +1,33 @@
+.mainOperation__container{
+    width: calc(var(--w-full) - var(--w-sidebar));
+    min-height: var(--h-fullScreen);
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--px-xs-pc);
+    background-color: var(--bg-secondary);
+  }
+
+@media screen and (max-width: 991px){
+    .mainOperation__container{
+        width: var(--w-full);
+    } 
+}
+
+.fixed__UserSectionView {
+    position: fixed;
+    top: 0;
+    width: calc(100% - var(--w-sidebar) - 8%);
+    background-color: var(--bg-secondary);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+@media screen and (max-width: 991px){
+    .fixed__UserSectionView{
+        width: calc(100% - 4%);
+}}
+
+.fixed__divisor{
+    margin-top: 70px;
+}

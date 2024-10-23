@@ -1,0 +1,18 @@
+export const ClientFormData = {
+  name: "",
+  second_name: "",
+  lastname: "",
+  second_lastname: "",
+  phone: "",
+  fixed_phone: "",
+  email: "",
+  birthday: "",
+  RFC: "",
+  address: "",
+  settlement: "",
+  postal_code: "",
+  state: "",
+  city: "",
+  branchOfficeID: "",
+  isSecondButton: false,
+};

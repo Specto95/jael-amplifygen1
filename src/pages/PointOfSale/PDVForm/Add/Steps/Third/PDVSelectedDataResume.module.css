@@ -1,0 +1,8 @@
+.PDV__tableWrapperResume{
+    overflow-x: auto;
+    overflow-y: auto;
+    padding: var(--p-sm);
+    background-color: transparent;
+    border: var(--border-3px);
+    border-radius: var(--radius-md);
+}

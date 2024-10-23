@@ -1,0 +1,12 @@
+.CiCircleMore__elementDetails{
+    font-size: 25px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.CiCircleMore__elementDetails:hover{
+    cursor: pointer;
+    scale: 1.2;
+    background-color: var(--text-secondary);
+    color: var(--text-primaryStrong);
+}

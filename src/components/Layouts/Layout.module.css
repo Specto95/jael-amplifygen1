@@ -1,0 +1,25 @@
+.main{
+    display: flex;
+    min-height: var(--h-fullScreen);
+    background-color: var(--bg-secondary)
+}
+
+.mainOperation{
+    display: flex;
+    min-height: var(--h-fullScreen);
+}
+
+.mainOperation__container{
+    width: calc(var(--w-full) - var(--w-sidebar));
+    min-height: var(--h-fullScreen);
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--px-xs-pc);
+    background-color: var(--bg-secondary);
+  }
+
+@media screen and (max-width: 991px){
+    .mainOperation__container{
+        width: var(--w-full);
+    } 
+}

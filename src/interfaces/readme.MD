@@ -1,0 +1,1 @@
+## interfaces folder from src folder contains most of the interfaces used in src/pages folder

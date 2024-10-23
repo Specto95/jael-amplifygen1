@@ -1,0 +1,84 @@
+.section__filters-right{
+    display: flex;
+}
+
+.section__filterContainer{
+    width: var(--w-filterContainer);
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.section__filterOptions{
+    display: none;
+    transform : translateX(0px);
+    transition: transform 0.5s ease-in-out;
+    
+}
+.section__filterOptions-show{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-1);
+    transform: translateX(-20px);
+    transition: transform 0.5s ease-in-out;
+}
+
+.section__filterOptions.traslate{
+    transform: translateX(-50px);
+  }
+
+.section__filterOptions.traslate-back{
+transform: translateX(0);
+}
+
+.section__filterOptions-btn{
+    max-width: var(--w-filterOptions);
+    height: var(--h-button);
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    padding: var(--p-xs);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xxs);
+    font-weight: bold;
+    border: var(--border-2px);
+    cursor: pointer;
+}
+
+.section__filterOptions-btn:hover{
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+}
+
+.section__filter-iconContainer{
+    width: var(--w-filter);
+    height: var(--h-button);
+    margin-right: var(--m-sm);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: .5rem 1rem;
+    border-radius: var(--radius-sm);
+    border: var(--border-2px);
+    cursor: pointer;
+}
+
+.section__downloadpdf{
+    width: var(--w-pdfBtn);
+    height: var(--h-button);
+    color: var(--text-primary);
+    font-size: var(--fs-xs);
+    background-color: var(--bg-secondary);
+    padding: var(--p-xs);
+    text-align: center;
+    border-radius: var(--radius-sm);
+    font-weight: bold;
+    border: var(--border-2px);
+    cursor: pointer;
+}
+
+.section__downloadpdf:hover{
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+}

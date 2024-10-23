@@ -1,0 +1,17 @@
+.line-small {
+    border: var(--border-1px);
+    width: var(--w-half);
+    margin-block: var(--m-md);
+  }
+
+.line-medium{
+    border: var(--border-1px);
+    width: var(--w-34);
+    margin-block: var(--m-md);
+  }
+
+.line-large{
+    border: var(--border-1px);
+    width: var(--w-full);
+    margin-block: var(--m-md);
+}

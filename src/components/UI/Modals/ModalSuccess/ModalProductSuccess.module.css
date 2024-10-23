@@ -1,0 +1,106 @@
+.success__main{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-y: scroll;
+}
+
+.success__container, .productDetail__container{
+    width: 400px;
+    max-width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-radius: 1rem;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.productDetail__container{
+    width: auto;
+    background-color: var(--bg-main);
+    align-items: flex-start;
+    padding: var(--p-md) var(--3rem);
+}
+
+.success__btn, .success__btn2{
+    display: inline-block;
+    width: var(--w-button-md);
+    padding: .5rem;
+    font-size: 16px;
+    text-align: center;
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+
+    border: var(--border-3px);
+    border-radius: var(--radius-xs);
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+}
+
+.success__btn2{
+    min-width: fit-content;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.success__btn2:hover{
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+}
+
+.success__buttons-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+}
+
+.success__btn:hover{
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+}
+
+/* text-6xl text-gray-300 */
+
+.success__icon{
+    font-size: 4rem;
+}
+
+.flex__title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.hide{
+    display: none;
+}
+
+.productDetail__withPhoto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--text-primary);
+    width: var(--w-withPhoto);
+    height: var(--h-withPhoto);
+    font-size: var(--fs-xxs);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    border: var(--border-2px);
+}

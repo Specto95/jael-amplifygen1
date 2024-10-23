@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-jaelgen1-dev-132620-authRole",
+      "UnauthRoleArn": "arn:aws:iam::891377154385:role/amplify-jaelgen1-dev-132620-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::891377154385:role/amplify-jaelgen1-dev-132620-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-jaelgen1-dev-132620-deployment",
+      "UnauthRoleName": "amplify-jaelgen1-dev-132620-unauthRole",
+      "StackName": "amplify-jaelgen1-dev-132620",
+      "StackId": "arn:aws:cloudformation:us-east-1:891377154385:stack/amplify-jaelgen1-dev-132620/ec732230-828e-11ef-bcbd-0afff86fcd1b",
+      "AmplifyAppId": "d2mqdyjhxd1c23"
+    },
+    "categories": {
+      "api": {
+        "jaelgen1": {}
+      },
+      "auth": {
+        "jaelgen15278b75b": {}
+      },
+      "storage": {
+        "amplifygen1": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+.Close__Container{
+    margin-top: var(--m-md);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-1);
+    justify-content: flex-end;
+}

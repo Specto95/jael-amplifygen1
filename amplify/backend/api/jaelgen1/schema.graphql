@@ -1,0 +1,516 @@
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Category @model {
+  id: Int! @primaryKey
+  name: String
+  subcategories: [SubCategory] @hasMany(indexName: "byCategory", fields: ["id"])
+}
+
+type SubCategory @model {
+  id: Int! @primaryKey
+  categoryID: Int! @index(name: "byCategory", sortKeyFields: ["id"])
+  subcategory_name: String
+}
+
+type Class @model {
+  id: Int! @primaryKey
+  name: String
+}
+
+type Client @model {
+  id: ID!
+  name: String!
+  second_name: String
+  lastname: String!
+  second_lastname: String
+  phone: String!
+  fixed_phone: String
+  email: String
+  birthday: String
+  RFC: String
+  address: String
+  settlement: String
+  postal_code: String
+  state: String
+  city: String
+  salesOperation: [SalesOperation]
+    @hasMany(indexName: "byClient", fields: ["id"])
+  creditID: ID @index(name: "byClient", sortKeyFields: ["id"])
+  credit: Credits @belongsTo(fields: ["creditID"])
+  creditRequests: [CreditRequests]
+    @hasMany(indexName: "byClient", fields: ["id"])
+  branchOfficeID: ID! @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  hasCredit: Boolean!
+  hasCreditRequest: Boolean
+  returnsInventory: [ReturnsInventory]
+    @hasMany(indexName: "byClient", fields: ["id"])
+  salesOperationClientCreditMovements: [SalesOperationClientCreditMovements]
+    @hasMany(indexName: "byClient", fields: ["id"])
+  salesOperationClientCreditFirstLastPayment: [SalesOperationClientCreditFirstLastPayment]
+    @hasMany(indexName: "byClient", fields: ["id"])
+  salesOperationCustomerSubscription: [SalesOperationCustomerSubscription]
+    @hasMany(indexName: "byClient", fields: ["id"])
+}
+
+type NonRegisteredClient @model {
+  id: ID!
+  fullName: String!
+  saleOperation: SalesOperation @hasOne
+}
+
+type Credits @model {
+  id: ID!
+  client: Client @hasOne
+  # monthsToPay: Int!
+  totalCredit: Float!
+  credit_available: Float!
+  outstanding_balance: Float
+  payment_status: PaymentStatus!
+  last_payment_date: AWSDate
+  startDate: AWSDate
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FREE
+  BLOCKED
+}
+
+type CreditRequests @model {
+  id: ID!
+  clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
+  client: Client @belongsTo(fields: ["clientID"])
+  creditRequestAmount: Float
+  creditRequestStatus: CreditRequestStatus
+  creditRequestReason: String
+}
+
+enum CreditRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CreditTermDaysToPay {
+  BIWEEKLY
+  MONTHLY
+}
+
+type Product @model {
+  id: ID!
+  class_id: Int!
+  category_id: Int!
+  subcategory_id: Int!
+  name: String!
+  description: String
+  price: Float!
+  commission: Int
+  hasCommission: Boolean
+  hasDiscount: Boolean
+  class: Class @hasOne(fields: ["class_id"])
+  category: Category @hasOne(fields: ["category_id"])
+  subcategory: SubCategory @hasOne(fields: ["subcategory_id"])
+  productProviderID: ID!
+    @index(name: "byProductProvider", sortKeyFields: ["id"])
+  productProvider: ProductProvider @belongsTo(fields: ["productProviderID"])
+  inventoryProduct: [InventoryProduct]
+    @hasMany(indexName: "byProduct", fields: ["id"])
+}
+
+type InventoryOperation @model {
+  id: ID!
+  operationType: OperationType!
+  inventoryID: ID! @index(name: "byInventory")
+  inventory: Inventory! @belongsTo(fields: ["inventoryID"])
+  incomeInventory: IncomeInventory @hasOne
+  outcomeInventory: OutcomeInventory @hasOne
+  salesOperation: SalesOperation @hasOne
+}
+
+enum OperationType {
+  INCOME
+  OUTCOME
+  SALE
+  RETURN
+}
+
+type IncomeInventory @model {
+  id: ID!
+  date: AWSDate!
+  comments: String
+  inventoryOperationID: InventoryOperation @belongsTo
+  providerID: ID! @index(name: "byProvider", sortKeyFields: ["id"])
+  provider: Provider @belongsTo(fields: ["providerID"])
+  productProviderResponsibleID: ID!
+    @index(name: "byProductProviderResponsible", sortKeyFields: ["id"])
+  productProviderResponsible: ProductProviderResponsible
+    @belongsTo(fields: ["productProviderResponsibleID"])
+  userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  incomeInventoryProductQuantities: [IncomeInventoryProductQuantity]
+    @hasMany(indexName: "byIncomeInventory", fields: ["id"])
+}
+
+type IncomeInventoryProductQuantity @model {
+  id: ID!
+  incomeQuantity: Int!
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "InventoryProductIncomeInventory")
+  incomeInventoryID: ID!
+    @index(name: "byIncomeInventory", sortKeyFields: ["id"])
+  incomeInventory: IncomeInventory @belongsTo(fields: ["incomeInventoryID"])
+}
+
+type OutcomeInventory @model {
+  id: ID!
+  date: AWSDate!
+  comments: String
+  userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  inventoryOperationID: InventoryOperation @belongsTo
+  outcomeInventoryProductQuantities: [OutcomeInventoryProductQuantity]
+    @hasMany(indexName: "byOutcomeInventory", fields: ["id"])
+}
+
+type OutcomeInventoryProductQuantity @model {
+  id: ID!
+  outcomeQuantity: Int!
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "InventoryProductOutcomeInventory")
+  outcomeInventoryID: ID!
+    @index(name: "byOutcomeInventory", sortKeyFields: ["id"])
+  outcomeInventory: OutcomeInventory @belongsTo(fields: ["outcomeInventoryID"])
+}
+
+type ReturnsInventory @model {
+  id: ID!
+  userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  clientID: ID! @index(name: "byClient", sortKeyFields: ["id"])
+  client: Client @belongsTo(fields: ["clientID"])
+  comments: String
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "InventoryProductReturnsInventory")
+}
+
+# type ReturnsInventoryProducts @model {
+#   id: ID!
+#   returnsInventoryID: ID! @index(name: "byReturnsInventory", sortKeyFields: ["id"])
+#   returnsInventory: ReturnsInventory @belongsTo(fields: ["returnsInventoryID"])
+#   productID: ID! @index(name: "byProduct", sortKeyFields: ["id"])
+#   product: Product @belongsTo(fields: ["productID"])
+# }
+
+type Role @model {
+  id: ID!
+  name: RoleType!
+  description: String
+  user: [User] @hasMany(indexName: "byRole", fields: ["id"])
+}
+
+enum RoleType {
+  ADMIN
+  BRANCHMANAGER
+}
+
+# type Permission @model {
+#   id: ID!
+#   name: String!
+#   description: String
+#   roleID: ID! @index(name: "byRole", sortKeyFields: ["id"])
+#   role: Role @belongsTo(fields: ["roleID"])
+# }
+
+type User @model {
+  id: ID!
+  email: String!
+  password: String!
+  rolID: ID! @index(name: "byRole", sortKeyFields: ["id"])
+  rol: Role @belongsTo(fields: ["rolID"])
+  userInfo: UserInfo @hasOne
+  hasBranchOffice: Boolean
+  branchOffice: [BranchOffice] @manyToMany(relationName: "BranchOfficeUser")
+}
+
+type UserInfo @model {
+  id: ID!
+  name: String!
+  phone: String
+  RFC: String
+  gender: String
+  user: User @belongsTo
+  companyExpenses: [CompanyExpenses]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
+  salesOperation: [SalesOperation]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
+  incomeInventories: [IncomeInventory]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
+  outcomeInventories: [OutcomeInventory]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
+  returnsInventory: [ReturnsInventory]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
+}
+
+type Inventory @model {
+  id: ID!
+  name: String!
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  inventoryOperations: [InventoryOperation]
+    @hasMany(indexName: "byInventory", fields: ["id"])
+  inventoryProduct: [InventoryProduct]
+    @hasMany(indexName: "byInventory", fields: ["id"])
+  isMain: Boolean
+}
+
+type InventoryProduct @model {
+  id: ID!
+  inventoryID: ID! @index(name: "byInventory", sortKeyFields: ["id"])
+  inventory: Inventory @belongsTo(fields: ["inventoryID"])
+  productID: ID! @index(name: "byProduct", sortKeyFields: ["id"])
+  product: Product @belongsTo(fields: ["productID"])
+  quantity: Int!
+  customPrice: Float
+  generalPrice: Float
+  productProviderID: ID @index(name: "byProductProvider", sortKeyFields: ["id"])
+  productProvider: ProductProvider @belongsTo(fields: ["productProviderID"])
+  discounts: [Discounts] @manyToMany(relationName: "DiscountInventoryProduct")
+  inventoryProductIncomeInventory: [IncomeInventoryProductQuantity]
+    @manyToMany(relationName: "InventoryProductIncomeInventory")
+  inventoryProductOutcomeInventory: [OutcomeInventoryProductQuantity]
+    @manyToMany(relationName: "InventoryProductOutcomeInventory")
+  inventoryProductSalesOperation: [SalesOperationInventoryProductQuantity]
+    @manyToMany(relationName: "InventoryProductSalesOperation")
+  returnsInventory: [ReturnsInventory]
+    @manyToMany(relationName: "InventoryProductReturnsInventory")
+}
+
+type BranchOffice @model {
+  id: ID!
+  name: String!
+  zipcode: String
+  state: String
+  location: String!
+  address: String
+  phone: String
+  branchOffice_commission: Int
+  inventories: [Inventory] @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  isMain: Boolean
+  # discounts: [Discounts] @hasMany(indexName: "byBranchOffice", fields: ["id"])
+
+  companyExpenses: [CompanyExpenses]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  users: [User] @manyToMany(relationName: "BranchOfficeUser")
+  clients: [Client] @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  outcomeInventories: [OutcomeInventory]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  incomeInventories: [IncomeInventory]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  salesOperations: [SalesOperation]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
+}
+
+type Discounts @model {
+  id: ID!
+  discount: Float!
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "DiscountInventoryProduct")
+}
+
+type SalesOperation @model {
+  id: ID!
+  date: AWSDate
+  total: Float
+  totalCash: Float
+  totalCommission: Float
+  nonRegisteredClientID: ID
+    @index(name: "byNonRegisteredClient", sortKeyFields: ["id"])
+  nonRegisteredClient: NonRegisteredClient
+    @belongsTo(fields: ["nonRegisteredClientID"])
+  pendingToPay: Float
+  amountPaid: Float
+  salesOperationType: SalesOperationType!
+  status: SalesOperationStatus!
+  monthsToPay: Int
+  termDaysToPay: SalesOperationTermDaysToPay
+  totalPayments: Int
+  currentTotalPayments: Int
+  lastPaymentDate: AWSDate
+  lastDatePaid: AWSDate
+  inventoryOperationID: InventoryOperation @belongsTo
+  clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
+  client: Client @belongsTo(fields: ["clientID"])
+  userInfoID: ID @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  branchOfficeID: ID! @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  salesOperationInventoryProductQuantities: [SalesOperationInventoryProductQuantity]
+    @hasMany(indexName: "bySalesOperation", fields: ["id"])
+
+  salesOperationClientCreditMovements: [SalesOperationClientCreditMovements]
+    @hasMany(indexName: "bySalesOperation", fields: ["id"])
+  salesOperationClientCreditFirstLastPayment: [SalesOperationClientCreditFirstLastPayment]
+    @hasMany(indexName: "bySalesOperation", fields: ["id"])
+  salesOperationCustomerSubscription: [SalesOperationCustomerSubscription]
+    @hasMany(indexName: "bySalesOperation", fields: ["id"])
+}
+
+enum SalesOperationTermDaysToPay {
+  BIWEEKLY
+  MONTHLY
+  NONE
+}
+
+enum SalesOperationType {
+  CASH
+  CREDIT
+}
+
+enum SalesOperationStatus {
+  PENDING
+  PAID
+  EXPIRED
+}
+
+type SalesOperationClientCreditFirstLastPayment @model {
+  id: ID!
+  salesOperationID: ID! @index(name: "bySalesOperation", sortKeyFields: ["id"])
+  salesOperation: SalesOperation @belongsTo(fields: ["salesOperationID"])
+  startDate: AWSDate
+  endDate: AWSDate
+  clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
+  client: Client @belongsTo(fields: ["clientID"])
+}
+
+type SalesOperationClientCreditMovements @model {
+  id: ID!
+  salesOperationID: ID! @index(name: "bySalesOperation", sortKeyFields: ["id"])
+  salesOperation: SalesOperation @belongsTo(fields: ["salesOperationID"])
+  paymentDate: AWSDate
+  datePaid: AWSDate
+  amountToPay: Float!
+  pendingToPay: Float
+  amountPaid: Float
+  status: SalesOperationClientCreditMovementStatus!
+  numberOfPayment: Int
+  clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
+  client: Client @belongsTo(fields: ["clientID"])
+}
+
+enum SalesOperationClientCreditMovementStatus {
+  PENDING
+  PAID
+  EXPIRED
+}
+
+type SalesOperationInventoryProductQuantity @model {
+  id: ID!
+  name: String
+  salesOperationID: ID! @index(name: "bySalesOperation", sortKeyFields: ["id"])
+  salesOperation: SalesOperation @belongsTo(fields: ["salesOperationID"])
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "InventoryProductSalesOperation")
+  soldProductQuantity: Int!
+  withDiscount: Boolean
+  discountPercentage: Int
+  discountPerProduct: Float
+  totalDiscounted: Float
+  productPriceWithDiscount: Float
+  amountToPayWithDiscount: Float
+  # amountPaid: Float
+  amountToPay: Float!
+}
+
+type CompanyExpenses @model {
+  id: ID!
+  name: String!
+  description: String
+  costType: CostType!
+  date: AWSDate
+  amount: Float!
+  userInfoID: ID @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+}
+
+enum CostType {
+  FIXED
+  VARIABLE
+}
+
+type SalesOperationCustomerSubscription @model {
+  id: ID!
+  salesOperationID: ID! @index(name: "bySalesOperation", sortKeyFields: ["id"])
+  salesOperation: SalesOperation @belongsTo(fields: ["salesOperationID"])
+  clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
+  client: Client @belongsTo(fields: ["clientID"])
+  date: AWSDate
+  advancePayment: Float
+}
+
+type Provider @model {
+  id: ID!
+  enterprise_name: String!
+  enterprise_RFC: String
+  phone: String
+  fixed_phone: String
+  type: String
+  productprovider: ProductProvider @hasOne
+  serviceprovider: ServiceProvider @hasOne
+  incomeInventories: [IncomeInventory]
+    @hasMany(indexName: "byProvider", fields: ["id"])
+}
+
+type ProductProvider @model {
+  id: ID!
+  responsible: [ProductProviderResponsible]
+    @hasMany(indexName: "byProductProvider", fields: ["id"])
+  providerID: Provider @belongsTo
+  product: [Product] @hasMany(indexName: "byProductProvider", fields: ["id"])
+  inventoryProduct: [InventoryProduct]
+    @hasMany(indexName: "byProductProvider", fields: ["id"])
+}
+
+type ProductProviderResponsible @model {
+  id: ID!
+  productproviderID: ID!
+    @index(name: "byProductProvider", sortKeyFields: ["id"])
+  name: String!
+  second_name: String
+  lastname: String!
+  second_lastname: String
+  phone: String!
+  RFC: String
+  incomeInventories: [IncomeInventory]
+    @hasMany(indexName: "byProductProviderResponsible", fields: ["id"])
+}
+
+type ServiceProvider @model {
+  id: ID!
+  service_name: String
+  service_description: String
+  cost_type: String
+  responsible: [ServiceProviderResponsible]
+    @hasMany(indexName: "byServiceProvider", fields: ["id"])
+  providerID: Provider @belongsTo
+}
+
+type ServiceProviderResponsible @model {
+  id: ID!
+  serviceproviderID: ID!
+    @index(name: "byServiceProvider", sortKeyFields: ["id"])
+  name: String!
+  second_name: String
+  lastname: String!
+  second_lastname: String
+  phone: String
+  RFC: String
+}

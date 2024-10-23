@@ -1,0 +1,137 @@
+
+
+.clientForm{
+    display: flex;
+    flex-direction: column;
+    min-height: var(--h-fullScreen);
+    padding: 30px 10%;
+    background-color: var(--text-secondary);
+    border-radius: var(--radius-md);
+}
+
+@media  screen and (max-width: 768px) {
+    .clientForm{
+        text-align: center;
+        padding: 30px 0;
+    }
+
+    label{
+        display: block;
+        margin: 0 auto;
+    }
+}
+.clientForm__title{
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.clientForm__subtitle{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-block: 2rem;
+}
+
+.clientForm__form-inputs{
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    min-height: var(--h-inputsContainer);
+}
+
+@media screen and (max-width: 768px) {
+    .clientForm__form-inputs{
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+.clientForm__form-inputsInner{
+    display: flex;
+    width: var(--w-half);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.clientForm__label{
+    font-weight: 700;
+    margin-bottom: 1rem;
+    min-width: var(--w-label2);
+}
+
+.clientForm__input, .clientForm__input-custom{
+    min-width: var(--w-half);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: var(--text-primary);
+    border: 3px solid var(--text-primary);
+    border-radius: var(--radius-sm);
+    outline: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .clientForm__input{
+        min-width: var(--w-half);
+    }
+    .clientForm__input-custom{
+        min-width: var(--w-full);
+    }
+}
+
+.clientForm__input-small{
+    min-width: var(--w-quarter);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: var(--text-primary);
+    border: 3px solid var(--text-primary);
+    border-radius: var(--radius-sm);
+    outline: none;
+}
+
+@media screen and (max-width: 768px) {
+    .clientForm__input-small{
+        min-width: var(--w-half);
+    }
+}
+
+.clientForm__input::placeholder{
+    color: var(--text-primary);
+}
+
+.clientForm__form-buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 3rem;
+}
+
+@media screen and (max-width: 768px) {
+    .clientForm__form-buttons{
+        margin: 20px auto;
+
+    }
+}
+
+.clientForm__submit:first-child{
+    background-color: transparent;
+}
+
+.clientForm__submit{
+    width: var(--w-submit);
+    margin: 1rem 0;
+    padding: .5rem;
+    font-size: 16px;
+    text-align: center;
+    color: var(--text-primary);
+    border: 3px solid var(--text-primary);
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+}
+
+.clientForm__submit:hover{
+    background-color: var(--bg-primary);
+
+}

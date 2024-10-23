@@ -1,0 +1,60 @@
+.productList__container{
+    background-color: var(--bg-secondary);
+    padding: var(--p-md);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.productList__pagination-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--p-lg);
+}
+
+/*?TABLES */
+.tableData-btnContainer{
+    display: flex;
+    gap: var(--gap-1);
+    align-items: center;
+    margin-left: var(--m-md);
+}
+
+.tableData-btnDelete{
+    border: none;
+    cursor: pointer;
+}
+.th__flex{
+    display: flex;
+    align-items: center;
+    min-width: 50px;
+    max-width: fit-content;
+    height: 30px;
+}
+
+.fs-lg{
+    font-size: var(--fs-lg);
+}
+
+.last__width{
+    width: 240px;
+}
+
+.td{
+    cursor: pointer;
+}
+
+.td__wCustomPrice{
+    cursor: pointer;
+    color: var(--text-customPrice);
+    background-color: var(--bg-customPrice);
+}
+
+.td__wCustomPrice:hover{
+    background-color: var(--hover-bg-customPrice);
+}
+
+.td:hover{
+    background-color: var(--text-secondary);
+    cursor: pointer;
+}

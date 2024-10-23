@@ -1,0 +1,35 @@
+.BackContinue__Container{
+    margin-top: var(--m-md);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-1);
+    justify-content: flex-end;
+}
+
+.BackContinue__cancel{
+    width: var(--w-submit);
+    margin: 1rem 0;
+    padding: .5rem;
+    font-size: 16px;
+    text-align: center;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    border: var(--border-2px);
+    border-radius: var(--radius-xs);
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+}
+
+.BackContinue__cancel:hover{
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+}
+
+.finish__container{
+    margin-block: var(--m-md);
+    display: flex;
+    align-items: center;
+    gap: var(--gap-1);
+    cursor: pointer
+}
