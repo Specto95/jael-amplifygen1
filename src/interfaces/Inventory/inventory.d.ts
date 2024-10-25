@@ -71,6 +71,7 @@ export interface ISelectedIncomeRowsTable {
   productProviderId: string;
   commission: number;
   quantity?: number;
+  branchProductQuantity?: number;
   inventoryProductID: string;
 }
 

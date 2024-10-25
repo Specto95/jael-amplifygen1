@@ -4,7 +4,7 @@ import styles from "../../../BOInventoryForm.module.css";
 import { IBOIncomeInventoryProps } from "@/interfaces/Inventory/inventory";
 
 //* API
-import { useListProductsByProductProviderID } from "./api/useListProductsByProductProviderID";
+import { useListProductsByProductProviderID } from "./api/hooks/useListProductsByProductProviderID";
 
 //* HOOKS
 import { useSessionProvider } from "@/hooks/useSessionProvider";
@@ -17,6 +17,7 @@ import { ShowTableData } from "@/components/UI/GenericComponents/Table/ShowTable
 import { handleProductsChecked } from "@/components/UI/GenericComponents/helpers/SideMenuSections/Inventory/functions";
 import { GenericFilteredItems } from "@/components/UI/GenericComponents/FilteredItems/GenericFilteredItems";
 import { outcomeInventoryFilterObjs } from "@/pages/Inventory/Type/Main/Add/MultipleForm/Outcome/Steps/One/Filter/OutcomeInventoryFilterObjs";
+import { useListAvailableProducts } from "./api/hooks/useListAvailableProducts";
 
 export function BOIncomeInventory({
   handleBackStep,
@@ -27,21 +28,22 @@ export function BOIncomeInventory({
   setSelectedMainProductsDetails,
 }: IBOIncomeInventoryProps) {
   const { branchInventory, mainBranchInventory } = useSessionProvider();
-//  const { listProductProviderProductsByProductProviderID, isLoading } =
-//     useListProductsByProductProviderID(
-//       selectedProvider?.id!,
-//       branchInventory.inventoryID
-//     ); 
+  const { listAvailableProducts, isLoading } = useListAvailableProducts(
+    mainBranchInventory.inventoryID,
+    branchInventory.inventoryID
+  );
   const {
     listProductProviderProductsByProductProviderID:
-      listSelectedMainProductsDetailsByProductProviderID, isLoading
+      listSelectedMainProductsDetailsByProductProviderID,
   } = useListProductsByProductProviderID(
     selectedProvider?.id!,
     mainBranchInventory.inventoryID
   );
 
   const { filteredItems, query, setQuery } = GenericFilteredItems(
-    listSelectedMainProductsDetailsByProductProviderID,
+    branchInventory.id
+      ? listAvailableProducts
+      : listSelectedMainProductsDetailsByProductProviderID,
     outcomeInventoryFilterObjs.NAME
   );
 
@@ -56,7 +58,7 @@ export function BOIncomeInventory({
       withFiltering={true}
     >
       <ShowTableData
-        Data={filteredItems || listSelectedMainProductsDetailsByProductProviderID}
+        Data={filteredItems}
         setData={setSelectedIncomeRows}
         selectedData={selectedIncomeRows}
         setPreviousData={setSelectedPreviousIncomeRows!}

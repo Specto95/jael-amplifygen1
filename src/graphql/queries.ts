@@ -11869,24 +11869,34 @@ export const listAvailableProductsByProviderIDAPI = /* GraphQL */ `
 `;
 
 // //?CUSTOM QUERIES
-// export const listInventoryProductsByProviderIDAPI = /* GraphQL */ `
-//   query ListInventoryProducts($inventoryID: ID) {
-//     listInventoryProducts(
-//       filter: { inventoryID: { eq: $inventoryID }, quantity: { gt: 0 } }
-//     ) {
-//       items {
-//         id
-//         quantity
-//         product {
-//           category_id
-//           class_id
-//           id
-//           name
-//           price
-//           productProviderID
-//           subcategory_id
-//         }
-//       }
-//     }
-//   }
-// `;
+export const listAvailableProductsAPI = /* GraphQL */ `
+  query ListInventoryProducts(
+    $inventoryID: ID
+    $branchInventoryID: ID
+  ) {
+    listInventoryProducts(
+      filter: { quantity: { gt: 0 }, inventoryID: { eq: $inventoryID } }
+    ) {
+      items {
+        product {
+          category_id
+          subcategory_id
+          class_id
+          id
+          name
+          price
+          productProviderID
+          inventoryProduct(
+            filter: { inventoryID: { eq: $branchInventoryID } }
+          ) {
+            items {
+              id
+              quantity
+            }
+          }
+        }
+        quantity
+      }
+    }
+  }
+`;

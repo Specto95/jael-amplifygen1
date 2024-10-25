@@ -165,8 +165,6 @@ export function BOInventoryGeneralForm() {
     [selectedIncomeRows]
   );
 
-  console.log(selectedProvider);
-
   const { goTo, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <RegisterType />,
@@ -286,30 +284,28 @@ export function BOInventoryGeneralForm() {
                     }
                   );
 
-                  console.log(incomeInventoryResult);
-
                   selectedIncomeRows.map(async (row) => {
                     const { inventoryProductID, quantity, id: productID } = row;
                     const previousRow = selectedPreviousIncomeRows.find(
                       (prevRow) =>
                         prevRow.inventoryProductID === inventoryProductID
                     );
-                    console.log(previousRow);
                     const updatedQuantity: number =
-                      previousRow?.quantity! + quantity!;
-                    console.log(updatedQuantity)
-                    // if (previousRow) {
-                    //   console.log('aqui')
-                    //   //* UPDATING BRANCHOFFICE INVENTORY PRODUCT QUANTITY
-                    //   const updateInventoryProductQuantity = await clientAPI(updateInventoryProductQuantityAPI, {
-                    //     input: {
-                    //       id: inventoryProductID,
-                    //       quantity: updatedQuantity,
-                    //     },
-                    //   });
+                      previousRow?.branchProductQuantity! + quantity!;
 
-                    //   console.log(updateInventoryProductQuantity)
-                    // }
+                    if (previousRow) {
+                      //* UPDATING BRANCHOFFICE INVENTORY PRODUCT QUANTITY
+                      const updateInventoryProductQuantity = await clientAPI(
+                        updateInventoryProductQuantityAPI,
+                        {
+                          input: {
+                            id: inventoryProductID,
+                            quantity: updatedQuantity,
+                          },
+                        }
+                      );
+                    }
+
                     //* UPDATING MAIN INVENTORY PRODUCT QUANTITY
                     const selectedMainInventoryProductFound =
                       selectedMainProductsDetails.find(

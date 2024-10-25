@@ -415,7 +415,7 @@ export const SessionProvider = ({ children }: IChildren) => {
           console.log("Decryption failed:", error);
         }
       } else {
-        console.log("No user value found in sessionStorage");
+        // console.log("No user value found in sessionStorage");
       }
     });
 

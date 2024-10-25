@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { useSectionProvider } from "@/hooks/useSectionProvider";
 
-import { IListProductProviderProductsByProductProviderIDAPI } from "./interfaces/IUseListProductProviderProductsByProductProviderID";
+import { IListProductProviderProductsByProductProviderIDAPI } from "../interfaces/IUseListProductProviderProductsByProductProviderID.d";
 
 //* AMPLIFY IMPORTS
 import { clientAPI } from "@/utils/amplifyAPI/client";
@@ -10,11 +10,13 @@ import {
   productsByProductProviderIDAndId,
   listAvailableProductsByProviderIDAPI,
 } from "@/graphql/queries";
+import { fetchListAvailableProductsAPI } from "../utils/functions";
 
 export function useListProductsByProductProviderID(
-  productProviderID: string,
-  inventoryID: string
-) {
+  productProviderID?: string,
+  inventoryID?: string,
+  branchInventoryID?: string
+) { 
   const { sectionName } = useSectionProvider();
 
   const [
@@ -26,6 +28,10 @@ export function useListProductsByProductProviderID(
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
+    // if (sectionName === "BOInventory") {
+    //   fetchListAvailableProductsAPI(inventoryID!, branchInventoryID!);
+    // }
+
     const fetchListProductProviderProductsByProductProviderID = async () => {
       try {
         setIsLoading(true);
@@ -83,7 +89,7 @@ export function useListProductsByProductProviderID(
     };
 
     fetchListProductProviderProductsByProductProviderID();
-  }, [productProviderID, inventoryID]);
+  }, [inventoryID]);
 
   return {
     listProductProviderProductsByProductProviderID,
