@@ -22367,7 +22367,7 @@ export type ListProvidersQueryVariables = {
 };
 
 export type ListProvidersQuery = {
-  listProviders?: {
+  listProviders: {
     __typename: "ModelProviderConnection";
     items: Array<{
       __typename: "Provider";
@@ -22383,6 +22383,12 @@ export type ListProvidersQuery = {
         createdAt: string;
         updatedAt: string;
         productProviderProviderIDId?: string | null;
+        product?: {
+          items: Product[];
+        };
+        responsible?: {
+          items: ProductProviderResponsible[]
+        }
       } | null;
       serviceprovider?: {
         __typename: "ServiceProvider";

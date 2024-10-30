@@ -229,7 +229,7 @@ export function InventoryGeneralForm() {
             if (values.isSecondButton) {
               //* DYNAMIC AMPLIFY IMPORTS
               const { clientAPI } = await import("@/utils/amplifyAPI/client");
-
+ 
               const {
                 updateInventoryProductQuantityAPI,
                 createInventoryOperationAPI,
@@ -549,7 +549,7 @@ export function InventoryGeneralForm() {
                     setSelectedProviderResponsible
                   }
                   selectedProviderResponsible={selectedProviderResponsible}
-                  setSelectedProvider={setSelectedProvider}
+                  setSelectedProvider={setSelectedProvider!}
                   selectedProvider={selectedProvider}
                   setSelectedState={setSelectedState}
                   selectedState={selectedState}

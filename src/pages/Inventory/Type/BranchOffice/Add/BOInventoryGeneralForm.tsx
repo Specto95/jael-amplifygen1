@@ -142,6 +142,7 @@ export function BOInventoryGeneralForm() {
   >({
     id: "",
     name: "",
+    productProviderID: "",
   });
   const [selectedProviderResponsible, setSelectedProviderResponsible] =
     useState<ISelectedProviderResponsibleState["selectedProviderResponsible"]>({
@@ -270,7 +271,7 @@ export function BOInventoryGeneralForm() {
                     incomeInventoryInventoryOperationIDId: inventoryOperationID,
                     productProviderResponsibleID:
                       selectedProviderResponsible?.id || "",
-                    providerID: selectedProvider?.id || "",
+                    providerID: selectedProvider?.productProviderID || "",
                     userInfoID: userInfoData.id!,
                     comments:
                       values.incomeRegisterInputs.comments! ||
@@ -283,6 +284,8 @@ export function BOInventoryGeneralForm() {
                       input: incomeInventoryInput,
                     }
                   );
+
+                  console.log(incomeInventoryResult);
 
                   selectedIncomeRows.map(async (row) => {
                     const { inventoryProductID, quantity, id: productID } = row;

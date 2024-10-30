@@ -9,7 +9,7 @@ export interface ISelectedProviderState {
 }
 
 export interface ISetSelectedProviderState {
-  setSelectedProvider?: Dispatch<SetStateAction<ISelectedProviderObj>>;
+  setSelectedProvider?: React.Dispatch<React.SetStateAction<ISelectedProviderObj | undefined>>
 }
 
 export interface ISelectedProviderResponsibleObj {

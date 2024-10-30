@@ -39,7 +39,6 @@ export const fetchListAvailableProductsAPI = async (
       branchProductQuantity:
         availableProduct?.product?.inventoryProduct?.items[0].quantity,
     };
-    console.log(listAvailableProductsResult);
     return listAvailableProductsResult;
   });
 };

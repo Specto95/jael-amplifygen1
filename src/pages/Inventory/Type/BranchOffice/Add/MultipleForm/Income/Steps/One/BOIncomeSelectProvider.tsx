@@ -11,8 +11,8 @@ import {
 
 import { IncomeInventoryGeneralDataProvidersTable } from "../Three/IncomeInventoryGeneralData/Providers/IncomeInventoryGeneralDataProvidersTable";
 import { RegisterIncomeInputs } from "./subComponents/RegisterIncomeInputs/RegisterIncomeInputs";
-import { isArrayEmpty } from "./helpers/functions";
 import BackContinueGeneral from "@/components/UI/GenericComponents/BackContinue/BackContinueGeneral";
+import { ListProvidersQuery } from "../../../../../../../../../API";
 
 export function BOIncomeSelectProvider({
   handleBackStep,
@@ -42,52 +42,50 @@ export function BOIncomeSelectProvider({
           "@/graphql/queries"
         );
         try {
-          const result: any = await clientAPI(listProvidersInventoryByNameAPI, {
+          const result = (await clientAPI(listProvidersInventoryByNameAPI, {
             enterprise_name: selectedState
               ? selectedState.value
               : selectedProvider?.name,
-          });
-          if (result.data.listProviders.items.length === 0) {
+          })) as { data: ListProvidersQuery };
+          if (result.data.listProviders!.items.length === 0) {
             setProvidersInventoryByName([]);
             return;
           }
 
           if (
-            result.data.listProviders.items[0].productprovider.product.items
+            result.data.listProviders?.items[0]?.productprovider?.product?.items
               .length === 0
           ) {
             setProvidersInventoryByName([{}]);
             return;
           }
 
-          setSelectedProvider({
-            id: result.data.listProviders.items[0].productprovider.id,
-            name: result.data.listProviders.items[0].enterprise_name,
+          setSelectedProvider!({
+            id: result.data.listProviders!.items[0]!.id,
+            name: result.data.listProviders!.items[0]!.enterprise_name,
+            productProviderID:
+              result.data.listProviders!.items[0]!.productprovider!.id,
           });
 
           setProvidersInventoryByName(
-            result.data.listProviders.items.map(
-              (item: IListProvidersInventoryResponsibleFullnameGQLAPI) => {
-                return {
-                  enterprise_name: item.enterprise_name,
-                  productProviderID: item.productprovider.id,
-                  responsible: item.productprovider?.responsible?.items.map(
-                    (
-                      responsibleItem: IListProvidersInventoryResponsibleAPI
-                    ) => {
-                      return {
-                        id: responsibleItem.id,
-                        fullname: `${responsibleItem.name ?? ""} ${
-                          responsibleItem.second_name ?? ""
-                        } ${responsibleItem.lastname ?? ""} ${
-                          responsibleItem.second_lastname ?? ""
-                        }`,
-                      };
-                    }
-                  ),
-                };
-              }
-            )
+            result.data.listProviders!.items.map((item) => {
+              return {
+                enterprise_name: item!.enterprise_name,
+                productProviderID: item!.productprovider!.id,
+                responsible: item!.productprovider?.responsible?.items.map(
+                  (responsibleItem) => {
+                    return {
+                      id: responsibleItem.id,
+                      fullname: `${responsibleItem.name ?? ""} ${
+                        responsibleItem.second_name ?? ""
+                      } ${responsibleItem.lastname ?? ""} ${
+                        responsibleItem.second_lastname ?? ""
+                      }`,
+                    };
+                  }
+                ),
+              };
+            })
           );
         } catch (error) {
           console.log("Error: ", error);
@@ -96,7 +94,6 @@ export function BOIncomeSelectProvider({
     };
     fetchProviderData();
   }, [selectedProvider?.id, selectedState]);
-
 
   return (
     <section className={styles.providerform}>

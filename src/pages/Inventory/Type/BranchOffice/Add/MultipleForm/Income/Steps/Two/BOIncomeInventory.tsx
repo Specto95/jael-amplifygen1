@@ -36,7 +36,7 @@ export function BOIncomeInventory({
     listProductProviderProductsByProductProviderID:
       listSelectedMainProductsDetailsByProductProviderID,
   } = useListProductsByProductProviderID(
-    selectedProvider?.id!,
+    selectedProvider?.productProviderID!,
     mainBranchInventory.inventoryID
   );
 
@@ -46,6 +46,8 @@ export function BOIncomeInventory({
       : listSelectedMainProductsDetailsByProductProviderID,
     outcomeInventoryFilterObjs.NAME
   );
+
+  console.log(setSelectedMainProductsDetails);
 
   return (
     <SectionForm

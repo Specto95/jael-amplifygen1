@@ -10,12 +10,10 @@ import {
   productsByProductProviderIDAndId,
   listAvailableProductsByProviderIDAPI,
 } from "@/graphql/queries";
-import { fetchListAvailableProductsAPI } from "../utils/functions";
 
 export function useListProductsByProductProviderID(
   productProviderID?: string,
   inventoryID?: string,
-  branchInventoryID?: string
 ) { 
   const { sectionName } = useSectionProvider();
 

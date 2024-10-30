@@ -64,7 +64,7 @@ export function IncomeSelectProvider({
             return;
           }
 
-          setSelectedProvider({
+          setSelectedProvider!({
             id: result.data.listProviders.items[0].id,
             name: result.data.listProviders.items[0].enterprise_name,
             productProviderID:

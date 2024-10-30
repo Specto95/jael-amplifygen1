@@ -134,10 +134,11 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
                           inventoryOperationType: "INGRESO",
                           providerName:
                             incomeInventory.incomeInventoryProductQuantity
-                              .incomeInventory.provider.enterprise_name,
+                              .incomeInventory.provider?.enterprise_name ||
+                            "Sin Proveedor",
                           providerID:
                             incomeInventory.incomeInventoryProductQuantity
-                              .incomeInventory.provider.id,
+                              .incomeInventory.provider?.id || "Sin Proveedor",
                           userInfoID:
                             incomeInventory.incomeInventoryProductQuantity
                               .incomeInventory.userInfo.id,
