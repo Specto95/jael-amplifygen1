@@ -17,8 +17,6 @@ import { IGlobalProductsTableEditingState } from "@/interfaces/Products/products
 
 //* UTILS
 import { transformData } from "./utils/helpers";
-import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
-// import { globalProductsListObj } from "./utils/globalProductsListObj";
 
 const ModalEditProduct = lazy(() =>
   import(
@@ -31,12 +29,6 @@ const ModalEditProduct = lazy(() =>
 export function GlobalProductsView() {
   const { branchOfficeProducts, setBranchOfficeProducts, isLoading } =
     useListBranchOfficeProducts();
-  const { filteredItems, query, setQuery } = GenericFilteredItems(
-    branchOfficeProducts,
-    globalProductsViewFilterObjs.NAME
-  );
-
-  // console.log(filteredItems);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editing, setEditing] = useState<IGlobalProductsTableEditingState>({
@@ -50,15 +42,19 @@ export function GlobalProductsView() {
 
   const transformedData = transformData(branchOfficeProducts);
 
+  const { filteredItems, query, setQuery } = GenericFilteredItems(
+    transformedData,
+    globalProductsViewFilterObjs.NAME
+  );
+
   const updatedColumns = getGlobalProductsColumns(branchOfficeProducts);
 
-  const data = useMemo(() => transformedData || [], [branchOfficeProducts]);
+  const data = useMemo(() => filteredItems || [], [filteredItems]);
 
-  const columns = useMemo(() => updatedColumns || [], [branchOfficeProducts]);
+  const columns = useMemo(() => updatedColumns || [], [filteredItems]);
 
   return (
     <>
-      {/* <UserView query={query} setQuery={setQuery} /> */}
       <SectionForm
         withFiltering={true}
         fullWidthBGMain={true}
