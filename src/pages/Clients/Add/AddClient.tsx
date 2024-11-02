@@ -34,8 +34,9 @@ import { validateAddClient } from "@/utils/validations";
 import { convertDateFormat, toTitleCase } from "@/utils/helpers";
 import MexicanStates from "@/utils/mexicanStates.json";
 import MexicanCities from "@/utils/mexicanStatesMun.json";
+import { getCurrentDate } from "@/utils/dates";
 
-export function AddClient(): JSX.Element {
+export function AddClient() {
   const { branchOfficeIDNames } = useListBranchOfficeIDNames();
   const { handleBackTo } = useSectionProvider();
   const { branchInventory, mainBranchInventory, rolID } = useSessionProvider();
@@ -69,11 +70,11 @@ export function AddClient(): JSX.Element {
         validationSchema={validateAddClient}
         onSubmit={async (values) => {
           if (values.isSecondButton) {
-            //*AMPLIFY IMPORTS
-            const { createClientAPI } = await import("@/graphql/mutations");
-            const { clientAPI } = await import("@/utils/amplifyAPI/client");
-            setIsModalOpen(true);
             try {
+              setIsModalOpen(true);
+              //*AMPLIFY IMPORTS
+              const { createClientAPI } = await import("@/graphql/mutations");
+              const { clientAPI } = await import("@/utils/amplifyAPI/client");
               const clientInput: IAddClientInputAPI = {
                 name: values.name,
                 second_name: values.second_name,
@@ -96,6 +97,51 @@ export function AddClient(): JSX.Element {
                 hasCreditRequest: false,
               };
               await clientAPI(createClientAPI, { input: clientInput });
+
+              const emailjs = await import("@emailjs/browser");
+
+              try {
+                const sendEmail = () => {
+                  emailjs
+                    .send(
+                      import.meta.env.VITE_SERVICE_ID,
+                      import.meta.env.VITE_NEWCLIENT_TEMPLATE_ID,
+                      {
+                        name: values.name,
+                        fullname:
+                          values.name +
+                          " " +
+                          values.second_name +
+                          " " +
+                          values.lastname +
+                          " " +
+                          values.second_lastname,
+                        branchOffice:
+                          branchInventory.name || mainBranchInventory.name,
+                        phone: values.phone,
+                        email: values.email || "No proporcionado",
+                        birthday: values.birthday || "No proporcionado",
+                        RFC: values.RFC || "No proporcionado",
+                        address: `${values.address}, ${values.settlement}, ${values.postal_code}`,
+                        state: values.state,
+                        city: values.city,
+                        date: getCurrentDate(),
+                      },
+                      import.meta.env.VITE_API_KEY
+                    )
+                    .then(
+                      (result) => {
+                        console.log(result.text);
+                      },
+                      (error) => {
+                        console.log(error.text);
+                      }
+                    );
+                };
+                sendEmail();
+              } catch (e) {
+                console.error(e);
+              }
 
               return;
             } catch (error) {
@@ -281,7 +327,7 @@ export function AddClient(): JSX.Element {
 
               <div className={styles["clientForm__form-inputs"]}>
                 <label htmlFor="email" className={styles.clientForm__label}>
-                  Correo Electronico
+                  Correo Electronico *
                 </label>
                 <Field
                   type="email"
@@ -397,13 +443,14 @@ export function AddClient(): JSX.Element {
                 <label htmlFor="state" className={styles.clientForm__label}>
                   Estado
                 </label>
-                <select
+                <Field
+                  as="select"
                   name="state"
                   id="state"
                   className={styles["clientForm__input-small"]}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     setSelectedState(toTitleCase(e.target.value));
-                    setFieldValue("state", selectedState);
+                    setFieldValue("state", e.target.value);
                   }}
                 >
                   <option value="" disabled>
@@ -414,7 +461,7 @@ export function AddClient(): JSX.Element {
                       {state.nombre}
                     </option>
                   ))}
-                </select>
+                </Field>
                 <ErrorMessage name="state" component="div" className="error" />
               </div>
 

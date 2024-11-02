@@ -380,6 +380,10 @@ tr{
   text-align: end;
 }
 
+.error{
+  font-weight: bold;
+}
+
 .error_start{
   color: var(--text-error);
 }

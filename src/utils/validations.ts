@@ -44,7 +44,9 @@ export const validateAddClient = object().shape({
     /^\d{3}-\d{3}-\d{4}$/,
     "El numero de telefono debe tener 10 digitos"
   ),
-  email: string().email("Correo electrónico inválido"),
+  email: string()
+    .email("Correo electrónico inválido")
+    .required("Correo obligatorio *"),
   // .required("Correo electrónico requerido *"),
   birthday: string(),
   RFC: string().matches(/^[A-Z]{4}\d{6}[A-Z,0-9]{3}$/, "RFC inválido"),
