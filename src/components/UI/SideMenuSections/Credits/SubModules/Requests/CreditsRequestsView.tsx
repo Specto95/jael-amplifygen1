@@ -11,9 +11,9 @@ import { creditsClientsViewFilterObjs } from "@/utils/globalObjs/sideMenuSection
 import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
 
 export function CreditsRequestsView() {
-  const { branchInventory } = useSessionProvider();
+  const { branchInventory, mainBranchInventory } = useSessionProvider();
   const { listCreditsRequestsView, isLoading } = useListCreditsRequestsView(
-    branchInventory.id
+    mainBranchInventory.id || branchInventory.id
   );
 
   const { filteredItems, query, setQuery } = GenericFilteredItems(

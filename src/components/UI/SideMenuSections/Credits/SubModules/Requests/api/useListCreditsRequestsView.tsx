@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 
 //* INTERFACES
-import {
-  IListCreditsRequestsViewAPI,
-  IListCreditsRequestsViewAPIResponse,
-} from "./interfaces/IUseListCreditsRequestsView";
+import { IListCreditsRequestsViewAPI } from "./interfaces/IUseListCreditsRequestsView";
 
 //* AMPLIFY IMPORTS
-import { listCreditRequestsViewAPI } from "@/graphql/queries";
+import {
+  listCreditRequestsBOAPI,
+  listCreditRequestsMainAPI,
+  listCreditRequestsViewAPI,
+} from "@/graphql/queries";
 import { CreditRequestStatus } from "@/utils/globalObjs/sideMenuSections/Credits/CreditsObjs";
 
 import { clientAPI } from "@/utils/amplifyAPI/client";
+import { ListCreditRequestsQuery } from "@/API";
+
+import { useSessionProvider } from "@/hooks/useSessionProvider";
+
+const { branchInventory } = useSessionProvider();
 
 export function useListCreditsRequestsView(branchOfficeID: string) {
   const [listCreditsRequestsView, setListCreditsRequestsView] = useState<
@@ -24,34 +30,31 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
       try {
         setIsLoading(true);
         setError(null);
-        const result: any = await clientAPI(listCreditRequestsViewAPI, {
-          branchOfficeID,
-        });
+        const result = (await clientAPI(
+          branchInventory.id
+            ? listCreditRequestsBOAPI
+            : listCreditRequestsMainAPI,
+          {
+            branchOfficeID,
+          }
+        )) as { data: ListCreditRequestsQuery };
 
-        console.log(result)
-
-        const creditRequestsResult: IListCreditsRequestsViewAPI[] =
-          result.data.listClients.items.length > 0
-            ? result.data.listClients.items.map(
-                (item: IListCreditsRequestsViewAPIResponse) => {
-                  const clientsCreditsViewObj: IListCreditsRequestsViewAPI = {
-                    clientID: item.creditRequests.items[0].client.id,
-                    clientName:
-                      item.creditRequests.items[0].client.name +
-                      " " +
-                      item.creditRequests.items[0].client.lastname,
-                    creditStatus:
-                      item.creditRequests.items[0].creditRequestStatus ===
-                      CreditRequestStatus.REJECTED
-                        ? "Rechazado"
-                        : item.creditRequests.items[0].creditRequestStatus ===
-                          CreditRequestStatus.APPROVED
-                        ? "Aprobado"
-                        : "Pendiente",
-                  };
-                  return clientsCreditsViewObj;
-                }
-              )
+        const creditRequestsResult =
+          result.data.listCreditRequests!.items.length > 0
+            ? result.data.listCreditRequests!.items.map((item) => {
+                const clientsCreditsViewObj: IListCreditsRequestsViewAPI = {
+                  clientID: item!.id,
+                  clientName: item!.client!.name + " " + item!.client!.lastname,
+                  creditStatus:
+                    item!.creditRequestStatus === CreditRequestStatus.REJECTED
+                      ? "Rechazado"
+                      : item!.creditRequestStatus ===
+                        CreditRequestStatus.APPROVED
+                      ? "Aprobado"
+                      : "Pendiente",
+                };
+                return clientsCreditsViewObj;
+              })
             : [];
 
         setListCreditsRequestsView(creditRequestsResult);

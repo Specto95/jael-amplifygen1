@@ -11218,6 +11218,16 @@ export const listUserDataLoginAPI = /* GraphQL */ `
   }
 `;
 
+export const listUsersEmailValidation = /* GraphQL */ `
+  query ListUsers($email: String) {
+    listUsers(filter: { email: { eq: $email } }) {
+      items {
+        email
+      }
+    }
+  }
+`;
+
 //? CUSTOM QUERIES
 export const listClientsViewByBranchOfficeIDAPI = /* GraphQL */ `
   query ClientsByBranchOfficeIDAndId($branchOfficeID: ID!) {
@@ -11262,7 +11272,7 @@ export const listClientsCreditsViewAPI = /* GraphQL */ `
 //? CUSTOM QUERIES
 export const listCreditRequestsViewAPI = /* GraphQL */ `
   query ListClients($branchOfficeID: ID) {
-    listClients(filter: { branchOfficeID: { eq: $branchOfficeID } }) {
+    listClients(filter: { branchOfficeID: { ne: $branchOfficeID } }) {
       items {
         creditRequests {
           items {
@@ -11275,6 +11285,49 @@ export const listCreditRequestsViewAPI = /* GraphQL */ `
             creditRequestStatus
           }
         }
+      }
+    }
+  }
+`;
+
+//? CUSTOM QUERIES
+export const listCreditRequestsMainAPI = /* GraphQL */ `
+  query ListCreditRequests($branchOfficeID: ID) {
+    listCreditRequests(
+      filter: {
+        branchOfficeID: { ne: $branchOfficeID }
+        and: { creditRequestStatus: { eq: PENDING } }
+      }
+    ) {
+      items {
+        id
+        client {
+          id
+          name
+          lastname
+        }
+        creditRequestStatus
+      }
+    }
+  }
+`;
+
+export const listCreditRequestsBOAPI = /* GraphQL */ `
+  query ListCreditRequests($branchOfficeID: ID) {
+    listCreditRequests(
+      filter: {
+        branchOfficeID: { eq: $branchOfficeID }
+        and: { creditRequestStatus: { eq: PENDING } }
+      }
+    ) {
+      items {
+        id
+        client {
+          id
+          name
+          lastname
+        }
+        creditRequestStatus
       }
     }
   }
@@ -11870,10 +11923,7 @@ export const listAvailableProductsByProviderIDAPI = /* GraphQL */ `
 
 // //?CUSTOM QUERIES
 export const listAvailableProductsAPI = /* GraphQL */ `
-  query ListInventoryProducts(
-    $inventoryID: ID
-    $branchInventoryID: ID
-  ) {
+  query ListInventoryProducts($inventoryID: ID, $branchInventoryID: ID) {
     listInventoryProducts(
       filter: { quantity: { gt: 0 }, inventoryID: { eq: $inventoryID } }
     ) {

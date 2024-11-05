@@ -1,4 +1,5 @@
 import { string, boolean, object, ref } from "yup";
+import { useListUsersEmailValidation } from "../../Add/api/useListUsersEmailValidation";
 
 export const NewAccountSchema = object().shape({
   name: string()
@@ -22,7 +23,16 @@ export const NewAccountSchema = object().shape({
 export const NewAccountDetailsSchema = object().shape({
   email: string()
     .email("Correo electrónico inválido")
-    .required("Correo electrónico requerido *"),
+    .required("Correo electrónico requerido *")
+    .test(
+      "unique-email",
+      "Este correo electrónico ya está en uso",
+      async (email) => {
+        if (!email) return true; // Skip validation if there's no email
+        const isEmailTaken = await useListUsersEmailValidation(email);
+        return !isEmailTaken; // Pass if email is NOT taken
+      }
+    ),
   autoPassword: boolean(),
   // password: string().optional(),
   // confirmPassword: string()

@@ -17943,7 +17943,7 @@ export type ListCreditRequestsQueryVariables = {
 };
 
 export type ListCreditRequestsQuery = {
-  listCreditRequests?: {
+  listCreditRequests: {
     __typename: "ModelCreditRequestsConnection";
     items: Array<{
       __typename: "CreditRequests";

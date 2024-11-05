@@ -83,6 +83,8 @@ type CreditRequests @model {
   id: ID!
   clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
   client: Client @belongsTo(fields: ["clientID"])
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
   creditRequestAmount: Float
   creditRequestStatus: CreditRequestStatus
   creditRequestReason: String
@@ -303,6 +305,8 @@ type BranchOffice @model {
   branchOffice_commission: Int
   inventories: [Inventory] @hasMany(indexName: "byBranchOffice", fields: ["id"])
   isMain: Boolean
+  creditRequests: [CreditRequests]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
   # discounts: [Discounts] @hasMany(indexName: "byBranchOffice", fields: ["id"])
 
   companyExpenses: [CompanyExpenses]
