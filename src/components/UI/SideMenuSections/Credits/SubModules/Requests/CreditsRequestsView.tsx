@@ -1,7 +1,5 @@
 import { CreditsRequestsList } from "./List/CreditsRequestsList";
 
-import { useSessionProvider } from "@/hooks/useSessionProvider";
-
 import styles from "../../../MainView.module.css";
 
 //* HOOKS
@@ -11,10 +9,9 @@ import { creditsClientsViewFilterObjs } from "@/utils/globalObjs/sideMenuSection
 import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
 
 export function CreditsRequestsView() {
-  const { branchInventory, mainBranchInventory } = useSessionProvider();
-  const { listCreditsRequestsView, isLoading } = useListCreditsRequestsView(
-    mainBranchInventory.id || branchInventory.id
-  );
+  const { listCreditsRequestsView, isLoading } = useListCreditsRequestsView();
+
+  console.log(listCreditsRequestsView)
 
   const { filteredItems, query, setQuery } = GenericFilteredItems(
     listCreditsRequestsView,

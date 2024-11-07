@@ -126,7 +126,6 @@ export const SessionProvider = ({ children }: IChildren) => {
 
     try {
       const isLastAuthUser = await getLastAuthUser();
-      console.log(isLastAuthUser);
       if (isLastAuthUser) {
         setIsLogged(true);
         return;
@@ -171,7 +170,7 @@ export const SessionProvider = ({ children }: IChildren) => {
         username: email,
         password,
       });
-      console.log(isSignedIn)
+      console.log(isSignedIn);
       if (isSignedIn) {
         const foundUser = listUserData.find((user) => {
           return user.email === email && user.password === password;
@@ -325,7 +324,7 @@ export const SessionProvider = ({ children }: IChildren) => {
       }
     } catch (error) {
       const customError = error as CustomError;
-      alert(customError.message)
+      alert(customError.message);
       // setError(customError);
       // switch (customError.code) {
       //   case "UserNotFoundException":

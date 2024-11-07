@@ -7,7 +7,6 @@ import { IListCreditsRequestsViewAPI } from "./interfaces/IUseListCreditsRequest
 import {
   listCreditRequestsBOAPI,
   listCreditRequestsMainAPI,
-  listCreditRequestsViewAPI,
 } from "@/graphql/queries";
 import { CreditRequestStatus } from "@/utils/globalObjs/sideMenuSections/Credits/CreditsObjs";
 
@@ -16,9 +15,8 @@ import { ListCreditRequestsQuery } from "@/API";
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
 
-const { branchInventory } = useSessionProvider();
-
-export function useListCreditsRequestsView(branchOfficeID: string) {
+export function useListCreditsRequestsView() {
+  const { branchInventory, mainBranchInventory } = useSessionProvider();
   const [listCreditsRequestsView, setListCreditsRequestsView] = useState<
     IListCreditsRequestsViewAPI[]
   >([]);
@@ -26,6 +24,7 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
+    if (!branchInventory.id && !mainBranchInventory.id) return;
     const fetchListCreditsRequestsView = async () => {
       try {
         setIsLoading(true);
@@ -35,15 +34,17 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
             ? listCreditRequestsBOAPI
             : listCreditRequestsMainAPI,
           {
-            branchOfficeID,
+            branchOfficeID: branchInventory.id || mainBranchInventory.id,
           }
         )) as { data: ListCreditRequestsQuery };
+
+        console.log(result.data.listCreditRequests);
 
         const creditRequestsResult =
           result.data.listCreditRequests!.items.length > 0
             ? result.data.listCreditRequests!.items.map((item) => {
                 const clientsCreditsViewObj: IListCreditsRequestsViewAPI = {
-                  clientID: item!.id,
+                  clientID: item!.client!.id,
                   clientName: item!.client!.name + " " + item!.client!.lastname,
                   creditStatus:
                     item!.creditRequestStatus === CreditRequestStatus.REJECTED
@@ -53,6 +54,11 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
                       ? "Aprobado"
                       : "Pendiente",
                 };
+
+                if (mainBranchInventory.id) {
+                  clientsCreditsViewObj.branchOfficeName =
+                    item?.branchOffice?.name;
+                }
                 return clientsCreditsViewObj;
               })
             : [];
@@ -67,7 +73,7 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
     };
 
     fetchListCreditsRequestsView();
-  }, [branchOfficeID]);
+  }, [branchInventory.id, mainBranchInventory.id]);
 
   return { listCreditsRequestsView, setListCreditsRequestsView, isLoading };
 }

@@ -11306,6 +11306,9 @@ export const listCreditRequestsMainAPI = /* GraphQL */ `
           name
           lastname
         }
+        branchOffice {
+          name
+        }
         creditRequestStatus
       }
     }

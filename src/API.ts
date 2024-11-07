@@ -17978,6 +17978,7 @@ export type ListCreditRequestsQuery = {
       creditRequestReason?: string | null;
       createdAt: string;
       updatedAt: string;
+      branchOffice?: BranchOffice;
     } | null>;
     nextToken?: string | null;
   } | null;
@@ -22387,8 +22388,8 @@ export type ListProvidersQuery = {
           items: Product[];
         };
         responsible?: {
-          items: ProductProviderResponsible[]
-        }
+          items: ProductProviderResponsible[];
+        };
       } | null;
       serviceprovider?: {
         __typename: "ServiceProvider";

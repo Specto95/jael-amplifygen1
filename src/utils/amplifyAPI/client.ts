@@ -23,10 +23,6 @@ export async function clientAPI<T>(
     variables: isMutation ? { input } : input,
   };
 
-  // if (input) {
-  //   clientObj["variables"]! = input;
-  // }
-
   const result = (await client.graphql(clientObj)) as T;
 
   return result;

@@ -3,6 +3,7 @@ export interface ICreateCreditRequestsAPI {
   creditRequestAmount: number;
   creditRequestStatus: string;
   creditRequestReason: string;
+  branchOfficeID?: string;
 }
 
 export interface IUpdateClientHasCreditRequestAPI {

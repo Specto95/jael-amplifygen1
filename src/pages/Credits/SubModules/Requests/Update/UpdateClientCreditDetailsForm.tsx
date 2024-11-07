@@ -202,10 +202,10 @@ export function UpdateClientCreditDetailsForm() {
 
                   console.log("CREDITO AUMENTADO");
                 }
+                console.log("COMPLETED");
               } catch (err) {
                 console.log(err);
               }
-              console.log("COMPLETED");
               return;
             }
             handleNextStep();
