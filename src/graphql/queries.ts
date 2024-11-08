@@ -11514,12 +11514,9 @@ export const listClientCreditMovementsOperationsToPayAPI = /* GraphQL */ `
 //?CUSTOM QUERIES
 export const listCreditClientAccountReceivableViewAPI = /* GraphQL */ `
   query ListSalesOperations(
-    $filter: ModelSalesOperationFilterInput
-    $limit: Int
-    $nextToken: String
     $includeBranchOffice: Boolean!
   ) {
-    listSalesOperations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSalesOperations(filter: {salesOperationType: {eq: CREDIT}}) {
       items {
         lastDatePaid
         currentTotalPayments

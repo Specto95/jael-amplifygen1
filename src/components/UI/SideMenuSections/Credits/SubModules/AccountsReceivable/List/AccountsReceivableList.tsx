@@ -34,12 +34,10 @@ export function AccountsReceivableList({
         <InventoryListTableSpinner hasBackground={true} />
       ) : (
         Object.keys(groupedData).map((clientName) => {
-          console.log(groupedData[clientName]);
           return (
-            <>
-              <div key={clientName} className="my-1">
-                <div className="flex__endMY">
-                  {/* <PDFDownloadLink
+            <div key={clientName} className="my-1">
+              <div className="flex__endMY">
+                {/* <PDFDownloadLink
                     document={
                       <AccountsReceivableReport
                         PDFName={
@@ -75,17 +73,16 @@ export function AccountsReceivableList({
                       )
                     }
                   </PDFDownloadLink> */}
-                </div>
-                <ShowTableData
-                  Columns={AccountsReceivableColumns}
-                  Data={groupedData[clientName]}
-                  notFoundDataMessage="No se encontraron movimientos de crédito."
-                  hasBackground={true}
-                  customSectionName={`accountsReceivable`}
-                  isPrintable={true}
-                />
               </div>
-            </>
+              <ShowTableData
+                Columns={AccountsReceivableColumns}
+                Data={groupedData[clientName]}
+                notFoundDataMessage="No se encontraron movimientos de crédito."
+                hasBackground={true}
+                customSectionName={`accountsReceivable`}
+                isPrintable={true}
+              />
+            </div>
           );
         })
       )}

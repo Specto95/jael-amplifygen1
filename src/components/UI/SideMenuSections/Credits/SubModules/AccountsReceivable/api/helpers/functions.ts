@@ -15,6 +15,10 @@ import { formatYYYYMMDDDate } from "@/utils/dates";
 import { commaSeparator } from "@/utils/commaSeparator";
 
 import { clientAPI } from "@/utils/amplifyAPI/client";
+import {
+  ListSalesOperationClientCreditMovementsQuery,
+  ListSalesOperationsQuery,
+} from "@/API";
 
 interface IFilter {
   clientID?: {
@@ -59,57 +63,51 @@ export async function listCreditAccountsReceivableData(
       validateCreditAccountsReceivableFilter(clientID);
   }
 
-  const result: any = await clientAPI(
+  const result = (await clientAPI(
     listCreditClientAccountReceivableViewAPI,
-    {
-      listCreditClientAccountReceivableViewAPIObj,
-    }
-  );
 
-  console.log(result)
+    listCreditClientAccountReceivableViewAPIObj
+  )) as { data: ListSalesOperationsQuery };
 
-  const salesOperations = result.data.listSalesOperations.items;
+  const salesOperations = result.data.listSalesOperations!.items;
 
   const clientMovementsOperationsResult: IUseListCreditAccountsReceivableAPI[] =
     [];
 
   for (let sale of salesOperations) {
-    const nextPaymentResult: any = await clientAPI(
-      listNextClientPaymentDateAPI,
-      {
-        salesOperationID: sale.id,
-        //? +1 Because the currentTotalPayment starts at 0 and API excepts since 1
-        numberOfPayment: sale.currentTotalPayments + 1,
-      }
-    );
+    const nextPaymentResult = (await clientAPI(listNextClientPaymentDateAPI, {
+      salesOperationID: sale!.id,
+      //? +1 Because the currentTotalPayment starts at 0 and API excepts since 1
+      numberOfPayment: sale!.currentTotalPayments! + 1,
+    })) as { data: ListSalesOperationClientCreditMovementsQuery };
 
     const nextPaymentDate =
-      nextPaymentResult.data.listSalesOperationClientCreditMovements.items[0]
+      nextPaymentResult.data.listSalesOperationClientCreditMovements!.items[0]
         ?.paymentDate || "N/A";
 
     const clientMovementOperationObj: IUseListCreditAccountsReceivableAPI = {
-      id: sale.id,
-      clientName: sale.client.name + " " + sale.client.lastname,
+      id: sale!.id,
+      clientName: sale!.client!.name + " " + sale!.client!.lastname,
       paymentDate: nextPaymentDate,
-      datePaid: sale.lastDatePaid || "N/A",
-      saleSince: formatYYYYMMDDDate(sale.createdAt),
-      pendingToPay: "$" + commaSeparator(sale.pendingToPay),
+      datePaid: sale!.lastDatePaid || "N/A",
+      saleSince: formatYYYYMMDDDate(sale!.createdAt),
+      pendingToPay: "$" + commaSeparator(sale!.pendingToPay!),
       termDaysToPay:
-        sale.termDaysToPay === SalesOperationTermDaysToPay.BIWEEKLY
+        sale!.termDaysToPay === SalesOperationTermDaysToPay.BIWEEKLY
           ? SalesOperationTermDaysToPayNumber.BIWEEKLY
           : SalesOperationTermDaysToPayNumber.MONTHLY,
-      total: "$" + commaSeparator(sale.total),
+      total: "$" + commaSeparator(sale!.total!),
       status:
-        sale.status === SalesOperationStatus.EXPIRED
+        sale!.status === SalesOperationStatus.EXPIRED
           ? SalesOperationStatusSpanish.EXPIRED
-          : sale.status === SalesOperationStatus.PAID
+          : sale!.status === SalesOperationStatus.PAID
           ? SalesOperationStatusSpanish.PAID
           : subMovementType === SubMovementType.INCOMESALES
           ? SalesOperationStatusSpanish.PENDING_CASHSALE
           : SalesOperationStatusSpanish.PENDING,
       statusActions:
-        sale.status === SalesOperationStatus.EXPIRED ||
-        sale.status === SalesOperationStatus.PENDING
+        sale!.status === SalesOperationStatus.EXPIRED ||
+        sale!.status === SalesOperationStatus.PENDING
           ? subMovementType === SubMovementType.INCOMESALES
             ? SalesOperationStatusSpanish.SELECT
             : SalesOperationStatusSpanish.PAY
@@ -118,22 +116,22 @@ export async function listCreditAccountsReceivableData(
 
     if (clientID) {
       clientMovementOperationObj["pendingToPay"] =
-        "$" + commaSeparator(sale.pendingToPay);
-      clientMovementOperationObj["totalPayments"] = sale.totalPayments;
+        "$" + commaSeparator(sale!.pendingToPay!);
+      clientMovementOperationObj["totalPayments"] = sale!.totalPayments;
       clientMovementOperationObj["currentTotalPayments"] =
-        sale.currentTotalPayments;
-      clientMovementOperationObj["amountPaid"] = sale.amountPaid;
+        sale!.currentTotalPayments;
+      clientMovementOperationObj["amountPaid"] = sale!.amountPaid;
     }
 
     if (subMovementType === SubMovementType.INCOMESALES) {
-      clientMovementOperationObj["branchOfficeName"] = sale.branchOffice.name;
+      clientMovementOperationObj["branchOfficeName"] = sale!.branchOffice!.name;
       clientMovementOperationObj["paymentStatus"] =
-        sale.status === SalesOperationStatus.EXPIRED
+        sale!.status === SalesOperationStatus.EXPIRED
           ? SalesOperationStatusSpanish.EXPIRED
-          : sale.status === SalesOperationStatus.PAID
+          : sale!.status === SalesOperationStatus.PAID
           ? SalesOperationStatusSpanish.PAID
-          : sale.amountPaid > 0
-          ? `Abono - $${commaSeparator(sale.amountPaid)}`
+          : sale!.amountPaid! > 0
+          ? `Abono - $${commaSeparator(sale!.amountPaid!)}`
           : SalesOperationStatusSpanish.PENDING;
     }
 

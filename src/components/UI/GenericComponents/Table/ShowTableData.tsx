@@ -210,54 +210,57 @@ export function ShowTableData<T extends object>({
                 <thead>
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column: any, index) => (
-                        <th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps()
-                          )}
-                          className={hasBackground ? "" : "th__noBG"}
-                        >
-                          <div className="th__flex">
-                            {column.render("Header")}
-                            <span className="fs-lg">
-                              {index !== headerGroup.headers.length - 1 ? (
-                                column.isSorted ? (
-                                  column.isSortedDesc ? (
-                                    hovered === column ? (
+                      {headerGroup.headers.map((column: any, index) => {
+                        return (
+                          <th
+                            {...column.getHeaderProps(
+                              column.getSortByToggleProps()
+                            )}
+                            className={hasBackground ? "" : "th__noBG"}
+                            key={column.id}
+                          >
+                            <div className="th__flex">
+                              {column.render("Header")}
+                              <span className="fs-lg">
+                                {index !== headerGroup.headers.length - 1 ? (
+                                  column.isSorted ? (
+                                    column.isSortedDesc ? (
+                                      hovered === column ? (
+                                        <img
+                                          src={ArrowDown}
+                                          alt={"Flecha hacia arriba"}
+                                          className="rotateArrow180Deg"
+                                        />
+                                      ) : (
+                                        <img
+                                          src={ArrowDown}
+                                          alt={"Flecha hacia abajo"}
+                                        />
+                                      )
+                                    ) : hovered === column ? (
+                                      <img
+                                        src={ArrowDown}
+                                        alt={"Flecha hacia abajo"}
+                                      />
+                                    ) : (
                                       <img
                                         src={ArrowDown}
                                         alt={"Flecha hacia arriba"}
                                         className="rotateArrow180Deg"
                                       />
-                                    ) : (
-                                      <img
-                                        src={ArrowDown}
-                                        alt={"Flecha hacia abajo"}
-                                      />
                                     )
-                                  ) : hovered === column ? (
+                                  ) : (
                                     <img
                                       src={ArrowDown}
                                       alt={"Flecha hacia abajo"}
                                     />
-                                  ) : (
-                                    <img
-                                      src={ArrowDown}
-                                      alt={"Flecha hacia arriba"}
-                                      className="rotateArrow180Deg"
-                                    />
                                   )
-                                ) : (
-                                  <img
-                                    src={ArrowDown}
-                                    alt={"Flecha hacia abajo"}
-                                  />
-                                )
-                              ) : null}
-                            </span>
-                          </div>
-                        </th>
-                      ))}
+                                ) : null}
+                              </span>
+                            </div>
+                          </th>
+                        );
+                      })}
                     </tr>
                   ))}
                 </thead>
@@ -293,6 +296,7 @@ export function ShowTableData<T extends object>({
                     return (
                       <tr
                         {...row.getRowProps()}
+                        // key={row.values.id}
                         className={
                           isNavigating || isEditing
                             ? "td"
