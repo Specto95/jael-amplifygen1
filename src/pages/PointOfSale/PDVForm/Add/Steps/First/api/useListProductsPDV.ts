@@ -8,6 +8,7 @@ import {
 } from "./interfaces/IUseListProductsPDV";
 
 import { clientAPI } from "@/utils/amplifyAPI/client";
+import { InventoryProductsByInventoryIDAndIdQuery } from "@/API";
 
 export function useListProductsPDV(inventoryID: string) {
   const [listProductsPDV, setListProductsPDV] = useState<IListProductsPDVAPI[]>(
@@ -17,33 +18,32 @@ export function useListProductsPDV(inventoryID: string) {
   useEffect(() => {
     const fetchListProductsPDV = async () => {
       try {
-        const result: any = await clientAPI(listPDVProductsByInventoryIDAPI, {
+        if (!inventoryID) return;
+        const result = (await clientAPI(listPDVProductsByInventoryIDAPI, {
           inventoryID,
-        });
+        })) as { data: InventoryProductsByInventoryIDAndIdQuery };
 
-        // console.log(result.data.inventoryProductsByInventoryIDAndId.items)
-
-        const productsPDVResult: IListProductsPDVAPI[] =
-          result.data.inventoryProductsByInventoryIDAndId.items.map(
-            (productPDV: IListProductsPDVAPIResponse) => {
+        const productsPDVResult =
+          result.data.inventoryProductsByInventoryIDAndId!.items.map(
+            (productPDV) => {
               return {
-                inventoryProductID: productPDV.id,
-                id: productPDV.product.id,
-                name: productPDV.product.name,
-                description: productPDV.product.description || "N/A",
-                price: productPDV.customPrice,
-                quantity: productPDV.quantity,
-                hasCommission: productPDV.product.hasCommission,
-                hasDiscount: productPDV.product.hasDiscount,
+                inventoryProductID: productPDV!.id,
+                id: productPDV!.product!.id,
+                name: productPDV!.product!.name,
+                description: productPDV!.product!.description || "N/A",
+                price: productPDV!.customPrice,
+                quantity: productPDV!.quantity,
+                hasCommission: productPDV!.product!.hasCommission,
+                hasDiscount: productPDV!.product!.hasDiscount,
                 withDiscount: false,
                 discountPercentage: 0,
                 totalDiscounted: 0,
                 // unitPrice: row.price,
-                amountToPay: productPDV.customPrice,
+                amountToPay: productPDV!.customPrice,
               };
             }
           );
-        setListProductsPDV(productsPDVResult);
+        setListProductsPDV(productsPDVResult as IListProductsPDVAPI[]);
       } catch (error) {
         console.log("Error: ", error);
       }

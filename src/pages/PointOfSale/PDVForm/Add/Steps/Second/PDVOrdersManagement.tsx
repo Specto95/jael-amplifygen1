@@ -24,7 +24,7 @@ import {
 } from "../../helpers/functions";
 
 //*APIs
-import { useListClientsFullNameByBranchOfficeID } from "./api/useListClientsFullNameByBranchOfficeID";
+import { useListRegisteredClients } from "./api/useListRegisteredClients";
 import { useGetClientCreditByID } from "./api/useGetClientCreditByID";
 import { useGetBranchOfficeCommission } from "./api/useGetBranchOfficeCommission";
 
@@ -99,7 +99,6 @@ export function PDVOrdersManagement({
   const { isDownloading, setIsDownloading } = useSectionProvider();
   const { branchInventory, rolID, mainBranchInventory } = useSessionProvider();
 
-
   const columns: Column<IListProductsPDVAPI>[] = useMemo(
     () => PDVSelectedDataColumns,
     []
@@ -127,8 +126,9 @@ export function PDVOrdersManagement({
   const [isTyping, setIsTyping] = useState(false);
   const [toSelectPaymentType, setToSelectPaymentType] = useState(false);
 
-  const { listClientsFullName } = useListClientsFullNameByBranchOfficeID(
-    rolID === AccountFormObj.ADMIN ? mainBranchInventory.id : branchInventory.id
+  const { listClientsFullName } = useListRegisteredClients(
+    rolID === AccountFormObj.ADMIN ? mainBranchInventory.id : branchInventory.id,
+    values!.isClientRegistered
   );
   const { getClientCreditByID, isLoading } = useGetClientCreditByID(
     selectedClient!.id
@@ -136,8 +136,6 @@ export function PDVOrdersManagement({
   const { getBranchOfficeCommission } = useGetBranchOfficeCommission(
     rolID === AccountFormObj.ADMIN ? mainBranchInventory.id : branchInventory.id
   );
-
-  console.log(listClientsFullName)
 
   const debouncedInputClientName = useCallback(
     debounce(() => {
@@ -212,7 +210,6 @@ export function PDVOrdersManagement({
   }, [values?.isClientRegistered]);
 
   useEffect(() => {
-    console.log("aqui");
     const fetchData = async () => {
       if (selectedClient?.hasCredit) {
         console.log("si");
@@ -445,7 +442,9 @@ export function PDVOrdersManagement({
                   {listClientsFullName.map((client) => {
                     return (
                       <option key={client.fullName} value={client.fullName}>
-                        {client.fullName}
+                        {mainBranchInventory.id
+                          ? `${client.fullName} - ${client.branchOfficeName}`
+                          : client.fullName}
                       </option>
                     );
                   })}

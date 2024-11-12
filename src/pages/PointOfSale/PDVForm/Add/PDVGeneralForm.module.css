@@ -532,7 +532,7 @@
     padding: var(--p-sm);
     max-width: fit-content;
     min-width: var(--w-half);
-    text-align: center;
+    text-align: left;
     background-color: var(--bg-secondary);
     border: var(--border-3px);
     border-radius: var(--radius-sm);

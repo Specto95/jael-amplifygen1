@@ -17,7 +17,6 @@ const FixedResumeSale = lazy(() =>
 import { PDVSpinner } from "@/components/UI/Spinners/PDV/PDVSpinner";
 
 //* APIs
-import { useListProductsPDV } from "./api/useListProductsPDV";
 import { useGetBranchOfficeCommission } from "../Second/api/useGetBranchOfficeCommission";
 
 //* HOOKS

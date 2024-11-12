@@ -59,9 +59,10 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
           {
             id: productID,
             inventoryID:
-              rolID === AccountFormObj.ADMIN
-                ? mainBranchInventory.inventoryID
-                : branchInventory.inventoryID,
+              (rolID === AccountFormObj.ADMIN && branchInventory.inventoryID) ||
+              branchInventory.inventoryID
+                ? branchInventory.inventoryID
+                : mainBranchInventory.inventoryID,
           }
         );
 

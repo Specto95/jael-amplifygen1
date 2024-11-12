@@ -10669,7 +10669,7 @@ export const listAccountViewAPI = /* GraphQL */ `
 //?CUSTOM QUERIES
 export const listBranchOfficesIDNamesAPI = /* GraphQL */ `
   query ListBranchOffices {
-    listBranchOffices(filter: { isMain: { eq: false } }) {
+    listBranchOffices {
       items {
         id
         name
@@ -10961,7 +10961,7 @@ export const getClientCreditByIDAPI = /* GraphQL */ `
 `;
 
 //?CUSTOM QUERIES
-export const listClientsFullNameAPI = /* GraphQL */ `
+export const listPDVClientsFullNameAPI = /* GraphQL */ `
   query ListClients($branchOfficeID: ID) {
     listClients(filter: { branchOfficeID: { eq: $branchOfficeID } }) {
       items {
@@ -10969,10 +10969,25 @@ export const listClientsFullNameAPI = /* GraphQL */ `
         name
         lastname
         hasCredit
-        createdAt
-        updatedAt
       }
-      nextToken
+    }
+  }
+`;
+
+//?CUSTOM QUERIES
+export const listPDVClientsFullNameBOAPI = /* GraphQL */ `
+  query ListClients {
+    listClients {
+      items {
+        id
+        name
+        lastname
+        hasCredit
+        branchOffice {
+          name
+          id
+        }
+      }
     }
   }
 `;
@@ -11513,10 +11528,8 @@ export const listClientCreditMovementsOperationsToPayAPI = /* GraphQL */ `
 
 //?CUSTOM QUERIES
 export const listCreditClientAccountReceivableViewAPI = /* GraphQL */ `
-  query ListSalesOperations(
-    $includeBranchOffice: Boolean!
-  ) {
-    listSalesOperations(filter: {salesOperationType: {eq: CREDIT}}) {
+  query ListSalesOperations($includeBranchOffice: Boolean!) {
+    listSalesOperations(filter: { salesOperationType: { eq: CREDIT } }) {
       items {
         lastDatePaid
         currentTotalPayments

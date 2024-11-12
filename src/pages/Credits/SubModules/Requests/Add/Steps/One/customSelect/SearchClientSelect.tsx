@@ -25,7 +25,7 @@ export function SearchClientSelect({
 
   return (
     <Select
-      options={options as any}
+      options={options}
       name={selectedClient?.id}
       id={selectedClient?.id}
       value={selectedClient?.id}

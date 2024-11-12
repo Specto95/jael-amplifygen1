@@ -147,6 +147,7 @@ import { useSectionProvider } from "@/hooks/useSectionProvider";
 import { userDataLoginObj } from "@/utils/globalObjs/login/loginObjs";
 import { AccountFormObj } from "./Account/utils/AccountFormObj";
 import { sectionNameObj } from "@/utils/globalObjs/sectionNames/sectionNamesObj";
+import { clearBranchOfficeData } from "@/components/UI/SideMenuSections/Inventory/Type/BranchOffice/SubModules/Inventory/helpers/functions";
 
 export function MainPage() {
   const {
@@ -236,6 +237,10 @@ export function MainPage() {
       sectionNameObj.SECTIONNAME,
       JSON.stringify(sectionName)
     );
+
+    if (rolID === AccountFormObj.ADMIN && sectionName !== "BOInventory") {
+      clearBranchOfficeData(setBranchInventory);
+    }
   }, [sectionName]);
 
   useEffect(() => {
