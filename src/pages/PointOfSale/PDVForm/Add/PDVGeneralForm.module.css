@@ -364,6 +364,7 @@
 
 .PDVOrdersManagement__inputBRSM{
     border-radius: var(--radius-sm);
+    min-width: 300px;
 }
 
 .PDVResume__DataFields{

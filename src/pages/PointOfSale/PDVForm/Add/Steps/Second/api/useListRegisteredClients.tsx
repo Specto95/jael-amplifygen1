@@ -55,8 +55,6 @@ export function useListRegisteredClients(
           }
         );
 
-        console.log(ListRegisteredClients);
-
         setListClientsFullName(ListRegisteredClients);
       } catch (error) {
         console.log("Error: ", error);

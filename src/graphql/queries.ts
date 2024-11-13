@@ -10914,35 +10914,39 @@ export const checkIsLastPaymentAPI = /* GraphQL */ `
 //?CUSTOM QUERIES
 export const listSaleDetailsByIDAPI = /* GraphQL */ `
   query ListSalesOperations($id: ID!) {
-    listSalesOperations(filter: { id: { eq: $id } }) {
-      items {
-        id
-        amountPaid
-        pendingToPay
-        client {
-          name
-          lastname
+      listSalesOperations(filter: { id: { eq: $id } }) {
+        items {
           id
-          credit {
-            credit_available
-          }
-        }
-
-        date
-        status
-        salesOperationInventoryProductQuantities {
-          items {
-            productPriceWithDiscount
-            soldProductQuantity
+          amountPaid
+          pendingToPay
+          client {
             name
-            withDiscount
-            amountToPayWithDiscount
-            amountToPay
+            lastname
+            id
+            credit {
+              credit_available
+            }
+          }
+          nonRegisteredClient {
+            id
+            fullName
+          }
+
+          date
+          status
+          salesOperationInventoryProductQuantities {
+            items {
+              productPriceWithDiscount
+              soldProductQuantity
+              name
+              withDiscount
+              amountToPayWithDiscount
+              amountToPay
+            }
           }
         }
+        nextToken
       }
-      nextToken
-    }
   }
 `;
 
@@ -11959,6 +11963,20 @@ export const listAvailableProductsAPI = /* GraphQL */ `
           }
         }
         quantity
+      }
+    }
+  }
+`;
+
+export const listDiscountInventoryProductsAPI = /* GraphQL */ `
+  query ListDiscountInventoryProducts($inventoryProductId: ID) {
+    listDiscountInventoryProducts(
+      filter: { inventoryProductId: { eq: $inventoryProductId } }
+    ) {
+      items {
+        discounts {
+          discount
+        }
       }
     }
   }

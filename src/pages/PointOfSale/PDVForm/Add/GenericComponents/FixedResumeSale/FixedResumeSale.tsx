@@ -67,7 +67,9 @@ export function FixedResumeSale({
                     {selectedMonthsToPay! > 0 && (
                       <div className="flex__spacing">
                         <p className="button__primary-blueCR">
-                          Total a pagar meses
+                          {termDaysToPay === "BIWEEKLY"
+                            ? "Total a pagar quincenal"
+                            : "Total a pagar meses"}
                         </p>
                         <p
                           className={`${
@@ -117,7 +119,9 @@ export function FixedResumeSale({
                         selectedMonthsToPay! > 0 && (
                           <div className="flex__spacing">
                             <p className="button__primary-blueCR">
-                              Total a pagar meses
+                              {termDaysToPay === "BIWEEKLY"
+                                ? "Total a pagar quincenal"
+                                : "Total a pagar meses"}
                             </p>
                             <p
                               className={`${

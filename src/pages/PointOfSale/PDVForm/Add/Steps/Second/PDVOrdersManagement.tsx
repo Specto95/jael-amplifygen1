@@ -94,8 +94,6 @@ export function PDVOrdersManagement({
   salesOperationID,
 }: IPDVOrdersManagementProps) {
 
-  console.log(values)
-
   const { isDownloading, setIsDownloading } = useSectionProvider();
   const { branchInventory, rolID, mainBranchInventory } = useSessionProvider();
 
@@ -127,7 +125,9 @@ export function PDVOrdersManagement({
   const [toSelectPaymentType, setToSelectPaymentType] = useState(false);
 
   const { listClientsFullName } = useListRegisteredClients(
-    rolID === AccountFormObj.ADMIN ? mainBranchInventory.id : branchInventory.id,
+    rolID === AccountFormObj.ADMIN
+      ? mainBranchInventory.id
+      : branchInventory.id,
     values!.isClientRegistered
   );
   const { getClientCreditByID, isLoading } = useGetClientCreditByID(
@@ -212,7 +212,6 @@ export function PDVOrdersManagement({
   useEffect(() => {
     const fetchData = async () => {
       if (selectedClient?.hasCredit) {
-        console.log("si");
         setClientCredit(getClientCreditByID);
       }
     };
@@ -411,6 +410,82 @@ export function PDVOrdersManagement({
               />
             ) : (
               <>
+                {/* <Select
+                  options={options}
+                  name="orderManagement.clientName"
+                  id="clientName"
+                  isClearable={true}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    const { value } = e.target;
+                    const selectedClientObj = listClientsFullName.find(
+                      (client) => client.fullName === value
+                    );
+
+                    setSelectedClient!(
+                      (prevState: IPDVOrdersManagementClientSelected) => ({
+                        ...prevState,
+                        id: selectedClientObj ? selectedClientObj.id : "",
+                        fullName: value,
+                        hasCredit: selectedClientObj
+                          ? selectedClientObj.hasCredit
+                          : false,
+                      })
+                    );
+
+                    setFieldValue!("orderManagement.clientName", value);
+                  }}
+                  styles={{
+                    option: (provided) => ({
+                      ...provided,
+                      backgroundColor: "var(--bg-secondary)",
+                      color: "var(--text-primary)",
+                      cursor: "pointer",
+                      ":hover": {
+                        backgroundColor: "var(--text-secondary)",
+                      },
+                    }),
+
+                    control: (provided) => ({
+                      ...provided,
+                      height: "var(--h-button)",
+                      backgroundColor: "var(--bg-secondary)",
+                      border: "var(--border-2px)",
+                      borderRadius: "var(--radius-sm)",
+                      cursor: "pointer",
+                      ":hover": {
+                        border: "var(--border-2px)",
+                      },
+                    }),
+                    indicatorSeparator: (provided) => ({
+                      ...provided,
+                      display: "none",
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      color: "var(--text-primary)",
+                      fontWeight: "bold",
+                    }),
+                    indicatorsContainer: (provided) => ({
+                      ...provided,
+                      color: "var(--text-primary)",
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      margin: "0",
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color: "var(--text-primary)",
+                    }),
+                    menuList: (provided) => ({
+                      ...provided,
+                      cursor: "pointer",
+                      margin: "0",
+                      padding: "0",
+                      backgroundColor: "var(--bg-secondary)",
+                    }),
+                  }}
+                /> */}
                 <Field
                   as="select"
                   name="orderManagement.clientName"

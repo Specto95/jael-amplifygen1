@@ -1,6 +1,6 @@
 import { Field } from "formik";
 //* APIs
-import { useListDiscounts } from "../../Second/api/useListDiscounts";
+import { useListDiscountInventoryProducts } from "../../Second/api/useListDiscountInventoryProducts";
 
 import styles from "../../../PDVGeneralForm.module.css";
 
@@ -12,7 +12,9 @@ export function SelectProductDiscount({
   cell,
   setSelectedData,
 }: ISelectProductDiscountProps) {
-  const { listDiscounts } = useListDiscounts();
+  const { listDiscounts } = useListDiscountInventoryProducts(
+    cell.row.original.inventoryProductID
+  );
 
   return (
     <>
@@ -53,9 +55,7 @@ export function SelectProductDiscount({
         }}
         value={cell.value || ""}
       >
-        <option value="">
-          Descuento:
-        </option>
+        <option value="">Descuento:</option>
         {listDiscounts
           .sort((a, b) => a.discount - b.discount)
           .map((discount) => {

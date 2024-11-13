@@ -8,5 +8,6 @@ export interface ICloseEditFinishProps
   extends IIsEditing,
     ISetIsEditing,
     ISetFieldValue {
-        customFinishText?: string;
-    }
+  customFinishText?: string;
+  isMutable?: boolean;
+}

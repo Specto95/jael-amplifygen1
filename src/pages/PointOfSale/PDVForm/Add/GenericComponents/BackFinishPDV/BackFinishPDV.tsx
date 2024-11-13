@@ -43,7 +43,6 @@ export function BackFinishPDV({
         }
         onClick={() => {
           setFieldValue!("isSecondButton", true);
-          console.log("cliquee");
         }}
       >
         Finalizar Venta

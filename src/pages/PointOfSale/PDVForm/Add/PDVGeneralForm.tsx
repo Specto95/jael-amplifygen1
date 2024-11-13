@@ -193,18 +193,22 @@ export function PDVGeneralForm() {
 
   const handleTotalPayableInMonths = () => {
     if (selectedClient!.hasCredit && updateCreditClientState.credit_available) {
+      const totalWeeks =
+        termDaysToPay === "BIWEEKLY"
+          ? selectedMonthsToPay * 2
+          : selectedMonthsToPay;
       if (
         updateCreditClientState.credit_available! > 0 &&
         updateCreditClientState.credit_available! >
           (totalWithDiscount! || totalToPay)
       ) {
         return `$${commaSeparatorFloat(
-          (totalWithDiscount! || totalToPay!) / selectedMonthsToPay!
-        )} por mes`;
+          (totalWithDiscount! || totalToPay!) / totalWeeks!
+        )} ${termDaysToPay === "BIWEEKLY" ? "quincenal" : "por mes"}`;
       }
       return `$${commaSeparatorFloat(
-        updateCreditClientState.credit_available / selectedMonthsToPay!
-      )} por mes`;
+        updateCreditClientState.credit_available / totalWeeks!
+      )} ${termDaysToPay === "BIWEEKLY" ? "quincenal" : "por mes"}`;
     }
 
     return "Credito No Disponible";
@@ -266,7 +270,6 @@ export function PDVGeneralForm() {
         validationSchema={getValidationSchemaForStep(currentStepIndex)}
         onSubmit={async (values) => {
           if (values.isSecondButton) {
-            console.log('ya entramos')
             try {
               handleNextStep();
               setSalesID(salesOperationID);
