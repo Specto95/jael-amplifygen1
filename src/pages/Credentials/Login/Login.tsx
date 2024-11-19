@@ -77,7 +77,7 @@ export function Login() {
                   <h2 className="heading__primary">Datos del empleado</h2>
 
                   <label htmlFor="email" className={styles.login__label}>
-                    Email | v240229
+                    Email
                   </label>
                   <Field
                     type="email"

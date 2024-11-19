@@ -21,6 +21,7 @@ import { IListClientMovementsProps } from "./interfaces/ListClientMovements";
 import { GeneralBackFinish } from "@/components/UI/GenericComponents/BackFinish/GeneralBackFinish";
 import { PrimaryHeading } from "@/components/UI/GenericComponents/Headings/Primary/PrimaryHeading";
 import BoldField from "@/components/UI/GenericComponents/Fields/Bold";
+import { MainHeading } from "@/components/UI/GenericComponents/Headings/Main/MainHeading";
 
 export function ListClientMovements({
   isPaying,
@@ -235,6 +236,16 @@ export function ListClientMovements({
               hasTBodyBorder={true}
               isLoading={isLoading}
             />
+
+            <div className="flex__spacingWrapMY">
+              <MainHeading
+                title="Total a Pagar"
+                customStyle="heading__primaryPSM"
+              />
+              <div className="input__min300PrimaryRounded centerBold">
+                ${commaSeparator(+listClientMovementsData[0]?.totalToPay!)}
+              </div>
+            </div>
           </>
 
           <GeneralBackFinish

@@ -10,6 +10,7 @@ import { AccountsReceivableReport } from "@/pages/PrintComponents/SideMenuSectio
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
 import { PDFNamesSpanish } from "@/utils/PDF/PDFObjects";
+import BoldField from "@/components/UI/GenericComponents/Fields/Bold";
 
 export function AccountsReceivableList({
   AccountsReceivable,
@@ -32,7 +33,7 @@ export function AccountsReceivableList({
     <>
       {isLoading ? (
         <InventoryListTableSpinner hasBackground={true} />
-      ) : (
+      ) : Object.keys(groupedData).length > 0 ? (
         Object.keys(groupedData).map((clientName) => {
           return (
             <div key={clientName} className="my-1">
@@ -85,6 +86,8 @@ export function AccountsReceivableList({
             </div>
           );
         })
+      ) : (
+        <BoldField text="No hay resultados" />
       )}
     </>
   );

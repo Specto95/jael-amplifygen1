@@ -170,7 +170,6 @@ export const SessionProvider = ({ children }: IChildren) => {
         username: email,
         password,
       });
-      console.log(isSignedIn);
       if (isSignedIn) {
         const foundUser = listUserData.find((user) => {
           return user.email === email && user.password === password;
@@ -196,9 +195,6 @@ export const SessionProvider = ({ children }: IChildren) => {
                         return branchOffice.branchOffice.isMain === true;
                       }
                     );
-
-                    console.log(mainBranch);
-
                     if (foundUser.rolID === AccountFormObj.ADMIN) {
                       if (mainBranch) {
                         return {

@@ -139,10 +139,21 @@ enum OperationType {
   RETURN
 }
 
+enum IOInventoryStatus {
+  PENDING
+  PROCESSING
+  IN_TRANSIT
+  DELIVERED
+  CANCELED
+  RETURNED
+  FAILED
+}
+
 type IncomeInventory @model {
   id: ID!
   date: AWSDate!
   comments: String
+  status: IOInventoryStatus
   inventoryOperationID: InventoryOperation @belongsTo
   providerID: ID! @index(name: "byProvider", sortKeyFields: ["id"])
   provider: Provider @belongsTo(fields: ["providerID"])
@@ -172,6 +183,7 @@ type OutcomeInventory @model {
   id: ID!
   date: AWSDate!
   comments: String
+  status: IOInventoryStatus
   userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
   userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
   branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])

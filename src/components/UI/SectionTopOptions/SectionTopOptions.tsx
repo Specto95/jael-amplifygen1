@@ -64,6 +64,8 @@ export function SectionTopOptions({
                   : sectionName === "credits" ||
                     sectionName === "creditRequests"
                   ? "Buscar por nombre de cliente"
+                  : sectionName === "creditsAccountsReceivable"
+                  ? "Buscar por nombre:"
                   : "Buscar"
               }
               className={styles[customInput]}
@@ -160,9 +162,10 @@ export function SectionTopOptions({
               ) : null
             ) : null}
             {/* REACT-SELECT */}
-            {(sectionName === "products" || sectionName === "productsCatalogue") && (
-                <SelectVisualizationMode setViewType={setViewType!} />
-              )}
+            {(sectionName === "products" ||
+              sectionName === "productsCatalogue") && (
+              <SelectVisualizationMode setViewType={setViewType!} />
+            )}
           </div>
         )}
       </div>

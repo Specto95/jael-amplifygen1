@@ -56,13 +56,16 @@ export function useListClientMovementsData(id: string, isPaying?: boolean) {
           const clientMovementsOperationsResult: IListClientMovementsDataTableAPI[] =
             [];
 
+          console.log(salesOperations);
+
           for (const sale of salesOperations) {
-            const clientMovementsDataresult = {
+            const clientMovementsDataresult: IListClientMovementsDataAPI = {
               clientID: sale.client.id,
               clientName: sale.client.name + " " + sale.client.lastname,
               credit_available: sale.client.credit?.credit_available,
               outstanding_balance: sale.client.credit?.outstanding_balance,
               creditSince: sale.client.credit?.createdAt.split("T")[0],
+              totalToPay: sale.total / sale.totalPayments,
             };
 
             setListClientMovementsData([clientMovementsDataresult]);
@@ -249,6 +252,8 @@ export function useListClientMovementsData(id: string, isPaying?: boolean) {
 
     fetchListClientMovementsData();
   }, []);
+
+  console.log(listClientMovementsData);
 
   return {
     listClientMovementsData,
