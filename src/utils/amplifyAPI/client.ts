@@ -5,7 +5,7 @@ interface Input {
 interface ClientObj {
   query: string;
   variables?: {
-    input?: object;
+    input?: object | Input["input"];
   };
 }
 

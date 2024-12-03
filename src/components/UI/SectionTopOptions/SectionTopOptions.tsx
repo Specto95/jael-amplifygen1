@@ -54,6 +54,8 @@ export function SectionTopOptions({
                   ? "Buscar por nombre del producto:"
                   : sectionName === "mainInventory-Movements"
                   ? "Buscar por tipo de operación..."
+                  : sectionName === "mainInventory-Requests"
+                  ? "Buscar por estado..."
                   : sectionName === "clients"
                   ? "Buscar por nombre, #cliente..."
                   : sectionName === "commissions" ||
@@ -100,7 +102,11 @@ export function SectionTopOptions({
                     Nuevo Subgrupo
                   </Link>
                 </div>
-              ) : buttonAction || sectionName !== "BOInventory" ? (
+              ) : buttonAction ||
+                !(
+                  sectionName === "BOInventory" ||
+                  sectionName === "mainInventory-Requests"
+                ) ? (
                 <Link
                   to={`${
                     sectionName === "productsCatalogue" ||
@@ -114,6 +120,8 @@ export function SectionTopOptions({
                         sectionName === "mainInventory-Outcome" ||
                         sectionName === "mainInventory-Movements"
                       ? "/inventory/add"
+                      : sectionName === "mainInventory-Requests"
+                      ? "/mainInventoryRequests"
                       : sectionName === "BOInventory" ||
                         sectionName === "BOInventory-Inventory" ||
                         sectionName === "BOInventory-Income" ||

@@ -135,6 +135,14 @@ const SettingsCatalogueCategoriesView = lazy(() =>
   }))
 );
 
+const MainInventoryRequestsView = lazy(() =>
+  import(
+    "@/components/UI/SideMenuSections/Inventory/Type/Main/SubModules/Requests/MainInventoryRequestsView"
+  ).then((module) => ({
+    default: module.MainInventoryRequestsView,
+  }))
+);
+
 //* COMPONENTS
 import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
 import { SectionView } from "@/components/UI/RoleInfo/SectionView/SectionView";
@@ -277,6 +285,8 @@ export function MainPage() {
             ? "Inventario Matriz"
             : sectionName === "mainInventory-Movements"
             ? "Inventario Matriz - Movimientos"
+            : sectionName === "mainInventory-Requests"
+            ? "Inventario Matriz - Peticiones"
             : sectionName === "mainInventory-Outcome"
             ? "Inventario Matriz - Egresos"
             : sectionName === "BOInventory"
@@ -322,6 +332,8 @@ export function MainPage() {
               ? "Inventario Matriz"
               : sectionName === "mainInventory-Movements"
               ? "Inventario Matriz - Movimientos"
+              : sectionName === "mainInventory-Requests"
+              ? "Inventario Matriz - Peticiones"
               : sectionName === "mainInventory-Outcome"
               ? "Inventario Matriz - Egresos"
               : sectionName === "BOInventory"
@@ -441,6 +453,8 @@ export function MainPage() {
         ) : sectionName === "mainInventory-Movements" ||
           sectionName === "BOInventory-Income" ? (
           <MainIncomeInventoryView />
+        ) : sectionName === "mainInventory-Requests" ? (
+          <MainInventoryRequestsView />
         ) : sectionName === "BOInventory" ||
           sectionName === "BOInventory-Inventory" ? (
           <BOInventoryView />

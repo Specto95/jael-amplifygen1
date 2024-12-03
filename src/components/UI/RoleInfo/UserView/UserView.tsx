@@ -51,6 +51,8 @@ export function UserView<T>({
             ? "Inventario Matriz"
             : sectionName === "mainInventory-Movements"
             ? "Inventario Matriz - Movimientos"
+            : sectionName === "mainInventory-Requests"
+            ? "Inventario Matriz - Peticiones"
             : sectionName === "mainInventory-Outcome"
             ? "Inventario Matriz - Egresos"
             : sectionName === "BOInventory"

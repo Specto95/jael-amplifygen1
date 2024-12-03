@@ -47,8 +47,6 @@ export function BOIncomeInventory({
     outcomeInventoryFilterObjs.NAME
   );
 
-  console.log(setSelectedMainProductsDetails);
-
   return (
     <SectionForm
       headingTitle="Nuevo Ingreso"
