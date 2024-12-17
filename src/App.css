@@ -22,6 +22,10 @@
   --text-midBlue: #94cbfd;
   --text-tertiary: #7696B1;
   --text-error: #fc8181;
+  --text-error-primary: #f74d4d;
+  --text-error-secondary: #fca2a2;
+  --text-error-tertiary: #d66a6a;
+  --text-error-custom: rgb(221, 200, 200);
   --text-success: #68d374;
   --text-successEmerald: #1a722e;
 
@@ -38,6 +42,10 @@
   --bg-primary: #eef7ff;
   --bg-secondary: #E5F1FD;
   --bg-main: #cce6ff;
+
+  --bg-error-primaryStrong: #dc1919;
+  --bg-error-primary: #f74d4d;
+  --bg-error-secondary: #fca2a2;
 
   --bg-customPrice: #80C4FF;
 
@@ -243,6 +251,8 @@
 
   --border-success: 2px solid var(--text-success);
   --border-error: 2px solid var(--text-error);
+  --border-error-3px: 3px solid var(--text-error);
+  --border-failed: 3px solid var(--bg-error-primaryStrong);
 
   /**** MODALS ****/
   --bg-modal: rgba(0, 0, 0, 0.8);
@@ -885,9 +895,13 @@ button:disabled{
   position: relative;
 }
 
-.flexColumn{
+.flexColumn, .flexColumnMY{
   display: flex;
   flex-direction: column;
+}
+
+.flexColumnMY{
+  margin-block: var(--m-md);
 }
 
 .flexColumn__WFull{
@@ -1570,6 +1584,16 @@ button:disabled{
   cursor: pointer;
 }
 
+.section__form{
+  padding: var(--p-md);
+  display: flex;
+  flex-direction: column;
+  width: var(--w-full);
+  color: var(--text-primary);
+  background-color: var(--bg-main);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--1rem);
+}
 
 
 /**** BUTTON HOVERS ****/
@@ -1848,6 +1872,7 @@ button:disabled{
   border-radius: var(--radius-sm);
   text-align: left;
   border: var(--border-4px);
+  color: var(--text-primary) !important;
 }
 
 .input__minHalfRoundedSMB4{

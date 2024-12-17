@@ -105,7 +105,8 @@ export function SectionTopOptions({
               ) : buttonAction ||
                 !(
                   sectionName === "BOInventory" ||
-                  sectionName === "mainInventory-Requests"
+                  sectionName === "mainInventory-Requests" ||
+                  sectionName === "BOInventory-Requests"
                 ) ? (
                 <Link
                   to={`${

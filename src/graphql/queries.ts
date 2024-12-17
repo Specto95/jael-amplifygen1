@@ -12889,3 +12889,82 @@ export const listMainInventoryRequestsViewAPI =
     APITypes.ListIncomeInventoryRequestsQueryVariables,
     APITypes.ListIncomeInventoryRequestsQuery
   >;
+
+//?CUSTOM QUERIES
+export const listBOInventoryRequestsViewAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests($branchOfficeID: ID!, $status: IOInventoryStatus){
+listIncomeInventoryRequests(filter: {status: {eq: $status}, branchOfficeID: {eq: $branchOfficeID}}) {
+    items {
+      status
+      date
+      id
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
+  
+//?CUSTOM QUERIES
+export const listMainInventoryRequestDetailsByIDAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests($id: ID!){
+listIncomeInventoryRequests(filter: {id: {eq: $id}}) {
+    items {
+      branchOffice {
+        name
+      }
+      comments
+      incomeInventoryProductQuantitiesRequest {
+        items {
+          incomeQuantity
+          inventoryProducts {
+            items {
+              inventoryProduct {
+                product {
+                  name
+                  id
+                }
+                customPrice
+                id
+              }
+            }
+          }
+        }
+      }
+      productProviderResponsible {
+        name
+      }
+      provider {
+        enterprise_name
+      }
+      status
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
+//?CUSTOM QUERIES
+export const listMainInventoryProductsQuantityAPI =
+  /* GraphQL */ `query ListInventoryProducts(
+    $productID: ID!
+    $inventoryID: ID!
+  ) {
+    listInventoryProducts(
+      filter: {productID: {eq: $productID}, inventoryID: {eq: $inventoryID}}
+    ) {
+      items {
+        quantity
+        id
+      }
+    }
+  }
+
+` as GeneratedQuery<
+    APITypes.ListInventoryProductsQueryVariables,
+    APITypes.ListInventoryProductsQuery
+  >;

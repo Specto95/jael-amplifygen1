@@ -310,6 +310,16 @@ export function SideMenu(): JSX.Element {
             </div>
             <div
               className={
+                displayedSubSection === "BOInventory-Requests"
+                  ? styles.sidebar__subMenuSelected
+                  : styles.sidebar__subSection
+              }
+              onClick={() => handleSubSection("BOInventory-Requests")}
+            >
+              Peticiones
+            </div>
+            <div
+              className={
                 displayedSubSection === "BOInventory-Returns"
                   ? styles.sidebar__subMenuSelected
                   : styles.sidebar__subSection

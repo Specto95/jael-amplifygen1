@@ -6882,7 +6882,10 @@ export const updateInventoryProductQuantityAPI = /* GraphQL */ `
       quantity
     }
   }
-`;
+` as GeneratedMutation<
+  APITypes.UpdateInventoryProductMutationVariables,
+  APITypes.UpdateInventoryProductMutation
+>;
 
 //? CREATE MUTATION
 export const createInventoryOperationAPI = /* GraphQL */ `

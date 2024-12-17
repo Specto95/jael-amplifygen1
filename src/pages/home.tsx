@@ -143,9 +143,13 @@ const MainInventoryRequestsView = lazy(() =>
   }))
 );
 
-//* COMPONENTS
-import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
-import { SectionView } from "@/components/UI/RoleInfo/SectionView/SectionView";
+const BOInventoryRequestsView = lazy(() =>
+  import(
+    "@/components/UI/SideMenuSections/Inventory/Type/BranchOffice/SubModules/Requests/BOInventoryRequestsView"
+  ).then((module) => ({
+    default: module.BOInventoryRequestsView,
+  }))
+);
 
 //*CONTEXT
 import { useSessionProvider } from "@/hooks/useSessionProvider";
@@ -455,6 +459,8 @@ export function MainPage() {
           <MainIncomeInventoryView />
         ) : sectionName === "mainInventory-Requests" ? (
           <MainInventoryRequestsView />
+        ) : sectionName === "BOInventory-Requests" ? (
+          <BOInventoryRequestsView />
         ) : sectionName === "BOInventory" ||
           sectionName === "BOInventory-Inventory" ? (
           <BOInventoryView />

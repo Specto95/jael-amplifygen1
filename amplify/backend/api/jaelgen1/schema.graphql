@@ -175,6 +175,7 @@ type IncomeInventoryRequest @model {
   id: ID!
   date: AWSDate!
   comments: String
+  rejectedReason: String
   status: IOInventoryStatus!
   inventoryOperationID: InventoryOperation @belongsTo
   providerID: ID! @index(name: "byProvider", sortKeyFields: ["id"])

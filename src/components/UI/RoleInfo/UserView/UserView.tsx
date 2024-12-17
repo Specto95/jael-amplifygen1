@@ -61,6 +61,8 @@ export function UserView<T>({
             ? "Inventario Sucursal - Inventario"
             : sectionName === "BOInventory-Income"
             ? "Inventario Sucursal - Ingresos"
+            : sectionName === "BOInventory-Requests"
+            ? "Inventario Sucursal - Peticiones"
             : sectionName === "PDV"
             ? "Punto de Venta"
             : sectionName === "providers"

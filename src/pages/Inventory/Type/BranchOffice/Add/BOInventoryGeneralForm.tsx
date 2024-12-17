@@ -306,7 +306,7 @@ export function BOInventoryGeneralForm() {
                           inventoryOperationID,
                         productProviderResponsibleID:
                           selectedProviderResponsible?.id || "",
-                        providerID: selectedProvider?.productProviderID || "",
+                        providerID: selectedProvider?.id || "",
                         userInfoID: userInfoData.id!,
                         comments:
                           values.incomeRegisterInputs.comments ||
@@ -331,30 +331,28 @@ export function BOInventoryGeneralForm() {
                     incomeInventoryRequestInput
                   );
 
-                  console.log(incomeInventoryRequestResult);
-
                   selectedIncomeRows.map(async (row) => {
                     const { inventoryProductID, quantity, id: productID } = row;
-                    const previousRow = selectedPreviousIncomeRows.find(
-                      (prevRow) =>
-                        prevRow.inventoryProductID === inventoryProductID
-                    );
+                    // const previousRow = selectedPreviousIncomeRows.find(
+                    //   (prevRow) =>
+                    //     prevRow.inventoryProductID === inventoryProductID
+                    // );
 
                     //?NO UPDATE ATM
                     // const updatedQuantity: number =
                     //   previousRow?.branchProductQuantity! + quantity!;
 
-                    if (previousRow) {
-                      // const updateInventoryProductQuantity = await clientAPI(
-                      //   updateInventoryProductQuantityAPI,
-                      //   {
-                      //     input: {
-                      //       id: inventoryProductID,
-                      //       quantity: updatedQuantity,
-                      //     },
-                      //   }
-                      // );
-                    }
+                    // if (previousRow) {
+                    //   const updateInventoryProductQuantity = await clientAPI(
+                    //     updateInventoryProductQuantityAPI,
+                    //     {
+                    //       input: {
+                    //         id: inventoryProductID,
+                    //         quantity: updatedQuantity,
+                    //       },
+                    //     }
+                    //   );
+                    // }
 
                     // //* UPDATING MAIN INVENTORY PRODUCT QUANTITY
                     // const selectedMainInventoryProductFound =
