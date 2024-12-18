@@ -2,7 +2,7 @@ import { ISetFieldValue } from "@/interfaces/SideMenuSections/general";
 import { IncomeInventoryProductQuantitiesRequest } from "../../../api/interfaces/ListMainInventoryRequestDetailsByID";
 import {
   Rejected,
-  UpdateMainIncomeRequestData,
+  UpdateMainBOIncomeRequestData,
 } from "../../../FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
 import { FormikErrors, FormikTouched } from "formik";
 import { Dispatch, SetStateAction } from "react";
@@ -10,9 +10,11 @@ import { Dispatch, SetStateAction } from "react";
 export interface MainInventoryDataCommentsDetailsProps extends ISetFieldValue {
   mainInventoryData: IncomeInventoryProductQuantitiesRequest[];
   comments: string;
-  values: UpdateMainIncomeRequestData;
-  errors: FormikErrors<UpdateMainIncomeRequestData>;
-  touched: FormikTouched<UpdateMainIncomeRequestData>;
+  values: UpdateMainBOIncomeRequestData;
+  errors: FormikErrors<UpdateMainBOIncomeRequestData>;
+  touched: FormikTouched<UpdateMainBOIncomeRequestData>;
   rejected: Rejected;
   setRejected: Dispatch<SetStateAction<Rejected>>;
+  isSubmitting: boolean;
+  rejectedReason?: string;
 }

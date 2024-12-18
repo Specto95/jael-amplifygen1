@@ -8,6 +8,7 @@ export interface ListMainInventoryRequestDetailsAPI {
   branchOfficeName: string;
   comments: string;
   providerName: string;
+  rejectedReason?: string;
   providerResponsibleName: string;
   status: IOInventoryStatusSpanish[IOInventoryStatus];
   statusValue: IOInventoryStatus;

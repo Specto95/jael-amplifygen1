@@ -1,8 +1,8 @@
 import { ISetFieldValue } from "@/interfaces/SideMenuSections/general";
 import {
   Rejected,
-  UpdateMainIncomeRequestData,
-} from "../../FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
+  UpdateMainBOIncomeRequestData,
+} from "../../FormProps/initialValues/interfaces/UpdateMainIncomeRequestData.d";
 import {
   IOBOInventoryRequestStatusValues,
   IOMainInventoryRequestStatusValues,
@@ -12,9 +12,10 @@ import {
 import { PrimaryHeading } from "@/components/UI/GenericComponents/Headings/Primary/PrimaryHeading";
 
 interface StatusSelectProps extends ISetFieldValue {
-  values: UpdateMainIncomeRequestData;
+  values: UpdateMainBOIncomeRequestData;
   rejected: Rejected;
   setRejected: Dispatch<SetStateAction<Rejected>>;
+  isSubmitting: boolean;
 }
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
@@ -25,6 +26,7 @@ export function StatusSelect({
   values,
   rejected,
   setRejected,
+  isSubmitting,
 }: StatusSelectProps) {
   const { mainBranchInventory } = useSessionProvider();
 
@@ -42,43 +44,49 @@ export function StatusSelect({
 
   return (
     <>
-      <PrimaryHeading title="Actualización Status" />
-      <select
-        className="input__min300TLRoundedSMB4"
-        onChange={(e) => {
-          setFieldValue!("status", e.target.value);
-        }}
-        value={values.status}
-        style={{
-          fontWeight: "bold",
-        }}
-      >
-        <option value="" disabled>
-          Selecciona un Nuevo Status:
-        </option>
-        {Object.keys(
-          mainBranchInventory.id
-            ? IOMainInventoryRequestStatusValues
-            : IOBOInventoryRequestStatusValues
-        ).map((status) => (
-          <option
-            value={status}
-            key={status}
-            disabled={
-              status ===
-              (mainBranchInventory.id
-                ? IOInventoryStatus.PROCESSING
-                : IOInventoryStatus.IN_TRANSIT)
-            }
-          >
-            {
-              IOInventoryStatusSpanish[
-                status as keyof typeof IOInventoryStatusSpanish
-              ]
-            }
+      <PrimaryHeading title={`${isSubmitting ? "Actualización" : ""} Estado`} />
+      {isSubmitting ? (
+        <select
+          className="input__min300TLRoundedSMB4"
+          onChange={(e) => {
+            setFieldValue!("status", e.target.value);
+          }}
+          value={values.status}
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          <option value="" disabled>
+            Selecciona un Nuevo Status:
           </option>
-        ))}
-      </select>
+          {Object.keys(
+            mainBranchInventory.id
+              ? IOMainInventoryRequestStatusValues
+              : IOBOInventoryRequestStatusValues
+          ).map((status) => (
+            <option
+              value={status}
+              key={status}
+              disabled={
+                status ===
+                (mainBranchInventory.id
+                  ? IOInventoryStatus.PROCESSING
+                  : IOInventoryStatus.IN_TRANSIT)
+              }
+            >
+              {
+                IOInventoryStatusSpanish[
+                  status as keyof typeof IOInventoryStatusSpanish
+                ]
+              }
+            </option>
+          ))}
+        </select>
+      ) : (
+        <p className="input__min300TLRoundedSMB4">
+          {IOInventoryStatusSpanish[values.status]}
+        </p>
+      )}
     </>
   );
 }

@@ -15,6 +15,7 @@ import {
 //* AMPLIFY IMPORTS
 import { clientAPI } from "@/utils/amplifyAPI/client";
 import {
+  IOInventoryFinishStatus,
   IOInventoryStatusSpanish,
   ListIncomeInventoryRequestsQuery,
   ListInventoryProductsQuery,
@@ -22,6 +23,7 @@ import {
 } from "@/API";
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
+import { isIOInventoryFinishStatus } from "../helpers/functions";
 
 export function useListMainInventoryRequestDetailsByID(id: string) {
   const [listMainInventoryRequestDetails, setListMainInventoryRequestDetails] =
@@ -114,6 +116,15 @@ export function useListMainInventoryRequestDetailsByID(id: string) {
                     incomeInventoryProductQuantitiesRequest,
                     statusValue: incomeInventoryRequest?.status!,
                   };
+
+                if (
+                  isIOInventoryFinishStatus(
+                    incomeInventoryRequest?.status! as unknown as IOInventoryFinishStatus
+                  )
+                ) {
+                  incomeInventoryProductQuantitiesRequestObj["rejectedReason"] =
+                    incomeInventoryRequest?.rejectedReason!;
+                }
 
                 return incomeInventoryProductQuantitiesRequestObj;
               }

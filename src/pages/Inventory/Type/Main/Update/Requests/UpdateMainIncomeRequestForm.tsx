@@ -26,7 +26,10 @@ import {
 } from "@/API";
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
-import { Rejected } from "./FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
+import {
+  Rejected,
+  UpdateMainBOIncomeRequestData,
+} from "./FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
 import { updateIncomeRequestDataSchema } from "./FormProps/schema/updateIncomeRequestData";
 
 //*LAZY FORMS
@@ -44,8 +47,6 @@ export function UpdateMainIncomeRequestForm() {
   const { listMainInventoryRequestDetails, isLoading } =
     useListMainInventoryRequestDetailsByID(id!);
 
-  console.log(listMainInventoryRequestDetails[0])
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [rejected, setRejected] = useState<Rejected>({
@@ -59,6 +60,12 @@ export function UpdateMainIncomeRequestForm() {
       ? updateMainIncomeRequestData.status
       : updateBOIncomeRequestData.status
   );
+
+  const INITIAL_VALUES: UpdateMainBOIncomeRequestData = {
+    status: listMainInventoryRequestDetails[0]?.statusValue,
+    isSecondButton: false,
+    rejectReason: "",
+  };
 
   return (
     <>
@@ -75,12 +82,9 @@ export function UpdateMainIncomeRequestForm() {
         />
       </Helmet>
       <Formik
-        initialValues={
-          rolID === RoleType.ADMIN
-            ? updateMainIncomeRequestData
-            : updateBOIncomeRequestData
-        }
+        initialValues={INITIAL_VALUES}
         validationSchema={rejected.isRejected && updateIncomeRequestDataSchema}
+        enableReinitialize
         onSubmit={async (values) => {
           try {
             if (values.isSecondButton) {

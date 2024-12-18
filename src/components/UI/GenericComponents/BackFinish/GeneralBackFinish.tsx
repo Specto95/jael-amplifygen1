@@ -5,13 +5,13 @@ import styles from "./BackFinish.module.css";
 
 import { useSectionProvider } from "../../../../hooks/useSectionProvider";
 
-
 export function GeneralBackFinish({
   handleBackStep,
   setFieldValue,
   toBeFinished,
   SubmitText,
   popUpMessage,
+  isSubmitting = true,
 }: IGeneralBackFinishProps) {
   const { handleBackTo, sectionName } = useSectionProvider();
 
@@ -24,24 +24,28 @@ export function GeneralBackFinish({
           handleBackStep ? handleBackStep : () => handleBackTo(sectionName)
         }
       >
-        Atras
+        {!isSubmitting ? "Regresar" : "Atras"}
       </button>
-      <button
-        type="submit"
-        className="button__primary-blue"
-        onClick={() => {
-          if (popUpMessage) {
-            if (confirm(popUpMessage)) {
-              setFieldValue!("isSecondButton", true);
+      {isSubmitting ? (
+        <button
+          type="submit"
+          className="button__primary-blue"
+          onClick={() => {
+            if (popUpMessage) {
+              if (confirm(popUpMessage)) {
+                setFieldValue!("isSecondButton", true);
+              }
+              return;
             }
-            return;
-          }
-          setFieldValue!("isSecondButton", true);
-        }}
-        disabled={!toBeFinished}
-      >
-        {SubmitText || "Finalizar"}
-      </button>
+            setFieldValue!("isSecondButton", true);
+          }}
+          disabled={!toBeFinished}
+        >
+          {SubmitText || "Finalizar"}
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

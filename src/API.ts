@@ -555,6 +555,13 @@ export enum IOInventoryStatus {
   FAILED = "FAILED",
 }
 
+export enum IOInventoryFinishStatus {
+  CANCELED = "CANCELED",
+  RETURNED = "RETURNED",
+  FAILED = "FAILED",
+  DELIVERED = "DELIVERED",
+}
+
 export enum IOMainInventoryRequestStatusValues {
   PROCESSING = "PROCESSING",
   IN_TRANSIT = "IN_TRANSIT",
@@ -11096,6 +11103,7 @@ export type ListIncomeInventoryRequestsQuery = {
       date: string;
       comments?: string | null;
       status: IOInventoryStatus;
+      rejectedReason?: string | null;
       providerID: string;
       productProviderResponsibleID: string;
       branchOfficeID: string;

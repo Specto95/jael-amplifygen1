@@ -14,6 +14,8 @@ export function MainInventoryDataCommentsDetails({
   touched,
   rejected,
   setRejected,
+  isSubmitting,
+  rejectedReason,
 }: MainInventoryDataCommentsDetailsProps) {
   return (
     <>
@@ -31,6 +33,7 @@ export function MainInventoryDataCommentsDetails({
         setFieldValue={setFieldValue}
         rejected={rejected}
         setRejected={setRejected}
+        isSubmitting={isSubmitting}
       />
 
       {values.status === IOInventoryStatus.CANCELED ? (
@@ -38,6 +41,8 @@ export function MainInventoryDataCommentsDetails({
           rejectedReason="rejectReason"
           errors={errors}
           touched={touched}
+          isSubmitting={isSubmitting}
+          rejectedReasonSubmitted={rejectedReason!}
         />
       ) : (
         <></>

@@ -16,6 +16,12 @@ export interface UpdateBOIncomeRequestData {
   rejectReason: string;
 }
 
+export interface UpdateMainBOIncomeRequestData {
+  status: IOInventoryStatus;
+  isSecondButton: boolean;
+  rejectReason: string;
+}
+
 //? USESTATES
 export interface Rejected {
   isRejected: boolean;

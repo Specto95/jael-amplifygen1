@@ -7,7 +7,8 @@ import { MainInventoryDataCommentsDetails } from "../MainInventoryDataCommentsDe
 import { InventoryListTableSpinner } from "@/components/UI/Spinners/Providers/InventoryListTableSpinner";
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
-import { IOInventoryStatus, RoleType } from "@/API";
+import { IOInventoryFinishStatus, IOInventoryStatus, RoleType } from "@/API";
+import { isIOInventoryFinishStatus } from "../../helpers/functions";
 
 export function MainInventoryRequestDetails({
   listMainInventoryRequestDetails,
@@ -59,6 +60,15 @@ export function MainInventoryRequestDetails({
               touched={touched}
               rejected={rejected}
               setRejected={setRejected}
+              isSubmitting={
+                ![
+                  IOInventoryStatus.CANCELED,
+                  IOInventoryStatus.FAILED,
+                  IOInventoryStatus.RETURNED,
+                  IOInventoryStatus.DELIVERED,
+                ].includes(listMainInventoryRequestDetails?.statusValue)
+              }
+              rejectedReason={listMainInventoryRequestDetails?.rejectedReason}
             />
           ) : (
             <></>
@@ -75,6 +85,13 @@ export function MainInventoryRequestDetails({
               (rolID === RoleType.BRANCHMANAGER &&
                 values.status !== IOInventoryStatus.IN_TRANSIT)
             }
+            isSubmitting={
+              !isIOInventoryFinishStatus(
+                listMainInventoryRequestDetails?.statusValue as unknown as IOInventoryFinishStatus
+              )
+            }
+
+            // rejectedReason={listMainInventoryRequestDetails?.}
           />
         </>
       )}

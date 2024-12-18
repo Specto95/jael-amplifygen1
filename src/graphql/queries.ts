@@ -12940,6 +12940,7 @@ listIncomeInventoryRequests(filter: {id: {eq: $id}}) {
         enterprise_name
       }
       status
+      rejectedReason
     }
   }
 }
