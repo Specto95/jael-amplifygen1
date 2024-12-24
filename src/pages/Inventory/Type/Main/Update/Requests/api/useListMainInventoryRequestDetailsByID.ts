@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 //* INTERFACES
 import {
@@ -16,6 +16,7 @@ import {
 import { clientAPI } from "@/utils/amplifyAPI/client";
 import {
   IOInventoryFinishStatus,
+  IOInventoryStatus,
   IOInventoryStatusSpanish,
   ListIncomeInventoryRequestsQuery,
   ListInventoryProductsQuery,
@@ -23,13 +24,18 @@ import {
 } from "@/API";
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
-import { isIOInventoryFinishStatus } from "../helpers/functions";
+import { isIOInventoryFinishStatusAPI } from "../helpers/functions";
 
-export function useListMainInventoryRequestDetailsByID(id: string) {
+export function useListMainInventoryRequestDetailsByID(
+  id: string,
+  status?: IOInventoryStatus
+) {
   const [listMainInventoryRequestDetails, setListMainInventoryRequestDetails] =
     useState<ListMainInventoryRequestDetailsAPI[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
+
+  const defaultStatus = useRef<IOInventoryStatus>(status!);
 
   const { rolID, mainBranchInventory, branchInventory } = useSessionProvider();
 
@@ -118,7 +124,7 @@ export function useListMainInventoryRequestDetailsByID(id: string) {
                   };
 
                 if (
-                  isIOInventoryFinishStatus(
+                  isIOInventoryFinishStatusAPI(
                     incomeInventoryRequest?.status! as unknown as IOInventoryFinishStatus
                   )
                 ) {
@@ -198,6 +204,7 @@ export function useListMainInventoryRequestDetailsByID(id: string) {
         //   ) || [];
 
         setListMainInventoryRequestDetails(mainInventoryRequestsResult);
+        defaultStatus.current = mainInventoryRequestsResult[0].statusValue;
       } catch (er) {
         console.log("Error: ", er);
         setError(er);
@@ -210,6 +217,7 @@ export function useListMainInventoryRequestDetailsByID(id: string) {
   }, [id]);
 
   return {
+    defaultStatus,
     listMainInventoryRequestDetails,
     setListMainInventoryRequestDetails,
     isLoading,

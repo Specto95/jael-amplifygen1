@@ -8,6 +8,8 @@ import {
   UpdateMainBOIncomeRequestData,
 } from "../../../FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
 import { FormikErrors, FormikTouched } from "formik";
+import { IOInventoryStatus } from "@/API";
+import { MutableRefObject } from "react";
 
 export interface MainInventoryRequestDetailsProps
   extends ISetFieldValue,
@@ -18,4 +20,6 @@ export interface MainInventoryRequestDetailsProps
   touched: FormikTouched<UpdateMainBOIncomeRequestData>;
   rejected: Rejected;
   setRejected: Dispatch<SetStateAction<Rejected>>;
+  setSubmittedStatus: Dispatch<SetStateAction<IOInventoryStatus>>
+  defaultStatus: MutableRefObject<IOInventoryStatus>
 }

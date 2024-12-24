@@ -551,6 +551,7 @@ export enum IOInventoryStatus {
   IN_TRANSIT = "IN_TRANSIT",
   DELIVERED = "DELIVERED",
   CANCELED = "CANCELED",
+  RETURNING = "RETURNING",
   RETURNED = "RETURNED",
   FAILED = "FAILED",
 }
@@ -558,14 +559,56 @@ export enum IOInventoryStatus {
 export enum IOInventoryFinishStatus {
   CANCELED = "CANCELED",
   RETURNED = "RETURNED",
+  RETURNING = "RETURNING",
   FAILED = "FAILED",
   DELIVERED = "DELIVERED",
+} 
+
+export enum IOMainInventoryToSubmitStatus{
+  IN_TRANSIT = "IN_TRANSIT",
+  CANCELED = "CANCELED",
+  RETURNED = "RETURNED",
+}
+
+export enum IOBOInventoryToSubmitStatus{
+  DELIVERED = "DELIVERED",
+  RETURNING = "RETURNING",
+}
+
+export type IOMainInventorySelectStatusType = Extract<
+  IOInventoryStatus,
+  | IOInventoryStatus.IN_TRANSIT
+  | IOInventoryStatus.CANCELED
+  | IOInventoryStatus.RETURNED
+>;
+
+export enum IOMainInventoryFinishStatus{
+  CANCELED = "CANCELED",
+  RETURNED = "RETURNED",
+  FAILED = "FAILED",
+  DELIVERED = "DELIVERED",
+}
+
+export enum IOBOInventoryFinishStatus {
+  PROCESSING = "PROCESSING",
+  IN_TRANSIT = "IN_TRANSIT",
+} 
+
+export enum IOMainInventorySelectStatus{
+  PROCESSING = "PROCESSING",
+  IN_TRANSIT = "IN_TRANSIT",
+  RETURNING = "RETURNING",
 }
 
 export enum IOMainInventoryRequestStatusValues {
   PROCESSING = "PROCESSING",
   IN_TRANSIT = "IN_TRANSIT",
   CANCELED = "CANCELED",
+}
+
+export enum IOMainInventoryRequestStatusReturningValues {
+  RETURNING = "RETURNING",
+  RETURNED = "RETURNED",
 }
 
 export type IOMainInventoryRequestStatus =
@@ -576,8 +619,7 @@ export type IOMainInventoryRequestStatus =
 export enum IOBOInventoryRequestStatusValues {
   IN_TRANSIT = "IN_TRANSIT",
   DELIVERED = "DELIVERED",
-  CANCELED = "CANCELED",
-  RETURNED = "RETURNED",
+  RETURNING = "RETURNING",
 }
 
 export type IOBOInventoryRequestStatus =
@@ -592,6 +634,7 @@ export enum IOInventoryStatusSpanish {
   IN_TRANSIT = "En Entrega",
   DELIVERED = "Entregado",
   CANCELED = "Cancelado",
+  RETURNING = "Devolver",
   RETURNED = "Devolución",
   FAILED = "Fallido",
 }

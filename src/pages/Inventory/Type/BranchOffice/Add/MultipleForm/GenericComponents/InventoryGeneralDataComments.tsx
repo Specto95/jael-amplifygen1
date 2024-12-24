@@ -8,7 +8,7 @@ export function InventoryGeneralDataComments({
 
   return (
     <>
-      <div className="flexColumn__spacingMY">
+      {/* <div className="flexColumn__spacingMY">
         <label htmlFor={outcomeComments} className="label__blockFull">
           Comentarios Adicionales Egreso:
         </label>
@@ -19,7 +19,7 @@ export function InventoryGeneralDataComments({
           id={outcomeComments}
           className="input__WFullBGSecondaryTLRoundedSMB4"
         />
-      </div>
+      </div> */}
       <div className="flexColumn__spacingMY">
         <label htmlFor={comments} className="label__blockFull">
           Comentarios Adicionales:

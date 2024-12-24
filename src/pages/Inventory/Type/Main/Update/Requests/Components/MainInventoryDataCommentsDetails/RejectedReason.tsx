@@ -1,5 +1,9 @@
 import { ErrorMessage, Field, FormikErrors, FormikTouched } from "formik";
-import { UpdateMainIncomeRequestData } from "../../FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
+import {
+  UpdateMainBOIncomeRequestData,
+  UpdateMainIncomeRequestData,
+} from "../../FormProps/initialValues/interfaces/UpdateMainIncomeRequestData";
+import { IOInventoryStatus } from "@/API";
 
 interface RejectedReasonProps {
   rejectedReason: string;
@@ -7,6 +11,7 @@ interface RejectedReasonProps {
   touched: FormikTouched<UpdateMainIncomeRequestData>;
   isSubmitting: boolean;
   rejectedReasonSubmitted: string;
+  values: UpdateMainBOIncomeRequestData;
 }
 
 export function RejectedReason({
@@ -15,18 +20,21 @@ export function RejectedReason({
   touched,
   isSubmitting,
   rejectedReasonSubmitted,
+  values,
 }: RejectedReasonProps) {
   return (
     <div className="flexColumnMY">
       <label htmlFor={rejectedReason} className="bold">
-        Motivo del Rechazo
+        {values.status === IOInventoryStatus.CANCELED
+          ? "Motivo del Rechazo"
+          : "Motivo de la Devolución"}
       </label>
       {isSubmitting ? (
         <>
           <Field
             as="textarea"
             name={rejectedReason}
-            placeholder="Motivo del rechazo:"
+            placeholder="Escribe aquí:"
             id={rejectedReason}
             className={`input__min300TLRoundedSMB4 ${
               touched?.rejectReason && errors?.rejectReason ? "input-error" : ""

@@ -1,4 +1,4 @@
-import { lazy, useState } from "react";
+import { lazy, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 
@@ -44,7 +44,7 @@ export function UpdateMainIncomeRequestForm() {
   const { id } = useParams<{ id: string }>();
   const { mainBranchInventory, rolID } = useSessionProvider();
 
-  const { listMainInventoryRequestDetails, isLoading } =
+  const { listMainInventoryRequestDetails, isLoading, defaultStatus } =
     useListMainInventoryRequestDetailsByID(id!);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -53,16 +53,14 @@ export function UpdateMainIncomeRequestForm() {
     isRejected: false,
     reason: "",
   });
-  const [submittedStatus, setSubmittedStatus] = useState<
-    IOMainInventoryRequestStatus | IOBOInventoryRequestStatus
-  >(
+  const [submittedStatus, setSubmittedStatus] = useState<IOInventoryStatus>(
     mainBranchInventory.id
       ? updateMainIncomeRequestData.status
       : updateBOIncomeRequestData.status
   );
 
   const INITIAL_VALUES: UpdateMainBOIncomeRequestData = {
-    status: listMainInventoryRequestDetails[0]?.statusValue,
+    status: defaultStatus.current!,
     isSecondButton: false,
     rejectReason: "",
   };
@@ -88,20 +86,29 @@ export function UpdateMainIncomeRequestForm() {
         onSubmit={async (values) => {
           try {
             if (values.isSecondButton) {
+              setSubmittedStatus(values.status);
               setIsModalOpen(true);
               const { updateIncomeInventoryRequest } = await import(
                 "@/graphql/mutations"
               );
               const { clientAPI } = await import("@/utils/amplifyAPI/client");
-              if (values.status === IOInventoryStatus.CANCELED) {
+              if (
+                values.status === IOInventoryStatus.CANCELED ||
+                values.status === IOInventoryStatus.RETURNING ||
+                values.status === IOInventoryStatus.RETURNED
+              ) {
                 const updateIncomeInventoryRequestInput: UpdateIncomeInventoryRequestMutationVariables =
                   {
                     input: {
                       id: id!,
-                      status: IOInventoryStatus.CANCELED,
-                      rejectedReason: values.rejectReason,
+                      status: values.status,
                     },
                   };
+
+                if (values.status !== IOInventoryStatus.RETURNED) {
+                  updateIncomeInventoryRequestInput["input"]["rejectedReason"] =
+                    values.rejectReason;
+                }
 
                 //?UPDATE STATUS TO CANCELLED
                 await clientAPI(
@@ -112,11 +119,9 @@ export function UpdateMainIncomeRequestForm() {
                 return;
               }
               if (
-                [
-                  IOInventoryStatus.FAILED,
-                  IOInventoryStatus.PENDING,
-                  IOInventoryStatus.RETURNED,
-                ].includes(values.status as IOInventoryStatus)
+                [IOInventoryStatus.FAILED, IOInventoryStatus.PENDING].includes(
+                  values.status as IOInventoryStatus
+                )
               ) {
                 setRejected({ ...rejected, isRejected: true });
                 return;
@@ -298,6 +303,8 @@ export function UpdateMainIncomeRequestForm() {
                 touched={touched}
                 rejected={rejected}
                 setRejected={setRejected}
+                setSubmittedStatus={setSubmittedStatus}
+                defaultStatus={defaultStatus}
               />
             </Form>
           </LayoutForm>
@@ -307,10 +314,20 @@ export function UpdateMainIncomeRequestForm() {
         <ModalSuccess
           title={
             rejected.isRejected
-              ? `Operación Cancelada, Enviando motivo a Sucursal ${listMainInventoryRequestDetails[0].branchOfficeName}`
-              : IOInventoryStatus.DELIVERED
+              ? [IOInventoryStatus.CANCELED, IOInventoryStatus.FAILED].includes(
+                  submittedStatus
+                )
+                ? `Operación Cancelada, Enviando motivo a Sucursal ${listMainInventoryRequestDetails[0].branchOfficeName}`
+                : submittedStatus === IOInventoryStatus.RETURNING
+                ? `Regresando encargo, Enviando motivo a Sucursal Matriz`
+                : submittedStatus === IOInventoryStatus.RETURNED
+                ? "Productos Regresados a Sucursal Matriz"
+                : "Completado"
+              : submittedStatus === IOInventoryStatus.DELIVERED
               ? "Entrega Exitosa"
-              : `Transacción en Curso Exitosa - Enviando Productos a la Sucursal ${listMainInventoryRequestDetails[0].branchOfficeName}`
+              : submittedStatus === IOInventoryStatus.IN_TRANSIT
+              ? `Transacción en Curso Exitosa - Enviando Productos a la Sucursal ${listMainInventoryRequestDetails[0].branchOfficeName}`
+              : "Operación Realizada"
           }
           setIsModalOpen={setIsModalOpen}
           sectionName={"mainInventory-Requests"}

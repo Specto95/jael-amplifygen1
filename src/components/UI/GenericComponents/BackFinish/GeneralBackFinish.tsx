@@ -31,6 +31,7 @@ export function GeneralBackFinish({
           type="submit"
           className="button__primary-blue"
           onClick={() => {
+            console.log('clic')
             if (popUpMessage) {
               if (confirm(popUpMessage)) {
                 setFieldValue!("isSecondButton", true);

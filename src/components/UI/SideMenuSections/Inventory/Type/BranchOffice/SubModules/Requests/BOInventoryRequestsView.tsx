@@ -14,8 +14,7 @@ import { IOInventoryStatus } from "@/API";
 export function BOInventoryRequestsView() {
   const { branchInventory } = useSessionProvider();
   const { listBOInventoryRequests, isLoading } = useListBOInventoryRequests(
-    branchInventory.id,
-    IOInventoryStatus["IN_TRANSIT"]
+    branchInventory.id
   );
   const { filteredItems, query, setQuery } = GenericFilteredItems(
     listBOInventoryRequests,

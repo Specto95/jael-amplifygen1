@@ -12891,7 +12891,7 @@ export const listMainInventoryRequestsViewAPI =
   >;
 
 //?CUSTOM QUERIES
-export const listBOInventoryRequestsViewAPI =
+export const listBOInventoryRequestsViewByStatusAPI =
   /* GraphQL */ `query ListIncomeInventoryRequests($branchOfficeID: ID!, $status: IOInventoryStatus){
 listIncomeInventoryRequests(filter: {status: {eq: $status}, branchOfficeID: {eq: $branchOfficeID}}) {
     items {
@@ -12906,7 +12906,22 @@ listIncomeInventoryRequests(filter: {status: {eq: $status}, branchOfficeID: {eq:
     APITypes.ListIncomeInventoryRequestsQuery
   >;
 
-  
+//?CUSTOM QUERIES
+export const listBOInventoryRequestsViewAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests($branchOfficeID: ID!){
+listIncomeInventoryRequests(filter: {branchOfficeID: {eq: $branchOfficeID}}) {
+    items {
+      status
+      date
+      id
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
 //?CUSTOM QUERIES
 export const listMainInventoryRequestDetailsByIDAPI =
   /* GraphQL */ `query ListIncomeInventoryRequests($id: ID!){

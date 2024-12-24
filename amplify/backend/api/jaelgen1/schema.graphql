@@ -147,6 +147,7 @@ enum IOInventoryStatus {
   IN_TRANSIT
   DELIVERED
   CANCELED
+  RETURNING
   RETURNED
   FAILED
 }

@@ -8,6 +8,8 @@ import {
   IOMainInventoryRequestStatusValues,
   IOInventoryStatus,
   IOInventoryStatusSpanish,
+  RoleType,
+  IOMainInventoryRequestStatusReturningValues,
 } from "@/API";
 import { PrimaryHeading } from "@/components/UI/GenericComponents/Headings/Primary/PrimaryHeading";
 
@@ -16,10 +18,12 @@ interface StatusSelectProps extends ISetFieldValue {
   rejected: Rejected;
   setRejected: Dispatch<SetStateAction<Rejected>>;
   isSubmitting: boolean;
+  setSubmittedStatus: Dispatch<SetStateAction<IOInventoryStatus>>;
+  defaultStatus: MutableRefObject<IOInventoryStatus>;
 }
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
 
 export function StatusSelect({
   setFieldValue,
@@ -27,14 +31,20 @@ export function StatusSelect({
   rejected,
   setRejected,
   isSubmitting,
+  setSubmittedStatus,
+  defaultStatus,
 }: StatusSelectProps) {
-  const { mainBranchInventory } = useSessionProvider();
+  const { mainBranchInventory, rolID } = useSessionProvider();
 
   useEffect(() => {
+    setSubmittedStatus(values.status);
     if (
-      [IOInventoryStatus.CANCELED, IOInventoryStatus.FAILED].includes(
-        values.status as IOInventoryStatus
-      )
+      [
+        IOInventoryStatus.CANCELED,
+        IOInventoryStatus.FAILED,
+        IOInventoryStatus.RETURNING,
+        IOInventoryStatus.RETURNED,
+      ].includes(values.status as IOInventoryStatus)
     ) {
       setRejected({ ...rejected, isRejected: true });
     } else {
@@ -45,7 +55,9 @@ export function StatusSelect({
   return (
     <>
       <PrimaryHeading title={`${isSubmitting ? "Actualización" : ""} Estado`} />
-      {isSubmitting ? (
+      {isSubmitting ||
+      (rolID === RoleType.ADMIN &&
+        values.status === IOInventoryStatus.RETURNING)  ? (
         <select
           className="input__min300TLRoundedSMB4"
           onChange={(e) => {
@@ -61,17 +73,20 @@ export function StatusSelect({
           </option>
           {Object.keys(
             mainBranchInventory.id
-              ? IOMainInventoryRequestStatusValues
+              ? defaultStatus.current === IOInventoryStatus.RETURNING
+                ? IOMainInventoryRequestStatusReturningValues
+                : IOMainInventoryRequestStatusValues
               : IOBOInventoryRequestStatusValues
           ).map((status) => (
             <option
               value={status}
               key={status}
               disabled={
+                status === defaultStatus.current ||
                 status ===
-                (mainBranchInventory.id
-                  ? IOInventoryStatus.PROCESSING
-                  : IOInventoryStatus.IN_TRANSIT)
+                  (mainBranchInventory.id
+                    ? IOInventoryStatus.PROCESSING
+                    : IOInventoryStatus.IN_TRANSIT)
               }
             >
               {

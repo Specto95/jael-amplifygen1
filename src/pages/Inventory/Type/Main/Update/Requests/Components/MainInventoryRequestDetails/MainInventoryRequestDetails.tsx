@@ -7,7 +7,13 @@ import { MainInventoryDataCommentsDetails } from "../MainInventoryDataCommentsDe
 import { InventoryListTableSpinner } from "@/components/UI/Spinners/Providers/InventoryListTableSpinner";
 
 import { useSessionProvider } from "@/hooks/useSessionProvider";
-import { IOInventoryFinishStatus, IOInventoryStatus, RoleType } from "@/API";
+import {
+  IOBOInventoryToSubmitStatus,
+  IOInventoryFinishStatus,
+  IOInventoryStatus,
+  IOMainInventoryToSubmitStatus,
+  RoleType,
+} from "@/API";
 import { isIOInventoryFinishStatus } from "../../helpers/functions";
 
 export function MainInventoryRequestDetails({
@@ -19,6 +25,8 @@ export function MainInventoryRequestDetails({
   touched,
   rejected,
   setRejected,
+  setSubmittedStatus,
+  defaultStatus,
 }: MainInventoryRequestDetailsProps) {
   const { rolID } = useSessionProvider();
 
@@ -38,7 +46,6 @@ export function MainInventoryRequestDetails({
               listMainInventoryRequestDetails?.providerResponsibleName
             }
           />
-
           <h3 className={styles.heading__selecteds}>
             {
               listMainInventoryRequestDetails
@@ -46,7 +53,6 @@ export function MainInventoryRequestDetails({
             }{" "}
             Seleccionados
           </h3>
-
           {listMainInventoryRequestDetails
             ?.incomeInventoryProductQuantitiesRequest.length ? (
             <MainInventoryDataCommentsDetails
@@ -61,37 +67,65 @@ export function MainInventoryRequestDetails({
               rejected={rejected}
               setRejected={setRejected}
               isSubmitting={
-                ![
-                  IOInventoryStatus.CANCELED,
-                  IOInventoryStatus.FAILED,
-                  IOInventoryStatus.RETURNED,
-                  IOInventoryStatus.DELIVERED,
-                ].includes(listMainInventoryRequestDetails?.statusValue)
+                rolID === RoleType.ADMIN
+                  ? // ![
+                    //     IOInventoryStatus.CANCELED,
+                    //     IOInventoryStatus.FAILED,
+                    //     IOInventoryStatus.RETURNED,
+                    //     IOInventoryStatus.RETURNING,
+                    //     IOInventoryStatus.DELIVERED,
+                    //   ].includes(defaultStatus.current)
+
+                    [
+                      IOInventoryStatus.PROCESSING,
+                      IOInventoryStatus.IN_TRANSIT,
+                      IOInventoryStatus.RETURNING,
+                    ].includes(defaultStatus.current)
+                  : rolID === RoleType.BRANCHMANAGER
+                  ? defaultStatus.current === IOInventoryStatus.IN_TRANSIT
+                  : false
               }
+              //!CHANGE ISSUBMITTING VALIDATION WHEN BRANCHMANAGER IS PROCESSING.
               rejectedReason={listMainInventoryRequestDetails?.rejectedReason}
+              setSubmittedStatus={setSubmittedStatus}
+              defaultStatus={defaultStatus}
             />
           ) : (
             <></>
           )}
-
+          //!VERIFY ADMIN TOBE/ISSUBMITTINGS
           <GeneralBackFinish
             setFieldValue={setFieldValue}
             popUpMessage="¿Estas seguro de realizar el envio?"
             toBeFinished={
-              (rolID === RoleType.ADMIN &&
-                values.status === IOInventoryStatus.IN_TRANSIT) ||
-              (values.status === IOInventoryStatus.CANCELED &&
-                !errors.rejectReason) ||
-              (rolID === RoleType.BRANCHMANAGER &&
-                values.status !== IOInventoryStatus.IN_TRANSIT)
+             rolID === RoleType.ADMIN ?
+              defaultStatus.current !== values.status &&
+                    (values.status === IOInventoryStatus.IN_TRANSIT ||
+                      values.status === IOInventoryStatus.RETURNED) ||
+                  (values.status === IOInventoryStatus.CANCELED &&
+                    !errors.rejectReason)
+                : 
+                rolID === RoleType.BRANCHMANAGER
+                ? defaultStatus.current !== values.status &&
+                    (values.status === IOInventoryStatus.RETURNING &&
+                    !errors.rejectReason) ||
+                  values.status === IOInventoryStatus.DELIVERED
+                : false
             }
             isSubmitting={
-              !isIOInventoryFinishStatus(
-                listMainInventoryRequestDetails?.statusValue as unknown as IOInventoryFinishStatus
-              )
+              defaultStatus.current !== values.status &&
+              rolID === RoleType.ADMIN
+                ? (values.status as IOInventoryStatus) in
+                  IOMainInventoryToSubmitStatus
+                : rolID === RoleType.BRANCHMANAGER
+                ? defaultStatus.current !== values.status &&
+                  (values.status as IOInventoryStatus) in
+                    IOBOInventoryToSubmitStatus
+                : // Object.values(IOMainInventoryToSubmitStatus).includes(
+                  //   values.status
+                  // )
+                  false
             }
-
-            // rejectedReason={listMainInventoryRequestDetails?.}
           />
         </>
       )}
