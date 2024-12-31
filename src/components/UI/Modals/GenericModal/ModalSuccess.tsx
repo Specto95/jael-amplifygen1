@@ -11,11 +11,14 @@ import { IModalSuccess } from "./interfaces/IModalSuccess";
 //* HOOKS
 import { useSectionProvider } from "@/hooks/useSectionProvider";
 
+import { redirect } from "react-router-dom";
+
 export const ModalSuccess = ({
   title,
   setIsModalOpen,
   sectionName,
   wasRejected = false,
+  redirectTo,
 }: IModalSuccess) => {
   const { handleBackTo } = useSectionProvider();
   const [isOpen, setIsOpen] = useState(true);
@@ -36,6 +39,10 @@ export const ModalSuccess = ({
               onClick={() => {
                 setIsModalOpen(false);
                 setIsOpen(false);
+                if (redirectTo === "login") {
+                  redirect(redirectTo);
+                  return;
+                }
                 handleBackTo(sectionName);
               }}
             >

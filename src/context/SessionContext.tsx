@@ -16,10 +16,8 @@ import {
   CustomError,
   IBranchInventory,
   IUserInfoData,
-  IInventoryID,
 } from "./interfaces/ISessionContext";
 import {
-  IUseListUserDataLoginAPI,
   IUseListUserDataLoginAPIResponse,
   IUseListUserDataLoginBranchOfficeNameAPI,
 } from "./api/userDataLogin/interfaces/IUseListUserDataLogin";
@@ -28,7 +26,7 @@ import { IChildren } from "@/interfaces/main";
 //* UTILS
 import { userDataLoginObj } from "@/utils/globalObjs/login/loginObjs";
 import { AccountFormObj } from "@/pages/Account/utils/AccountFormObj";
-import { toast } from "react-toastify";
+import { checkPassword } from "@/utils/auth";
 
 type SectionContextType = {
   user: IUserDataContext;
@@ -161,19 +159,36 @@ export const SessionProvider = ({ children }: IChildren) => {
 
   const logIn = async (email: string, password: string) => {
     const { signIn } = await import("aws-amplify/auth");
-
-    // Auth.configure({
-    //   storage: sessionStorage,
-    // });
     try {
       const { isSignedIn } = await signIn({
         username: email,
         password,
       });
       if (isSignedIn) {
-        const foundUser = listUserData.find((user) => {
-          return user.email === email && user.password === password;
-        });
+        const foundUserFn = async () => {
+          for (const user of listUserData) {
+            if (user.email === email) {
+              const userPassword = await checkPassword(password, user.password);
+              if (userPassword) {
+                return user;
+              }
+            }
+          }
+          return null;
+        };
+        //!NOT FIND BECAUSE WE CAN'T ASYNC IT BY DEFAULT
+        // const foundUser = listUserData.find(async (user) => {
+        //   if(user.email === email){
+        //     let userPassword = await checkPassword(password, user.password)
+        //     console.log(userPassword)
+
+        //     console.log(user)
+        //     return user.email === email && userPassword;
+        //   }
+        // });
+
+        const foundUser = await foundUserFn();
+
         if (foundUser) {
           try {
             const { clientAPI } = await import("@/utils/amplifyAPI/client");
@@ -184,6 +199,8 @@ export const SessionProvider = ({ children }: IChildren) => {
                 const result: any = await clientAPI(listUserDataLoginAPI, {
                   email,
                 });
+
+                console.log(result.data.listUsers.items);
 
                 //TODO FIX CORRECT TYPING
                 let userDataLoginResult: any = result.data.listUsers.items.map(
@@ -269,6 +286,8 @@ export const SessionProvider = ({ children }: IChildren) => {
 
                 userDataLoginResult = await Promise.all(userDataLoginResult);
 
+                console.log(userDataLoginResult);
+
                 sessionStorage.setItem(
                   userDataLoginObj.userDataLogin,
                   JSON.stringify(userDataLoginResult)
@@ -287,25 +306,6 @@ export const SessionProvider = ({ children }: IChildren) => {
                   email: foundUser.email,
                   rolID: foundUser.rolID,
                 });
-
-                // if (foundUser.rolID === userDataRoles.BRANCHMANAGER) {
-                //   // setBranch(
-                //   //   JSON.parse(sessionStorage.getItem(userDataLoginObj.userDataLogin)!)[0]
-                //   //     .branchOfficeData[0]
-                //   // );
-                //   // setRolID(
-                //   //   foundUser.rolID
-                //   // );
-                //   // setUserInfoName(
-                //   //   JSON.parse(sessionStorage.getItem(userDataLoginObj.userDataLogin)!)[0]
-                //   //     .userInfoName
-                //   // );
-                //   setSectionName("clients");
-                //   return;
-                // }
-                // if (foundUser.rolID === userDataRoles.ADMIN) {
-                //   setSectionName("PDV");
-                // }
                 navigate("/");
               } catch (er) {
                 console.log("Error: ", er);

@@ -33,6 +33,7 @@ export interface ISectionName {
     | "settings"
     | "settings-Catalogue"
     | "settings-CatalogueCategories"
+    | "ssttings-User"
     | "";
 }
 
@@ -60,6 +61,7 @@ export interface ISubSectionName {
     | "settings"
     | "settings-Catalogue"
     | "settings-CatalogueCategories"
+    | "ssttings-User"
     | "";
 }
 

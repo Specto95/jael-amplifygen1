@@ -245,4 +245,13 @@ export const forgotPasswordSchema = object().shape({
   email: string()
     .email("Correo electrónico inválido *")
     .required("Correo electrónico requerido *"),
+  password: string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres.")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "La contraseña debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial."
+    )
+    .max(128, "La contraseña no puede exceder los 128 caracteres.")
+    .matches(/^\S*$/, "La contraseña no debe contener espacios.")
+    .required("Contraseña requerida *"),
 });

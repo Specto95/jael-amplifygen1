@@ -12984,3 +12984,14 @@ export const listMainInventoryProductsQuantityAPI =
     APITypes.ListInventoryProductsQueryVariables,
     APITypes.ListInventoryProductsQuery
   >;
+
+//?CUSTOM QUERIES (LIST)
+export const listUserIDByEmailAPI = /* GraphQL */ `
+  query ListUsers($email: String) {
+    listUsers(filter: { email: { eq: $email } }) {
+      items {
+        id
+      }
+    }
+  }
+` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;

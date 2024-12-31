@@ -144,9 +144,9 @@ const Login = lazy(() =>
     default: module.Login,
   }))
 );
-const ForgotPassword = lazy(() =>
-  import("./pages/Credentials/ForgotPassword/ForgotPassword").then(
-    (module) => ({ default: module.ForgotPassword })
+const ForgotPasswordForm = lazy(() =>
+  import("./pages/Credentials/ForgotPassword/ForgotPasswordForm").then(
+    (module) => ({ default: module.ForgotPasswordForm })
   )
 );
 const UserData = lazy(() =>
@@ -229,7 +229,7 @@ export function App(): JSX.Element {
 
             <Route element={<ProtectedRoute isLogged={isLogged} />}>
               <Route path="/login" element={<Login />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/forgot-password" element={<ForgotPasswordForm />} />
               <Route path="/userData" element={<UserData />} />
               <Route element={<Layout />}>
                 <Route path="/" element={<MainPage />} />

@@ -394,8 +394,12 @@ tr{
   font-weight: bold;
 }
 
-.error_start{
+.error_start, .red{
   color: var(--text-error);
+}
+
+.red{
+  text-align: left;
 }
 
 .error-login{
@@ -403,6 +407,15 @@ tr{
   width: var(--w-full);
   color: var(--text-error);
   text-align: end;
+  margin-bottom: var(--m-xs);
+}
+
+.error-left{
+  display: block;
+  font-weight: bold;
+  width: var(--w-full);
+  color: var(--text-error);
+  text-align: left;
   margin-bottom: var(--m-xs);
 }
 
@@ -1280,6 +1293,11 @@ button:disabled{
   font-size: var(--fs-sm) !important;
 }
 
+.text-success{
+  color: var(--text-success);
+  text-align: left;
+}
+
 .fs-lg{
   font-size: var(--fs-lg);
 }
@@ -1290,6 +1308,12 @@ button:disabled{
 
 .w-full{
   width: var(--w-full);
+}
+
+.w-halfLeftRelative{
+  position: relative;
+  width: var(--w-half);
+  margin-right: auto;
 }
 
 .rotateArrow180Deg{
@@ -1440,6 +1464,7 @@ button:disabled{
 .button__primary-blueXS{
   display: inline-block;
   width: var(--w-button-xs);
+  min-width: fit-content;
   text-align: center;
   background-color: var(--text-primary);
   color: var(--bg-secondary);

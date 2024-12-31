@@ -4,4 +4,5 @@ import { IModalProductSuccessProps } from "../../ModalSuccess/interfaces/IModalP
 export interface IModalSuccess extends IModalProductSuccessProps {
   sectionName: ISectionName["sectionName"];
   wasRejected?: boolean;
+  redirectTo?: string;
 }
