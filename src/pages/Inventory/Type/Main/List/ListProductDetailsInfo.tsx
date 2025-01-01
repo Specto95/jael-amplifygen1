@@ -8,8 +8,6 @@ export function ListProductDetailsInfo({
   mostRecentIncomeDate,
   mostRecentOutcomeDate,
 }: IListProductDetailsProps) {
-  console.log(mostRecentIncomeDate);
-  console.log(mostRecentOutcomeDate);
 
   return (
     <div className="my-2">

@@ -46,8 +46,6 @@ export function useListMainCashViewTableIncomes() {
 
         const result: any = await clientAPI(listPaidSalesOperationsAPI);
 
-        console.log(result.data.listSalesOperations.items);
-
         const listlistMainCashTableIncomesResult: IListCashTableInfoAPI[] =
           result.data.listSalesOperations.items.map(
             (item: IListCashTableInfoAPIResponse) => {

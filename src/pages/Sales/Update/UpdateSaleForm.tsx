@@ -33,9 +33,6 @@ export function UpdateSaleForm() {
   const { id } = useParams<{ id: string }>();
   const { listSaleDetailsByID, listSaleProductDetailsByID, isLoading } =
     useListSaleDetailsByID(id!);
-
-  console.log(listSaleDetailsByID);
-
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (

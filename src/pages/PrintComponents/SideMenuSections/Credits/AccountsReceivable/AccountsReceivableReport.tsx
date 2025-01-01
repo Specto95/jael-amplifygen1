@@ -227,7 +227,6 @@ export const AccountsReceivableReport = ({
   clientID,
   clientData,
 }: IAccountsReceivableReportProps) => {
-  console.log(clientData);
 
   return (
     <Document>

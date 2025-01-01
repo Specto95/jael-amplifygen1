@@ -220,7 +220,6 @@ export const CashReport = ({
   //   clientData,
   data,
 }: ICashReportProps) => {
-  console.log(data);
 
   return (
     <Document>

@@ -1,3 +1,4 @@
+import { useValidateClientEmail } from "@/pages/Clients/api/useValidateClientEmail";
 import { string, number, object, array, boolean } from "yup";
 
 //? PRODUCTS
@@ -46,8 +47,17 @@ export const validateAddClient = object().shape({
   ),
   email: string()
     .email("Correo electrónico inválido")
-    .required("Correo obligatorio *"),
-  // .required("Correo electrónico requerido *"),
+    .required("Correo obligatorio *")
+    .test("email-unique", "El correo ya existe", async (value, context) => {
+      if (!value) return true;
+      const validationMessage = await useValidateClientEmail(value);
+      if (validationMessage) {
+        context.createError({ message: validationMessage });
+        return false;
+      }
+      return true;
+    }),
+
   birthday: string(),
   RFC: string().matches(/^[A-Z]{4}\d{6}[A-Z,0-9]{3}$/, "RFC inválido"),
   address: string(),

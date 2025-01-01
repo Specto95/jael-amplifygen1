@@ -66,8 +66,6 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
           }
         );
 
-        console.log(result.data.listInventoryProducts.items);
-
         const data = result.data.listInventoryProducts.items.map(
           (
             item: IUseListInventoryProductIOHistoryByIDAndInventoryIDAPIResponse
@@ -120,7 +118,6 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
                       (
                         incomeInventory: IUseListInventoryProductIncomeInventoryProductQuantityObj
                       ) => {
-                        console.log(incomeInventory);
                         return {
                           id: incomeInventory.incomeInventoryProductQuantity
                             .incomeInventory.id,

@@ -34,8 +34,8 @@
 .clientForm__form-inputs{
     display: flex;
     align-items: center;
-    gap: 3rem;
-    min-height: var(--h-inputsContainer);
+    gap: 1rem;
+    min-height: var(--h-inputsContainerXS);
 }
 
 @media screen and (max-width: 768px) {
@@ -60,8 +60,7 @@
 }
 
 .clientForm__input, .clientForm__input-custom{
-    min-width: var(--w-half);
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     padding: 1rem;
     color: var(--text-primary);
     border: 3px solid var(--text-primary);
@@ -69,6 +68,19 @@
     outline: none;
 }
 
+.clientForm__input{
+    width: 300px;
+}
+
+.clientForm__input-custom{
+    min-width: var(--w-half);
+}
+
+.clientForm__divInput{
+    display: flex;
+    flex-direction: column;
+    width: var(--w-full);
+}
 
 @media screen and (max-width: 768px) {
     .clientForm__input{
@@ -76,6 +88,9 @@
     }
     .clientForm__input-custom{
         min-width: var(--w-full);
+    }
+    .clientForm__divInput{
+        align-items: center;
     }
 }
 

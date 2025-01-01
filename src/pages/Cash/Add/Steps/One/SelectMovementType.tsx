@@ -262,7 +262,6 @@ export function SelectMovementType({
                       }
                       onClick={() => {
                         setActiveButton("IncomeCustomerSubscription");
-                        console.log("aqui");
                         handleSubMovementType(
                           "IncomeCustomerSubscription",
                           setFieldValue!

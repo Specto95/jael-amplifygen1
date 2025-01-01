@@ -39,8 +39,6 @@ export function useListProvidersInventoryByName(enterprise_name: string) {
             };
           });
 
-        console.log(enterpriseResponsibleResult);
-
         setProvidersInventoryByName(enterpriseResponsibleResult);
       } catch (error) {
         console.log("Error: ", error);

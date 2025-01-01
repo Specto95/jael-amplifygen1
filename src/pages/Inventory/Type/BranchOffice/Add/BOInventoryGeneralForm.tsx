@@ -315,15 +315,6 @@ export function BOInventoryGeneralForm() {
                       },
                     };
 
-                  // const incomeInventoryResult = await clientAPI(
-                  //   createIncomeInventoryAPI,
-                  //   {
-                  //     input: incomeInventoryInput,
-                  //   }
-                  // );
-
-                  // console.log(incomeInventoryResult);
-
                   //? >>>>>>>>> INCOMEINVENTORYREQUEST
 
                   const incomeInventoryRequestResult = await clientAPI(
@@ -441,8 +432,6 @@ export function BOInventoryGeneralForm() {
                       )) as {
                         data: CreateInventoryProductIncomeInventoryRequestMutation;
                       };
-
-                    console.log(inventoryProductIncomeInventoryRequestResult);
                   });
                   console.log("COMPLETED!");
                 } catch (error) {

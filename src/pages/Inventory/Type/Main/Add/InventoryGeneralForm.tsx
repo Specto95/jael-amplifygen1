@@ -263,8 +263,6 @@ export function InventoryGeneralForm() {
                     }
                   );
 
-                  console.log(inventoryOperationResult);
-
                   //*----------- CREATE INCOME INVENTORY (GLOBAL API)
                   const incomeInventoryInput: IIncomeInventoryInput = {
                     id: incomeInventoryID,
@@ -287,8 +285,6 @@ export function InventoryGeneralForm() {
                       input: incomeInventoryInput,
                     }
                   );
-
-                  console.log(incomeInventoryResult);
 
                   selectedIncomeRows.forEach(async (row) => {
                     const { inventoryProductID, quantity } = row;
@@ -320,7 +316,6 @@ export function InventoryGeneralForm() {
                       await clientAPI(createIncomeInventoryProductQuantityAPI, {
                         input: incomeInventoryProductQuantityInput,
                       });
-                    console.log(incomeInventoryProductQuantityResult);
 
                     const { id: incomeInventoryProductQuantityID } =
                       incomeInventoryProductQuantityResult.data
@@ -341,8 +336,6 @@ export function InventoryGeneralForm() {
                           input: inventoryProductIncomeInventoryInput,
                         }
                       );
-
-                    console.log(inventoryProductIncomeInventoryResult);
                   });
                   console.log("COMPLETED!");
                 } catch (error) {
@@ -378,8 +371,6 @@ export function InventoryGeneralForm() {
                     }
                   );
 
-                  console.log(inventoryOperationResult);
-
                   //?----------------- CREATING OUTCOME INVENTORY(GLOBAL API)
 
                   const outcomeInventoryInput: IOutcomeInventoryInput = {
@@ -401,8 +392,6 @@ export function InventoryGeneralForm() {
                       input: outcomeInventoryInput,
                     }
                   );
-
-                  console.log(outcomeInventoryResult);
 
                   selectedOutcomeRows.map(async (row) => {
                     const { inventoryProductID, quantity, id: productID } = row;
@@ -443,8 +432,6 @@ export function InventoryGeneralForm() {
                             quantity: updatedOutcomeBranchOfficeProductQuantity,
                           },
                         });
-
-                      console.log(selectedOutcomeBranchOfficeProductResult);
                     }
 
                     //* CREATE OUTCOME INVENTORY PRODUCT QUANTITY
@@ -461,7 +448,6 @@ export function InventoryGeneralForm() {
                           input: outcomeInventoryProductQuantityInput,
                         }
                       );
-                    console.log(outcomeInventoryProductQuantityResult);
 
                     const { id: outcomeInventoryProductQuantityID } =
                       outcomeInventoryProductQuantityResult.data
@@ -482,8 +468,6 @@ export function InventoryGeneralForm() {
                           input: inventoryProductOutcomeInventoryInput,
                         }
                       );
-
-                    console.log(inventoryProductOutcomeInventoryResult);
                   });
                   console.log("COMPLETED!");
                 } catch (error) {

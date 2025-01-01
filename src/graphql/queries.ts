@@ -12995,3 +12995,17 @@ export const listUserIDByEmailAPI = /* GraphQL */ `
     }
   }
 ` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
+
+//? CUSTOM QUERIES
+export const listValidateClientEmail = /* GraphQL */ `
+  query ListClients($email: String) {
+    listClients(filter: { email: { eq: $email } }) {
+      items {
+        email
+      }
+    }
+  }
+` as GeneratedQuery<
+  APITypes.ListClientsQueryVariables,
+  APITypes.ListClientsQuery
+>;

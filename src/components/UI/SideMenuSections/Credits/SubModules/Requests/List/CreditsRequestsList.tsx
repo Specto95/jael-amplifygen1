@@ -15,8 +15,6 @@ export function CreditsRequestsList({
 }: ICreditsListProps) {
   const { mainBranchInventory } = useSessionProvider();
 
-  console.log(mainBranchInventory)
-
   return (
     <ShowTableData
       Columns={

@@ -31,7 +31,6 @@ export function ProductImages({
         },
       });
       if (result) {
-        console.log(result)
         const firstObjectKey = result.items[0]?.key;
         if (firstObjectKey) {
           const res = await getUrl({
@@ -40,8 +39,6 @@ export function ProductImages({
               validateObjectExistence: true,
             },
           });
-
-          console.log(res);
 
           const URL = res.url.toString();
           // const imageUrl = URL.createObjectURL(blob);

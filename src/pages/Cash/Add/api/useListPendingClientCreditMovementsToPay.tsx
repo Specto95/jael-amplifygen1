@@ -48,8 +48,6 @@ export function useListPendingClientCreditMovementsToPay(
             }
           )
         );
-
-        console.log(result.data.listSalesOperationClientCreditMovements.items);
       } catch (er) {
         console.log("Error: ", er);
         setError(er);

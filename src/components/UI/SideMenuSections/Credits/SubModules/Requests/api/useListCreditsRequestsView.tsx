@@ -38,8 +38,6 @@ export function useListCreditsRequestsView() {
           }
         )) as { data: ListCreditRequestsQuery };
 
-        console.log(result.data.listCreditRequests);
-
         const creditRequestsResult =
           result.data.listCreditRequests!.items.length > 0
             ? result.data.listCreditRequests!.items.map((item) => {

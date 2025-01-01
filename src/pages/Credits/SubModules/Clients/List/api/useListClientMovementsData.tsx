@@ -253,8 +253,6 @@ export function useListClientMovementsData(id: string, isPaying?: boolean) {
     fetchListClientMovementsData();
   }, []);
 
-  console.log(listClientMovementsData);
-
   return {
     listClientMovementsData,
     setListClientMovementsData,

@@ -11,8 +11,6 @@ import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
 export function CreditsRequestsView() {
   const { listCreditsRequestsView, isLoading } = useListCreditsRequestsView();
 
-  console.log(listCreditsRequestsView)
-
   const { filteredItems, query, setQuery } = GenericFilteredItems(
     listCreditsRequestsView,
     creditsClientsViewFilterObjs.CLIENTNAME

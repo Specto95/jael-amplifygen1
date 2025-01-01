@@ -49,8 +49,6 @@ export function IncomeSelectProvider({
               : selectedProvider?.name,
           });
 
-          console.log(result);
-
           if (result.data.listProviders.items.length === 0) {
             setProvidersInventoryByName([]);
             return;

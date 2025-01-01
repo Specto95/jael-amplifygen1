@@ -21,7 +21,6 @@ export function useGetBranchOfficeCommission(id: string) {
         const result: any = await clientAPI(getBranchOfficeCommissionAPI, {
           id,
         });
-        // console.log(result)
         setGetBranchOfficeCommission(result.data.getBranchOffice);
       } catch (error) {
         console.log("Error: ", error);

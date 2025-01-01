@@ -19,8 +19,6 @@ export async function useListProvidersInventoryByName(
       enterprise_name,
     });
 
-    console.log(result);
-
     setSelectedProvider({
       id: result.data.listProviders.items[0].productprovider.id,
       name: result.data.listProviders.items[0].enterprise_name,

@@ -57,7 +57,6 @@ export function MainCashList({ CashList }: IMainCashListProps) {
     <>
       {CashList?.length! > 0 ? (
         Object.keys(groupedByDate).map((dateKey) => {
-          console.log(groupedByDate[dateKey]!);
           return (
             <>
               <div key={dateKey} className="my-1">

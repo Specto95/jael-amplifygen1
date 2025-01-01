@@ -194,7 +194,6 @@ export function CashForm() {
                       pendingClientCreditMovementToPay.pendingToPay!.toString()
                     )
                   ) {
-                    console.log("es menor", quantityToPay);
                     const updateSalesOperationClientCreditMovementPaymentInput: IUpdateSalesOperationClientCreditMovementPaymentInput =
                       {
                         id: pendingClientCreditMovementToPay.id,

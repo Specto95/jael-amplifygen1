@@ -37,7 +37,7 @@ export function ModalEditProduct({
       <Formik
         initialValues={{ ...pro }}
         validationSchema={validateUpdateProductPriceSchema}
-        onSubmit={async (values, { resetForm }) => {
+        onSubmit={async (values) => {
           try {
             const { updateInventoryProductCustomPriceAPI } = await import(
               "@/graphql/mutations"
@@ -50,13 +50,11 @@ export function ModalEditProduct({
                 customPrice: values.customPrice,
               };
 
-            const updateInventoryProductCustomPriceResult = await clientAPI(
+            await clientAPI(
               updateInventoryProductCustomPriceAPI,
               updateInventoryProductCustomPriceInput,
               true
             );
-
-            console.log(updateInventoryProductCustomPriceResult);
 
             handleBackTo("productsCatalogue");
           } catch (e) {

@@ -169,6 +169,14 @@ export const SessionProvider = ({ children }: IChildren) => {
           for (const user of listUserData) {
             if (user.email === email) {
               const userPassword = await checkPassword(password, user.password);
+
+              if (!userPassword) {
+                if (user.password === password) {
+                  return user;
+                }
+                return null;
+              }
+
               if (userPassword) {
                 return user;
               }
@@ -199,8 +207,6 @@ export const SessionProvider = ({ children }: IChildren) => {
                 const result: any = await clientAPI(listUserDataLoginAPI, {
                   email,
                 });
-
-                console.log(result.data.listUsers.items);
 
                 //TODO FIX CORRECT TYPING
                 let userDataLoginResult: any = result.data.listUsers.items.map(
