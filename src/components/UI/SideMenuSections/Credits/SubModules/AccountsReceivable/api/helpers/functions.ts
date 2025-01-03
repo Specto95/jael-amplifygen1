@@ -97,6 +97,7 @@ export async function listCreditAccountsReceivableData(
           ? SalesOperationTermDaysToPayNumber.BIWEEKLY
           : SalesOperationTermDaysToPayNumber.MONTHLY,
       total: "$" + commaSeparator(sale!.total!),
+      totalPayments: `${sale!.currentTotalPayments}/${sale!.totalPayments}`,
       status:
         sale!.status === SalesOperationStatus.EXPIRED
           ? SalesOperationStatusSpanish.EXPIRED

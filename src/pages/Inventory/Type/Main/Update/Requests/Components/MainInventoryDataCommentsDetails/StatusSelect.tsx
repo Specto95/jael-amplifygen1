@@ -43,7 +43,7 @@ export function StatusSelect({
         IOInventoryStatus.CANCELED,
         IOInventoryStatus.FAILED,
         IOInventoryStatus.RETURNING,
-        IOInventoryStatus.RETURNED,
+        // IOInventoryStatus.RETURNED,
       ].includes(values.status as IOInventoryStatus)
     ) {
       setRejected({ ...rejected, isRejected: true });

@@ -321,6 +321,12 @@ export enum SalesOperationTermDaysToPay {
   NONE = "NONE",
 }
 
+export enum SalesOperationTermDaysToPaySpanish {
+  BIWEEKLY = "15 Días",
+  MONTHLY = "Mensual",
+  NONE = "NONE",
+}
+
 export type InventoryOperation = {
   __typename: "InventoryOperation";
   id: string;

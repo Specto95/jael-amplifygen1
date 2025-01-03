@@ -47,6 +47,8 @@ export function UpdateMainIncomeRequestForm() {
   const { listMainInventoryRequestDetails, isLoading, defaultStatus } =
     useListMainInventoryRequestDetailsByID(id!);
 
+  console.log(listMainInventoryRequestDetails[0]);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [rejected, setRejected] = useState<Rejected>({
@@ -116,6 +118,47 @@ export function UpdateMainIncomeRequestForm() {
                   updateIncomeInventoryRequestInput
                 );
 
+                if (values.status === IOInventoryStatus.RETURNED) {
+                  const { updateInventoryProductQuantityAPI } = await import(
+                    "@/graphql/mutations"
+                  );
+
+                  //?UPDATE PRODUCT QUANTITIES FROM MAINBRANCH
+                  listMainInventoryRequestDetails[0].incomeInventoryProductQuantitiesRequest.map(
+                    async (inventoryProductQuantityRequest) => {
+                      const {
+                        mainInventoryProductID,
+                        incomeQuantity,
+                        currentInventoryQuantity,
+                      } = inventoryProductQuantityRequest;
+
+                      //!WIP -- VERIFY IT'S WORKING CORRECTLY
+
+                      //?RETURN BACK THE INCOMEQUANTITY
+                      const updatedQuantity =
+                        currentInventoryQuantity + incomeQuantity;
+
+                      console.log(updatedQuantity);
+
+                      const updateInventoryProductQuantityInput: UpdateInventoryProductMutationVariables =
+                        {
+                          input: {
+                            id: mainInventoryProductID!,
+                            quantity: updatedQuantity,
+                          },
+                        };
+
+                      //* UPDATING MAIN INVENTORY PRODUCT QUANTITIES
+                      await clientAPI(
+                        updateInventoryProductQuantityAPI,
+                        updateInventoryProductQuantityInput
+                      );
+
+                      console.log("se actualizo");
+                    }
+                  );
+                }
+
                 return;
               }
               if (
@@ -179,44 +222,6 @@ export function UpdateMainIncomeRequestForm() {
                           updateInventoryProductQuantityInput
                         );
                       }
-
-                      //* CREATE OUTCOME INVENTORY PRODUCT QUANTITY
-                      // const outcomeInventoryProductQuantityInput: IOutcomeInventoryProductQuantityInput =
-                      //   {
-                      //     outcomeQuantity: quantity!,
-                      //     outcomeInventoryID,
-                      //   };
-
-                      // const outcomeInventoryProductQuantityResult: any =
-                      //   await clientAPI(
-                      //     createOutcomeInventoryProductQuantityAPI,
-                      //     {
-                      //       input: outcomeInventoryProductQuantityInput,
-                      //     }
-                      //   );
-                      // console.log(outcomeInventoryProductQuantityResult);
-
-                      // const { id: outcomeInventoryProductQuantityID } =
-                      //   outcomeInventoryProductQuantityResult.data
-                      //     .createOutcomeInventoryProductQuantity;
-
-                      //* CREATE INVENTORY PRODUCTs OUTCOME INVENTORY
-                      // const inventoryProductOutcomeInventoryInput: IInventoryProductOutcomeInventoryInput =
-                      //   {
-                      //     outcomeInventoryProductQuantityId:
-                      //       outcomeInventoryProductQuantityID,
-                      //     inventoryProductId: inventoryProductID,
-                      //   };
-
-                      // const inventoryProductOutcomeInventoryResult: any =
-                      //   await clientAPI(
-                      //     createInventoryProductOutcomeInventoryAPI,
-                      //     {
-                      //       input: inventoryProductOutcomeInventoryInput,
-                      //     }
-                      //   );
-
-                      // console.log(inventoryProductOutcomeInventoryResult);
                     );
                     console.log("COMPLETED!");
                   } catch (error) {
@@ -320,13 +325,13 @@ export function UpdateMainIncomeRequestForm() {
                 ? `Operación Cancelada, Enviando motivo a Sucursal ${listMainInventoryRequestDetails[0].branchOfficeName}`
                 : submittedStatus === IOInventoryStatus.RETURNING
                 ? `Regresando encargo, Enviando motivo a Sucursal Matriz`
-                : submittedStatus === IOInventoryStatus.RETURNED
-                ? "Productos Regresados a Sucursal Matriz"
                 : "Completado"
               : submittedStatus === IOInventoryStatus.DELIVERED
               ? "Entrega Exitosa"
               : submittedStatus === IOInventoryStatus.IN_TRANSIT
               ? `Transacción en Curso Exitosa - Enviando Productos a la Sucursal ${listMainInventoryRequestDetails[0].branchOfficeName}`
+              : submittedStatus === IOInventoryStatus.RETURNED
+              ? "Productos Regresados a Sucursal Matriz"
               : "Operación Realizada"
           }
           setIsModalOpen={setIsModalOpen}

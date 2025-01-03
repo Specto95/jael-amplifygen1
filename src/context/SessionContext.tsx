@@ -291,9 +291,6 @@ export const SessionProvider = ({ children }: IChildren) => {
                 );
 
                 userDataLoginResult = await Promise.all(userDataLoginResult);
-
-                console.log(userDataLoginResult);
-
                 sessionStorage.setItem(
                   userDataLoginObj.userDataLogin,
                   JSON.stringify(userDataLoginResult)

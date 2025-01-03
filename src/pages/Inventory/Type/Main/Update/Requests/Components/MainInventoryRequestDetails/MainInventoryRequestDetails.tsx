@@ -93,7 +93,6 @@ export function MainInventoryRequestDetails({
           ) : (
             <></>
           )}
-          //!VERIFY ADMIN TOBE/ISSUBMITTINGS
           <GeneralBackFinish
             setFieldValue={setFieldValue}
             popUpMessage="¿Estas seguro de realizar el envio?"

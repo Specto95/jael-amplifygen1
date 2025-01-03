@@ -3,8 +3,9 @@ export interface IUseListCreditAccountsReceivableAPI {
   clientName: string;
   termDaysToPay: number | string;
   pendingToPay?: number | string;
-  totalPayments?: number | null;
+  // totalPayments?: number | null;
   currentTotalPayments?: number | null;
+  totalPayments?: string | number | null;
   amountPaid?: number | null;
   status: string;
   paymentDate: string;

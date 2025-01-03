@@ -55,9 +55,6 @@ export function useListClientMovementsData(id: string, isPaying?: boolean) {
           const salesOperations = result.data.listSalesOperations.items;
           const clientMovementsOperationsResult: IListClientMovementsDataTableAPI[] =
             [];
-
-          console.log(salesOperations);
-
           for (const sale of salesOperations) {
             const clientMovementsDataresult: IListClientMovementsDataAPI = {
               clientID: sale.client.id,
