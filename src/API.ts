@@ -568,15 +568,15 @@ export enum IOInventoryFinishStatus {
   RETURNING = "RETURNING",
   FAILED = "FAILED",
   DELIVERED = "DELIVERED",
-} 
+}
 
-export enum IOMainInventoryToSubmitStatus{
+export enum IOMainInventoryToSubmitStatus {
   IN_TRANSIT = "IN_TRANSIT",
   CANCELED = "CANCELED",
   RETURNED = "RETURNED",
 }
 
-export enum IOBOInventoryToSubmitStatus{
+export enum IOBOInventoryToSubmitStatus {
   DELIVERED = "DELIVERED",
   RETURNING = "RETURNING",
 }
@@ -588,7 +588,7 @@ export type IOMainInventorySelectStatusType = Extract<
   | IOInventoryStatus.RETURNED
 >;
 
-export enum IOMainInventoryFinishStatus{
+export enum IOMainInventoryFinishStatus {
   CANCELED = "CANCELED",
   RETURNED = "RETURNED",
   FAILED = "FAILED",
@@ -598,9 +598,9 @@ export enum IOMainInventoryFinishStatus{
 export enum IOBOInventoryFinishStatus {
   PROCESSING = "PROCESSING",
   IN_TRANSIT = "IN_TRANSIT",
-} 
+}
 
-export enum IOMainInventorySelectStatus{
+export enum IOMainInventorySelectStatus {
   PROCESSING = "PROCESSING",
   IN_TRANSIT = "IN_TRANSIT",
   RETURNING = "RETURNING",
@@ -11971,6 +11971,8 @@ export type ListInventoryProductsQueryVariables = {
 export type ListInventoryProductsQuery = {
   listInventoryProducts?: {
     __typename: "ModelInventoryProductConnection";
+    productsByProductProviderIDAndId?: ProductsByProductProviderIDAndIdQuery["productsByProductProviderIDAndId"];
+
     items: Array<{
       __typename: "InventoryProduct";
       id: string;

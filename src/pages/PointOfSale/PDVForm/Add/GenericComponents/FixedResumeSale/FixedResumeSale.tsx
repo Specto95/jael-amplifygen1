@@ -30,9 +30,14 @@ export function FixedResumeSale({
   const { getClientCreditByID } = useGetClientCreditByID(
     selectedClient ? selectedClient!.id : ""
   );
-
   return (
-    <footer className={styles.PDV__FixedResumeSale}>
+    <footer
+      className={`${styles.PDV__FixedResumeSale} ${
+        currentStepIndex === currentIndexObj.TWO || currentStepIndex === currentIndexObj.THREE
+          ? styles["PDV__FixedResumeSale-NoM"]
+          : ""
+      }`}
+    >
       <MainHeading title="Resúmen de venta" customStyle="heading__primaryPSM" />
 
       <div className="flex__spacing2BetweenWrap">

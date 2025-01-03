@@ -122,9 +122,11 @@ export function AddClient() {
                         email: values.email || "No proporcionado",
                         birthday: values.birthday || "No proporcionado",
                         RFC: values.RFC || "No proporcionado",
-                        address: `${values.address}, ${values.settlement}, ${values.postal_code}`,
+                        address: values.address
+                          ? `${values.address}, ${values.settlement}, ${values.postal_code}`
+                          : "No Proporcionado",
                         state: values.state,
-                        city: values.city,
+                        city: values.city || "No Proporcionado",
                         date: getCurrentDate(),
                       },
                       import.meta.env.VITE_API_KEY

@@ -11451,7 +11451,10 @@ export const productsByProductProviderIDAndId = /* GraphQL */ `
       }
     }
   }
-`;
+` as GeneratedQuery<
+  APITypes.ProductsByProductProviderIDAndIdQueryVariables,
+  APITypes.ProductsByProductProviderIDAndIdQuery
+>;
 
 //?CUSTOM QUERIES
 export const listProvidersEnterpriseNameInventoryAPI = /* GraphQL */ `
@@ -12824,7 +12827,10 @@ export const listAvailableProductsByProviderIDAPI = /* GraphQL */ `
       }
     }
   }
-`;
+` as GeneratedQuery<
+  APITypes.ListInventoryProductsQueryVariables,
+  APITypes.ListInventoryProductsQuery
+>;
 
 // //?CUSTOM QUERIES
 export const listAvailableProductsAPI = /* GraphQL */ `

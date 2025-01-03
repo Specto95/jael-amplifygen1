@@ -10,11 +10,15 @@ import {
   productsByProductProviderIDAndId,
   listAvailableProductsByProviderIDAPI,
 } from "@/graphql/queries";
+import {
+  ListInventoryProductsQuery,
+  ProductsByProductProviderIDAndIdQuery,
+} from "@/API";
 
 export function useListProductsByProductProviderID(
   productProviderID?: string,
-  inventoryID?: string,
-) { 
+  inventoryID?: string
+) {
   const { sectionName } = useSectionProvider();
 
   const [
@@ -26,16 +30,12 @@ export function useListProductsByProductProviderID(
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    // if (sectionName === "BOInventory") {
-    //   fetchListAvailableProductsAPI(inventoryID!, branchInventoryID!);
-    // }
-
     const fetchListProductProviderProductsByProductProviderID = async () => {
       try {
         setIsLoading(true);
         setError(null);
         if (!productProviderID) return;
-        const result: any = await clientAPI(
+        const result = await clientAPI(
           sectionName === "BOInventory"
             ? listAvailableProductsByProviderIDAPI
             : productsByProductProviderIDAndId,
@@ -45,16 +45,25 @@ export function useListProductsByProductProviderID(
           }
         );
 
-        const productProviderProductsResult: IListProductProviderProductsByProductProviderIDAPI[] =
-          sectionName === "BOInventory"
-            ? result.data.listInventoryProducts.items
-            : result.data.productsByProductProviderIDAndId.items;
+        let productProviderProductsResult;
+
+        if (sectionName === "BOInventory") {
+          const resultBO = result as { data: ListInventoryProductsQuery };
+          productProviderProductsResult =
+            resultBO.data.listInventoryProducts!.items || [];
+        } else {
+          const resultMain = result as {
+            data: ProductsByProductProviderIDAndIdQuery;
+          };
+          productProviderProductsResult =
+            resultMain.data.productsByProductProviderIDAndId?.items || [];
+        }
 
         const finalResult: IListProductProviderProductsByProductProviderIDAPI[] =
-          productProviderProductsResult.map((item: any) => {
+          productProviderProductsResult.map((item : any) => {
             if (sectionName === "BOInventory") {
               return {
-                id: item.product.id,
+                id: item!.product!.id,
                 quantity: item.quantity,
                 category_id: item.product.category_id,
                 subcategory_id: item.product.subcategory_id,

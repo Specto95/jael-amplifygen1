@@ -93,6 +93,7 @@ export function PDVOrdersManagement({
   nonRegisteredClientID,
   salesOperationID,
 }: IPDVOrdersManagementProps) {
+  console.log(currentStepIndex);
 
   const { isDownloading, setIsDownloading } = useSectionProvider();
   const { branchInventory, rolID, mainBranchInventory } = useSessionProvider();
@@ -746,6 +747,7 @@ export function PDVOrdersManagement({
       </main>
       {/* <div className={styles2.shoppingCart__div}> */}
       <FixedResumeSale
+        currentStepIndex={currentStepIndex}
         selectedClient={selectedClient}
         handleBackStep={handleBackStep}
         selectedData={selectedData}

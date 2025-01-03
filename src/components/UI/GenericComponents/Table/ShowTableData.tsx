@@ -206,7 +206,7 @@ export function ShowTableData<T extends object>({
               cellSpacing="0 0.5rem"
               ref={tableRef}
             >
-              {noHeaders ? null : (
+              {noHeaders || noDataRedirect ? null : (
                 <thead>
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>

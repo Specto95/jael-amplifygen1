@@ -388,6 +388,10 @@
     text-align: center;
 }
 
+.PDV__FixedResumeSale-NoM{
+    margin: 0 !important;
+}
+
 .PDV__FixedResumeSale, .PDV__FixedResumeSale1st {
     position: fixed;
     bottom: 0;

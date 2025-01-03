@@ -18,7 +18,9 @@ export function CreditsRequestsList({
   return (
     <ShowTableData
       Columns={
-        mainBranchInventory?.id ? ClientCreditsMainColumns : ClientCreditsColumns
+        mainBranchInventory?.id
+          ? ClientCreditsMainColumns
+          : ClientCreditsColumns
       }
       Data={ClientCredits}
       notFoundDataMessage="No se encontraron solicitudes de créditos"
@@ -27,6 +29,9 @@ export function CreditsRequestsList({
       hasBackground={true}
       hasPagination={true}
       customSectionName="creditRequests/update"
+      redirectLink="creditRequests/add"
+      redirectMessage="Solicitar un nuevo crédito"
+      noDataRedirect={!ClientCredits.length}
     />
   );
 }

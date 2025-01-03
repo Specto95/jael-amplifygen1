@@ -132,13 +132,9 @@ export function UpdateMainIncomeRequestForm() {
                         currentInventoryQuantity,
                       } = inventoryProductQuantityRequest;
 
-                      //!WIP -- VERIFY IT'S WORKING CORRECTLY
-
                       //?RETURN BACK THE INCOMEQUANTITY
                       const updatedQuantity =
                         currentInventoryQuantity + incomeQuantity;
-
-                      console.log(updatedQuantity);
 
                       const updateInventoryProductQuantityInput: UpdateInventoryProductMutationVariables =
                         {
@@ -153,8 +149,6 @@ export function UpdateMainIncomeRequestForm() {
                         updateInventoryProductQuantityAPI,
                         updateInventoryProductQuantityInput
                       );
-
-                      console.log("se actualizo");
                     }
                   );
                 }
