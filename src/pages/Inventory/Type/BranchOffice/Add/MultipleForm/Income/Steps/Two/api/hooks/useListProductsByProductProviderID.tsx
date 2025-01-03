@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { useSectionProvider } from "@/hooks/useSectionProvider";
 
-import { IListProductProviderProductsByProductProviderIDAPI } from "./interfaces/IUseListProductProviderProductsByProductProviderID";
+import { IListProductProviderProductsByProductProviderIDAPI } from "../interfaces/IUseListProductProviderProductsByProductProviderID.d";
 
 //* AMPLIFY IMPORTS
 import { clientAPI } from "@/utils/amplifyAPI/client";
@@ -10,10 +10,14 @@ import {
   productsByProductProviderIDAndId,
   listAvailableProductsByProviderIDAPI,
 } from "@/graphql/queries";
+import {
+  ListInventoryProductsQuery,
+  ProductsByProductProviderIDAndIdQuery,
+} from "@/API";
 
 export function useListProductsByProductProviderID(
-  productProviderID: string,
-  inventoryID: string
+  productProviderID?: string,
+  inventoryID?: string
 ) {
   const { sectionName } = useSectionProvider();
 
@@ -31,7 +35,7 @@ export function useListProductsByProductProviderID(
         setIsLoading(true);
         setError(null);
         if (!productProviderID) return;
-        const result: any = await clientAPI(
+        const result = await clientAPI(
           sectionName === "BOInventory"
             ? listAvailableProductsByProviderIDAPI
             : productsByProductProviderIDAndId,
@@ -41,16 +45,25 @@ export function useListProductsByProductProviderID(
           }
         );
 
-        const productProviderProductsResult: IListProductProviderProductsByProductProviderIDAPI[] =
-          sectionName === "BOInventory"
-            ? result.data.listInventoryProducts.items
-            : result.data.productsByProductProviderIDAndId.items;
+        let productProviderProductsResult;
+
+        if (sectionName === "BOInventory") {
+          const resultBO = result as { data: ListInventoryProductsQuery };
+          productProviderProductsResult =
+            resultBO.data.listInventoryProducts!.items || [];
+        } else {
+          const resultMain = result as {
+            data: ProductsByProductProviderIDAndIdQuery;
+          };
+          productProviderProductsResult =
+            resultMain.data.productsByProductProviderIDAndId?.items || [];
+        }
 
         const finalResult: IListProductProviderProductsByProductProviderIDAPI[] =
-          productProviderProductsResult.map((item: any) => {
+          productProviderProductsResult.map((item : any) => {
             if (sectionName === "BOInventory") {
               return {
-                id: item.product.id,
+                id: item!.product!.id,
                 quantity: item.quantity,
                 category_id: item.product.category_id,
                 subcategory_id: item.product.subcategory_id,
@@ -83,7 +96,7 @@ export function useListProductsByProductProviderID(
     };
 
     fetchListProductProviderProductsByProductProviderID();
-  }, [productProviderID, inventoryID]);
+  }, [inventoryID]);
 
   return {
     listProductProviderProductsByProductProviderID,

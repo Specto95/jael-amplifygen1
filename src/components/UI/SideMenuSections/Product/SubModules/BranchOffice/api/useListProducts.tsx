@@ -13,7 +13,6 @@ export function useListProducts() {
     const fetchProducts = async () => {
       try {
         const result: any = await clientAPI(listProductsAPI);
-        console.log("Result: ", result);
         const productResult = result.data.listProducts.items.map(
           (item: any) => {
             const { productProvider, ...rest } = item;

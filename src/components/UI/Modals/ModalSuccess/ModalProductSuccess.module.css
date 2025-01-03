@@ -12,7 +12,7 @@
     overflow-y: scroll;
 }
 
-.success__container, .productDetail__container{
+.success__container, .failed__container, .productDetail__container{
     width: 400px;
     max-width: 85%;
     display: flex;
@@ -27,6 +27,11 @@
     gap: 1rem;
 }
 
+.failed__container{
+    background-color: var(--bg-error-primary);
+    color: var(--text-error-custom)
+}
+
 .productDetail__container{
     width: auto;
     background-color: var(--bg-main);
@@ -34,7 +39,7 @@
     padding: var(--p-md) var(--3rem);
 }
 
-.success__btn, .success__btn2{
+.success__btn, .success__btn2, .failed__btn{
     display: inline-block;
     width: var(--w-button-md);
     padding: .5rem;
@@ -42,12 +47,21 @@
     text-align: center;
     background-color: var(--text-primary);
     color: var(--bg-secondary);
-
     border: var(--border-3px);
     border-radius: var(--radius-xs);
     font-weight: 700;
     outline: none;
     cursor: pointer;
+}
+
+.failed__btn{
+    border: var(--border-error-3px);
+    background-color: var(--bg-error-primary);
+}
+
+.failed__btn:hover{
+    border: var( --border-failed);
+    background-color: var(--bg-error-primaryStrong);
 }
 
 .success__btn2{

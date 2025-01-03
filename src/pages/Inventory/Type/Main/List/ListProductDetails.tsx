@@ -136,7 +136,6 @@ export function ListProductDetails() {
                         <tr
                           {...row.getRowProps()}
                           onClick={() => {
-                            console.log(row.original);
                           }}
                         >
                           {row.cells.map((cell) => {

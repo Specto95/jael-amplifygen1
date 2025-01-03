@@ -37,35 +37,40 @@ export function useListClientsWithoutCreditTableDetails(clientID?: string) {
 
         const resultListClientsWithoutCreditTableDetails: IListClientSelectedFullDetailsAPIResponse[] =
           result.data.listCreditRequests.items.map(
-            (client: IListClientSelectedFullDetailsAPI) => {
+            (creditRequest: IListClientSelectedFullDetailsAPI) => {
               const listClientWithoutCreditTableDetailsObj: IListClientSelectedFullDetailsAPIResponse =
                 {
-                  creditRequestID: client.id,
-                  id: client.client.id,
-                  name: client.client.name + " " + client.client.lastname,
-                  clientSince: client.client.createdAt.split("T")[0],
-                  state: client.client.state || "N/A",
-                  address: client.client.address || "N/A",
-                  email: client.client.email || "N/A",
-                  hasCredit: client.client.hasCredit,
-                  city: client.client.city || "N/A",
-                  postal_code: client.client.postal_code || "N/A",
-                  settlement: client.client.settlement || "N/A",
-                  phone: client.client.phone || "N/A",
-                  credit_available: client.client.credit?.credit_available || 0,
-                  creditRequestAmount: client.creditRequestAmount,
+                  creditRequestID: creditRequest.id,
+                  id: creditRequest.client.id,
+                  name:
+                    creditRequest.client.name +
+                    " " +
+                    creditRequest.client.lastname,
+                  clientSince: creditRequest.client.createdAt.split("T")[0],
+                  state: creditRequest.client.state || "N/A",
+                  address: creditRequest.client.address || "N/A",
+                  email: creditRequest.client.email || "N/A",
+                  hasCredit: creditRequest.client.hasCredit,
+                  city: creditRequest.client.city || "N/A",
+                  postal_code: creditRequest.client.postal_code || "N/A",
+                  settlement: creditRequest.client.settlement || "N/A",
+                  phone: creditRequest.client.phone || "N/A",
+                  credit_available:
+                    creditRequest.client.credit?.credit_available || 0,
+                  creditRequestAmount: creditRequest.creditRequestAmount,
                   outstanding_balance:
-                    client.client.credit?.outstanding_balance || 0,
-                  creditRequestReason: client.creditRequestReason,
-                  creditRequestStatus: client.creditRequestStatus,
+                    creditRequest.client.credit?.outstanding_balance || 0,
+                  creditRequestReason: creditRequest.creditRequestReason,
+                  creditRequestStatus: creditRequest.creditRequestStatus,
                   creditSince:
-                    client.client.credit?.createdAt.split("T")[0] || "N/A",
+                    creditRequest.client.credit?.createdAt.split("T")[0] ||
+                    "N/A",
                 };
-              if (client.client.credit?.credit_available > 0) {
+              if (creditRequest.client.credit?.credit_available > 0) {
                 listClientWithoutCreditTableDetailsObj["totalCredit"] =
-                  client.client.credit?.totalCredit || 0;
+                  creditRequest.client.credit?.totalCredit || 0;
                 listClientWithoutCreditTableDetailsObj["creditID"] =
-                  client.client.credit?.id || "";
+                  creditRequest.client.credit?.id || "";
               }
 
               return listClientWithoutCreditTableDetailsObj;

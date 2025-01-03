@@ -31,6 +31,7 @@ import {
   IUseListInventoryProductIncomeInventoriesHistoryResponse,
   IUseListInventoryProductOutcomeInventoriesHistoryResponse,
 } from "@/pages/Inventory/Type/Main/List/api/interfaces/IUseListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID.d";
+import { Cell } from "react-table";
 
 export interface IErrors {
   errors?: FormikErrors<IInventoryGeneralFormData>;
@@ -71,6 +72,7 @@ export interface ISelectedIncomeRowsTable {
   productProviderId: string;
   commission: number;
   quantity?: number;
+  branchProductQuantity?: number;
   inventoryProductID: string;
 }
 
@@ -376,7 +378,7 @@ export interface ISelectProductDiscountProps
   setSelectedData?: React.Dispatch<React.SetStateAction<IListProductsPDVAPI[]>>;
   selectedData?: IListProductsPDVAPI[];
   index: number;
-  cell: any;
+  cell: Cell<IListProductsPDVAPI, any>;
   selectedIncomeData?: ISelectedIncomeRowsTable[];
   selectedOutcomeData?: ISelectedOutcomeRowsTable[];
 }

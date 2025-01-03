@@ -16,11 +16,13 @@ export interface ISectionName {
     | "BOInventory-Outcome"
     | "BOInventory-Returns"
     | "BOInventory-Inventory"
+    | "BOInventory-Requests"
     | "mainInventory"
     | "mainInventory-Movements"
     | "mainInventory-Outcome"
     | "mainInventory-Returns"
     | "mainInventory-Inventory"
+    | "mainInventory-Requests"
     | "providers"
     | "PDV"
     | "sales"
@@ -31,6 +33,7 @@ export interface ISectionName {
     | "settings"
     | "settings-Catalogue"
     | "settings-CatalogueCategories"
+    | "ssttings-User"
     | "";
 }
 
@@ -46,16 +49,19 @@ export interface ISubSectionName {
     | "BOInventory-Outcome"
     | "BOInventory-Returns"
     | "BOInventory-Inventory"
+    | "BOInventory-Requests"
     | "mainInventory"
     | "mainInventory-Movements"
     | "mainInventory-Outcome"
     | "mainInventory-Returns"
     | "mainInventory-Inventory"
+    | "mainInventory-Requests"
     | "mainCash"
     | "BOCash"
     | "settings"
     | "settings-Catalogue"
     | "settings-CatalogueCategories"
+    | "ssttings-User"
     | "";
 }
 

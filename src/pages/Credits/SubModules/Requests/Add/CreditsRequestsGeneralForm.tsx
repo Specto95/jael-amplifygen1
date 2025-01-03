@@ -51,7 +51,7 @@ const ModalSuccess = lazy(() =>
 );
 
 export function CreditsRequestsGeneralForm() {
-  const { mainBranchInventory } = useSessionProvider();
+  const { mainBranchInventory, branchInventory } = useSessionProvider();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -235,6 +235,7 @@ export function CreditsRequestsGeneralForm() {
                   creditRequestAmount: values.creditRequestAmount,
                   creditRequestReason: values.creditRequestReason,
                   creditRequestStatus: values.creditRequestStatus,
+                  branchOfficeID: branchInventory.id,
                 };
 
                 await clientAPI(createCreditRequestsAPI, {

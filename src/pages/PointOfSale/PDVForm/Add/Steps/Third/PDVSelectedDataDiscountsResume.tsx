@@ -78,16 +78,12 @@ export function PDVSelectedDataDiscountsResume({
               return (
                 <tr
                   {...row.getRowProps()}
-                  // onClick={() => {
-                  //   console.log(row.original)
-                  // }}
                 >
                   {row.cells.map((cell) => {
                     return (
                       <td
                         {...cell.getCellProps()}
                         onClick={() => {
-                          console.log(cell);
                         }}
                         className={
                           cell.column.id === PDVColumnsTableData.TOTAL ||

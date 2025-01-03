@@ -41,8 +41,6 @@ export function useGetOutcomeInventoryProductDetails(
           }
         );
 
-        console.log(result.data.getOutcomeInventory);
-
         setInventoryProductInputDetails({
           id: result.data.getOutcomeInventory.id,
           date: result.data.getOutcomeInventory.date,

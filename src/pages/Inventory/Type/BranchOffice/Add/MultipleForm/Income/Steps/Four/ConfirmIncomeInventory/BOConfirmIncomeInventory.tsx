@@ -29,12 +29,12 @@ export function BOConfirmIncomeInventory({
         setSelectedIncomeRows={setSelectedIncomeRows}
       />
 
-      <div className="flexColumn__fullMY">
+      {/* <div className="flexColumn__fullMY">
         <p className="bold">Comentarios Adicionales Egreso</p>
         <div className={styles["serviceProvider__readInput"]}>
           {values.outcomeComments}
         </div>
-      </div>
+      </div> */}
 
       <div className="flexColumn__fullMY">
         <p className="bold">Comentarios Adicionales</p>

@@ -16,7 +16,7 @@
 }
 
 .providerTableSpinner__container, .providerTableSpinner__containerNoBG {
-  height: 50vh;
+  height: 80vh;
   width: var(--w-full);
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: 80vh;
 }
 
 .spinner-center{

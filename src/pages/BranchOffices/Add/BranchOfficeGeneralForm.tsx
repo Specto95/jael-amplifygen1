@@ -85,7 +85,6 @@ export function BranchOfficeGeneralForm() {
         onSubmit={async (values) => {
           try {
             if (values.isSecondButton) {
-              console.log("aqui");
               setIsModalOpen(true);
               try {
                 //* DYNAMIC AMPLIFY IMPORTS
@@ -154,8 +153,6 @@ export function BranchOfficeGeneralForm() {
                         input: createInventoryProductInput,
                       }
                     );
-
-                    console.log(createInventoryProductResult);
                   });
                 }
 

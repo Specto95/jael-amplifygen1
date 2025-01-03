@@ -135,9 +135,21 @@ const SettingsCatalogueCategoriesView = lazy(() =>
   }))
 );
 
-//* COMPONENTS
-import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
-import { SectionView } from "@/components/UI/RoleInfo/SectionView/SectionView";
+const MainInventoryRequestsView = lazy(() =>
+  import(
+    "@/components/UI/SideMenuSections/Inventory/Type/Main/SubModules/Requests/MainInventoryRequestsView"
+  ).then((module) => ({
+    default: module.MainInventoryRequestsView,
+  }))
+);
+
+const BOInventoryRequestsView = lazy(() =>
+  import(
+    "@/components/UI/SideMenuSections/Inventory/Type/BranchOffice/SubModules/Requests/BOInventoryRequestsView"
+  ).then((module) => ({
+    default: module.BOInventoryRequestsView,
+  }))
+);
 
 //*CONTEXT
 import { useSessionProvider } from "@/hooks/useSessionProvider";
@@ -147,6 +159,7 @@ import { useSectionProvider } from "@/hooks/useSectionProvider";
 import { userDataLoginObj } from "@/utils/globalObjs/login/loginObjs";
 import { AccountFormObj } from "./Account/utils/AccountFormObj";
 import { sectionNameObj } from "@/utils/globalObjs/sectionNames/sectionNamesObj";
+import { clearBranchOfficeData } from "@/components/UI/SideMenuSections/Inventory/Type/BranchOffice/SubModules/Inventory/helpers/functions";
 
 export function MainPage() {
   const {
@@ -236,6 +249,10 @@ export function MainPage() {
       sectionNameObj.SECTIONNAME,
       JSON.stringify(sectionName)
     );
+
+    if (rolID === AccountFormObj.ADMIN && sectionName !== "BOInventory") {
+      clearBranchOfficeData(setBranchInventory);
+    }
   }, [sectionName]);
 
   useEffect(() => {
@@ -272,6 +289,8 @@ export function MainPage() {
             ? "Inventario Matriz"
             : sectionName === "mainInventory-Movements"
             ? "Inventario Matriz - Movimientos"
+            : sectionName === "mainInventory-Requests"
+            ? "Inventario Matriz - Peticiones"
             : sectionName === "mainInventory-Outcome"
             ? "Inventario Matriz - Egresos"
             : sectionName === "BOInventory"
@@ -317,6 +336,8 @@ export function MainPage() {
               ? "Inventario Matriz"
               : sectionName === "mainInventory-Movements"
               ? "Inventario Matriz - Movimientos"
+              : sectionName === "mainInventory-Requests"
+              ? "Inventario Matriz - Peticiones"
               : sectionName === "mainInventory-Outcome"
               ? "Inventario Matriz - Egresos"
               : sectionName === "BOInventory"
@@ -436,6 +457,10 @@ export function MainPage() {
         ) : sectionName === "mainInventory-Movements" ||
           sectionName === "BOInventory-Income" ? (
           <MainIncomeInventoryView />
+        ) : sectionName === "mainInventory-Requests" ? (
+          <MainInventoryRequestsView />
+        ) : sectionName === "BOInventory-Requests" ? (
+          <BOInventoryRequestsView />
         ) : sectionName === "BOInventory" ||
           sectionName === "BOInventory-Inventory" ? (
           <BOInventoryView />

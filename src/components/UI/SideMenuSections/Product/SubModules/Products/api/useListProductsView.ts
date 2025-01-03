@@ -16,7 +16,6 @@ export function useListProductsView() {
 
   useEffect(() => {
     const fetchProductsView = async () => {
-      console.log('productos')
       try {
         setIsLoading(true);
         setError(null);

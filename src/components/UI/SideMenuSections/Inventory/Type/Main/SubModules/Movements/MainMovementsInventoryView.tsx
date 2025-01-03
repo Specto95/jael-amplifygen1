@@ -21,7 +21,7 @@ export function MainMovementsInventoryView() {
   );
 
   return (
-    <main className={styles.main}>
+    <main>
       <SectionTopOptions query={query} setQuery={setQuery} />
 
       <MainIncomeInventoryList

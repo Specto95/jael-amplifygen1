@@ -54,6 +54,8 @@ export function SectionTopOptions({
                   ? "Buscar por nombre del producto:"
                   : sectionName === "mainInventory-Movements"
                   ? "Buscar por tipo de operación..."
+                  : sectionName === "mainInventory-Requests"
+                  ? "Buscar por estado..."
                   : sectionName === "clients"
                   ? "Buscar por nombre, #cliente..."
                   : sectionName === "commissions" ||
@@ -64,6 +66,8 @@ export function SectionTopOptions({
                   : sectionName === "credits" ||
                     sectionName === "creditRequests"
                   ? "Buscar por nombre de cliente"
+                  : sectionName === "creditsAccountsReceivable"
+                  ? "Buscar por nombre:"
                   : "Buscar"
               }
               className={styles[customInput]}
@@ -98,7 +102,12 @@ export function SectionTopOptions({
                     Nuevo Subgrupo
                   </Link>
                 </div>
-              ) : buttonAction || sectionName !== "BOInventory" ? (
+              ) : buttonAction ||
+                !(
+                  sectionName === "BOInventory" ||
+                  sectionName === "mainInventory-Requests" ||
+                  sectionName === "BOInventory-Requests"
+                ) ? (
                 <Link
                   to={`${
                     sectionName === "productsCatalogue" ||
@@ -112,6 +121,8 @@ export function SectionTopOptions({
                         sectionName === "mainInventory-Outcome" ||
                         sectionName === "mainInventory-Movements"
                       ? "/inventory/add"
+                      : sectionName === "mainInventory-Requests"
+                      ? "/mainInventoryRequests"
                       : sectionName === "BOInventory" ||
                         sectionName === "BOInventory-Inventory" ||
                         sectionName === "BOInventory-Income" ||
@@ -160,9 +171,10 @@ export function SectionTopOptions({
               ) : null
             ) : null}
             {/* REACT-SELECT */}
-            {(sectionName === "products" || sectionName === "productsCatalogue") && (
-                <SelectVisualizationMode setViewType={setViewType!} />
-              )}
+            {(sectionName === "products" ||
+              sectionName === "productsCatalogue") && (
+              <SelectVisualizationMode setViewType={setViewType!} />
+            )}
           </div>
         )}
       </div>

@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 
 //* INTERFACES
-import {
-  IListCreditsRequestsViewAPI,
-  IListCreditsRequestsViewAPIResponse,
-} from "./interfaces/IUseListCreditsRequestsView";
+import { IListCreditsRequestsViewAPI } from "./interfaces/IUseListCreditsRequestsView";
 
 //* AMPLIFY IMPORTS
-import { listCreditRequestsViewAPI } from "@/graphql/queries";
+import {
+  listCreditRequestsBOAPI,
+  listCreditRequestsMainAPI,
+} from "@/graphql/queries";
 import { CreditRequestStatus } from "@/utils/globalObjs/sideMenuSections/Credits/CreditsObjs";
 
 import { clientAPI } from "@/utils/amplifyAPI/client";
+import { ListCreditRequestsQuery } from "@/API";
 
-export function useListCreditsRequestsView(branchOfficeID: string) {
+import { useSessionProvider } from "@/hooks/useSessionProvider";
+
+export function useListCreditsRequestsView() {
+  const { branchInventory, mainBranchInventory } = useSessionProvider();
   const [listCreditsRequestsView, setListCreditsRequestsView] = useState<
     IListCreditsRequestsViewAPI[]
   >([]);
@@ -20,38 +24,41 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
+    if (!branchInventory.id && !mainBranchInventory.id) return;
     const fetchListCreditsRequestsView = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const result: any = await clientAPI(listCreditRequestsViewAPI, {
-          branchOfficeID,
-        });
+        const result = (await clientAPI(
+          branchInventory.id
+            ? listCreditRequestsBOAPI
+            : listCreditRequestsMainAPI,
+          {
+            branchOfficeID: branchInventory.id || mainBranchInventory.id,
+          }
+        )) as { data: ListCreditRequestsQuery };
 
-        console.log(result)
+        const creditRequestsResult =
+          result.data.listCreditRequests!.items.length > 0
+            ? result.data.listCreditRequests!.items.map((item) => {
+                const clientsCreditsViewObj: IListCreditsRequestsViewAPI = {
+                  clientID: item!.client!.id,
+                  clientName: item!.client!.name + " " + item!.client!.lastname,
+                  creditStatus:
+                    item!.creditRequestStatus === CreditRequestStatus.REJECTED
+                      ? "Rechazado"
+                      : item!.creditRequestStatus ===
+                        CreditRequestStatus.APPROVED
+                      ? "Aprobado"
+                      : "Pendiente",
+                };
 
-        const creditRequestsResult: IListCreditsRequestsViewAPI[] =
-          result.data.listClients.items.length > 0
-            ? result.data.listClients.items.map(
-                (item: IListCreditsRequestsViewAPIResponse) => {
-                  const clientsCreditsViewObj: IListCreditsRequestsViewAPI = {
-                    clientID: item.creditRequests.items[0].client.id,
-                    clientName:
-                      item.creditRequests.items[0].client.name +
-                      " " +
-                      item.creditRequests.items[0].client.lastname,
-                    creditStatus:
-                      item.creditRequests.items[0].creditRequestStatus ===
-                      CreditRequestStatus.REJECTED
-                        ? "Rechazado"
-                        : item.creditRequests.items[0].creditRequestStatus ===
-                          CreditRequestStatus.APPROVED
-                        ? "Aprobado"
-                        : "Pendiente",
-                  };
-                  return clientsCreditsViewObj;
+                if (mainBranchInventory.id) {
+                  clientsCreditsViewObj.branchOfficeName =
+                    item?.branchOffice?.name;
                 }
-              )
+                return clientsCreditsViewObj;
+              })
             : [];
 
         setListCreditsRequestsView(creditRequestsResult);
@@ -64,7 +71,7 @@ export function useListCreditsRequestsView(branchOfficeID: string) {
     };
 
     fetchListCreditsRequestsView();
-  }, [branchOfficeID]);
+  }, [branchInventory.id, mainBranchInventory.id]);
 
   return { listCreditsRequestsView, setListCreditsRequestsView, isLoading };
 }

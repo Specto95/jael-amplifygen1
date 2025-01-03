@@ -1,7 +1,10 @@
+import { ITotalPayments } from "@/pages/Credits/SubModules/Clients/List/Columns/interfaces/IListClientMovementsColumns";
+
 export interface IAccountsReceivableListColumns {
   Header:
     | "Nombre del cliente"
     | "Días Pagos"
+    | "# Pago"
     | "Estado"
     | "Vencimiento"
     | "Fecha de Pago"
@@ -12,6 +15,7 @@ export interface IAccountsReceivableListColumns {
     | "Status Pago";
   accessor:
     | "clientName"
+    | "totalPayments"
     | "termDaysToPay"
     | "status"
     | "paymentDate"

@@ -57,14 +57,14 @@ export function RegisterType({
           />
           <label>Ingreso</label>
         </div>
-        <div className={styles.flex__spacing}>
+        {/* <div className={styles.flex__spacing}>
           <Field
             name="registerType"
             type="radio"
             value={OperationType.RETURNS}
           />
           <label>Devolución</label>
-        </div>
+        </div> */}
 
         <div className={styles["inventoryForm__buttonsContainer"]}>
           <button

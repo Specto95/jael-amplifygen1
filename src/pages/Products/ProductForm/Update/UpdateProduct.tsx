@@ -246,8 +246,6 @@ export function UpdateProduct(): JSX.Element {
                         await clientAPI(updateInventoryProductGeneralPriceAPI, {
                           input: updateInventoryProductCustomPriceInput,
                         });
-
-                      console.log(updatedInventoryGeneralPriceResult);
                     }
                   );
               }

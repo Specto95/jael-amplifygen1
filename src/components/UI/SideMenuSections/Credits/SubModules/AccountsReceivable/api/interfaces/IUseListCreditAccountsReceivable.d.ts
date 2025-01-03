@@ -3,9 +3,10 @@ export interface IUseListCreditAccountsReceivableAPI {
   clientName: string;
   termDaysToPay: number | string;
   pendingToPay?: number | string;
-  totalPayments?: number;
-  currentTotalPayments?: number;
-  amountPaid?: number;
+  // totalPayments?: number | null;
+  currentTotalPayments?: number | null;
+  totalPayments?: string | number | null;
+  amountPaid?: number | null;
   status: string;
   paymentDate: string;
   datePaid?: string;
@@ -14,7 +15,7 @@ export interface IUseListCreditAccountsReceivableAPI {
   total: number | string;
   statusActions: string;
   branchOfficeName?: string;
-  paymentStatus? : string;
+  paymentStatus?: string;
 }
 
 export interface IUseListCreditAccountsReceivableAPIResponse {

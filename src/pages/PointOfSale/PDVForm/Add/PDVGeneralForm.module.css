@@ -364,6 +364,7 @@
 
 .PDVOrdersManagement__inputBRSM{
     border-radius: var(--radius-sm);
+    min-width: 300px;
 }
 
 .PDVResume__DataFields{
@@ -385,6 +386,10 @@
     max-width: fit-content;
     min-width: 100px;
     text-align: center;
+}
+
+.PDV__FixedResumeSale-NoM{
+    margin: 0 !important;
 }
 
 .PDV__FixedResumeSale, .PDV__FixedResumeSale1st {
@@ -532,7 +537,7 @@
     padding: var(--p-sm);
     max-width: fit-content;
     min-width: var(--w-half);
-    text-align: center;
+    text-align: left;
     background-color: var(--bg-secondary);
     border: var(--border-3px);
     border-radius: var(--radius-sm);

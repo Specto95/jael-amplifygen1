@@ -17,11 +17,10 @@ export function useGetBranchOfficeCommission(id: string) {
   useEffect(() => {
     const fetchGetBranchOfficeCommission = async () => {
       try {
-        // console.log('aqui')
+        if (!id) return;
         const result: any = await clientAPI(getBranchOfficeCommissionAPI, {
           id,
         });
-        // console.log(result)
         setGetBranchOfficeCommission(result.data.getBranchOffice);
       } catch (error) {
         console.log("Error: ", error);

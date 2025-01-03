@@ -17,7 +17,7 @@ import {
   ISelectedIncomeRowsTable,
 } from "@/interfaces/Inventory/inventory.d";
 
-import { OperationType } from "../../Main/List/ListProductDetailsObj";
+import { OperationType as OperationTypeObj } from "../../Main/List/ListProductDetailsObj";
 
 //* UTILS
 import { getCurrentDate } from "@/utils/dates";
@@ -35,10 +35,21 @@ import {
 } from "./interfaces/inputs/IInventoryGeneralFormInputs";
 import { ISelectedStateObj } from "./MultipleForm/Income/Steps/One/interfaces/IIncomeSelectProvider";
 import { BOInventoryGeneralFormData } from "../../Main/FormProps/initialValues/InventoryFormData";
+import { createIncomeInventoryRequest } from "../../../../../graphql/mutations";
 import {
   IIncomeInventoryProductQuantityInput,
   IInventoryProductIncomeInventoryInput,
 } from "../../Main/Add/interfaces/inputs/IInventoryGeneralFormInputs";
+import {
+  CreateIncomeInventoryProductQuantityRequestMutation,
+  CreateIncomeInventoryProductQuantityRequestMutationVariables,
+  CreateIncomeInventoryRequestMutationVariables,
+  CreateInventoryOperationMutationVariables,
+  CreateInventoryProductIncomeInventoryRequestMutation,
+  CreateInventoryProductIncomeInventoryRequestMutationVariables,
+  IOInventoryStatus,
+  OperationType,
+} from "@/API";
 
 //*LAZY FORMS
 const RegisterType = lazy(() =>
@@ -142,6 +153,7 @@ export function BOInventoryGeneralForm() {
   >({
     id: "",
     name: "",
+    productProviderID: "",
   });
   const [selectedProviderResponsible, setSelectedProviderResponsible] =
     useState<ISelectedProviderResponsibleState["selectedProviderResponsible"]>({
@@ -165,8 +177,6 @@ export function BOInventoryGeneralForm() {
     [selectedIncomeRows]
   );
 
-  console.log(selectedProvider);
-
   const { goTo, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <RegisterType />,
@@ -189,11 +199,11 @@ export function BOInventoryGeneralForm() {
     type: IBOInventoryTypeState["inventoryType"]
   ) => {
     setInventoryType(type);
-    if (type === OperationType.INCOME) {
+    if (type === OperationTypeObj.INCOME) {
       goTo(currentIndexObj.TWO);
       return;
     }
-    if (type === OperationType.RETURNS) {
+    if (type === OperationTypeObj.RETURNS) {
       // goTo(currentIndexObj.SIX);
       return;
     }
@@ -232,133 +242,196 @@ export function BOInventoryGeneralForm() {
               const { clientAPI } = await import("@/utils/amplifyAPI/client");
 
               const {
-                updateInventoryProductQuantityAPI,
+                // updateInventoryProductQuantityAPI,
                 createInventoryOperationAPI,
               } = await import("@/graphql/mutations");
 
               //?---------------- INCOME
               if (values.registerType === OperationType.INCOME) {
                 const {
-                  createIncomeInventoryAPI,
-                  createInventoryProductIncomeInventoryAPI,
-                  createIncomeInventoryProductQuantityAPI,
+                  // createIncomeInventoryAPI,
+                  createIncomeInventoryRequest,
+                  // createInventoryProductIncomeInventoryAPI,
+                  createInventoryProductIncomeInventoryRequest,
+                  // createIncomeInventoryProductQuantityAPI,
+                  createIncomeInventoryProductQuantityRequest,
                 } = await import("@/graphql/mutations");
                 try {
                   //? GLOBAL IDs
-                  const incomeInventoryID = uuidv4();
+                  //const incomeInventoryID = uuidv4();
+                  const incomeInventoryRequestID = uuidv4();
                   const inventoryOperationID = uuidv4();
 
                   //*----------- CREATE INVENTORY OPERATION (GLOBAL API)
-                  const inventoryOperationInput: IInventoryOperationInput = {
-                    id: inventoryOperationID,
-                    operationType: OperationType.INCOME,
-                    inventoryID: branchInventory.inventoryID,
-                    inventoryOperationIncomeInventoryId: incomeInventoryID,
-                  };
-
-                  const inventoryOperationResult: any = await clientAPI(
-                    createInventoryOperationAPI,
+                  const inventoryOperationInput: CreateInventoryOperationMutationVariables =
                     {
-                      input: inventoryOperationInput,
-                    }
+                      input: {
+                        id: inventoryOperationID,
+                        operationType: OperationType.INCOME,
+                        inventoryID: branchInventory.inventoryID,
+                        inventoryOperationIncomeInventoryRequestId:
+                          incomeInventoryRequestID,
+                        // inventoryOperationIncomeInventoryId: incomeInventoryID,
+                      },
+                    };
+
+                  await clientAPI(
+                    createInventoryOperationAPI,
+                    inventoryOperationInput
                   );
 
                   //*----------- CREATE INCOME INVENTORY (GLOBAL API)
-                  const incomeInventoryInput: IIncomeInventoryInput = {
-                    id: incomeInventoryID,
-                    branchOfficeID: branchInventory.id,
-                    // quantity: quantity!,
-                    date: getCurrentDate(),
-                    incomeInventoryInventoryOperationIDId: inventoryOperationID,
-                    productProviderResponsibleID:
-                      selectedProviderResponsible?.id || "",
-                    providerID: selectedProvider?.id || "",
-                    userInfoID: userInfoData.id!,
-                    comments:
-                      values.incomeRegisterInputs.comments! ||
-                      "Sin comentarios",
-                  };
+                  // const incomeInventoryInput: IIncomeInventoryInput = {
+                  //   id: incomeInventoryID,
+                  //   branchOfficeID: branchInventory.id,
+                  //   // quantity: quantity!,
+                  //   date: getCurrentDate(),
+                  //   incomeInventoryInventoryOperationIDId: inventoryOperationID,
+                  //   productProviderResponsibleID:
+                  //     selectedProviderResponsible?.id || "",
+                  //   providerID: selectedProvider?.productProviderID || "",
+                  //   userInfoID: userInfoData.id!,
+                  //   comments:
+                  //     values.incomeRegisterInputs.comments! ||
+                  //     "Sin comentarios",
+                  // };
 
-                  const incomeInventoryResult = await clientAPI(
-                    createIncomeInventoryAPI,
+                  const incomeInventoryRequestInput: CreateIncomeInventoryRequestMutationVariables =
                     {
-                      input: incomeInventoryInput,
-                    }
-                  );
+                      input: {
+                        id: incomeInventoryRequestID,
+                        branchOfficeID: branchInventory.id,
+                        date: getCurrentDate(),
+                        incomeInventoryRequestInventoryOperationIDId:
+                          inventoryOperationID,
+                        productProviderResponsibleID:
+                          selectedProviderResponsible?.id || "",
+                        providerID: selectedProvider?.id || "",
+                        userInfoID: userInfoData.id!,
+                        comments:
+                          values.incomeRegisterInputs.comments ||
+                          "Sin comentarios",
+                        status: IOInventoryStatus.PROCESSING,
+                      },
+                    };
 
-                  console.log(incomeInventoryResult);
+                  //? >>>>>>>>> INCOMEINVENTORYREQUEST
+
+                  const incomeInventoryRequestResult = await clientAPI(
+                    createIncomeInventoryRequest,
+                    incomeInventoryRequestInput
+                  );
 
                   selectedIncomeRows.map(async (row) => {
                     const { inventoryProductID, quantity, id: productID } = row;
-                    const previousRow = selectedPreviousIncomeRows.find(
-                      (prevRow) =>
-                        prevRow.inventoryProductID === inventoryProductID
-                    );
-                    console.log(previousRow);
-                    const updatedQuantity: number =
-                      previousRow?.quantity! + quantity!;
-                    console.log(updatedQuantity)
+                    // const previousRow = selectedPreviousIncomeRows.find(
+                    //   (prevRow) =>
+                    //     prevRow.inventoryProductID === inventoryProductID
+                    // );
+
+                    //?NO UPDATE ATM
+                    // const updatedQuantity: number =
+                    //   previousRow?.branchProductQuantity! + quantity!;
+
                     // if (previousRow) {
-                    //   console.log('aqui')
-                    //   //* UPDATING BRANCHOFFICE INVENTORY PRODUCT QUANTITY
-                    //   const updateInventoryProductQuantity = await clientAPI(updateInventoryProductQuantityAPI, {
-                    //     input: {
-                    //       id: inventoryProductID,
-                    //       quantity: updatedQuantity,
-                    //     },
+                    //   const updateInventoryProductQuantity = await clientAPI(
+                    //     updateInventoryProductQuantityAPI,
+                    //     {
+                    //       input: {
+                    //         id: inventoryProductID,
+                    //         quantity: updatedQuantity,
+                    //       },
+                    //     }
+                    //   );
+                    // }
+
+                    // //* UPDATING MAIN INVENTORY PRODUCT QUANTITY
+                    // const selectedMainInventoryProductFound =
+                    //   selectedMainProductsDetails.find(
+                    //     (selectedMainProduct) =>
+                    //       selectedMainProduct.id === productID
+                    //   );
+                    // if (selectedMainInventoryProductFound) {
+                    //   const updatedMainInventoryProductQuantity =
+                    //     selectedMainInventoryProductFound.quantity! - quantity!;
+                    //   const selectedMainInventoryProductResult: any =
+                    //     await clientAPI(updateInventoryProductQuantityAPI, {
+                    //       input: {
+                    //         id: selectedMainInventoryProductFound.inventoryProductID,
+                    //         quantity: updatedMainInventoryProductQuantity,
+                    //       },
+                    //     });
+                    // }
+
+                    // // * CREATE INCOME INVENTORY PRODUCT QUANTITY
+                    // const incomeInventoryProductQuantityInput: IIncomeInventoryProductQuantityInput =
+                    //   {
+                    //     incomeQuantity: quantity!,
+                    //     incomeInventoryID,
+                    //   };
+
+                    //   const incomeInventoryProductQuantityResult =
+                    //   await clientAPI(createIncomeInventoryProductQuantityAPI, {
+                    //     input: incomeInventoryProductQuantityInput,
                     //   });
 
-                    //   console.log(updateInventoryProductQuantity)
-                    // }
-                    //* UPDATING MAIN INVENTORY PRODUCT QUANTITY
-                    const selectedMainInventoryProductFound =
-                      selectedMainProductsDetails.find(
-                        (selectedMainProduct) =>
-                          selectedMainProduct.id === productID
-                      );
-                    if (selectedMainInventoryProductFound) {
-                      const updatedMainInventoryProductQuantity =
-                        selectedMainInventoryProductFound.quantity! - quantity!;
-                      const selectedMainInventoryProductResult: any =
-                        await clientAPI(updateInventoryProductQuantityAPI, {
-                          input: {
-                            id: selectedMainInventoryProductFound.inventoryProductID,
-                            quantity: updatedMainInventoryProductQuantity,
-                          },
-                        });
-                    }
+                    // const { id: incomeInventoryProductQuantityID } =
+                    //   incomeInventoryProductQuantityResult.data
+                    //     .createIncomeInventoryProductQuantity;
 
-                    //* CREATE INCOME INVENTORY PRODUCT QUANTITY
-                    const incomeInventoryProductQuantityInput: IIncomeInventoryProductQuantityInput =
+                    //* CREATE INCOMEINVENTORYPRODUCTQUANTITYREQUEST
+                    const incomeInventoryProductQuantityRequestInput: CreateIncomeInventoryProductQuantityRequestMutationVariables =
                       {
-                        incomeQuantity: quantity!,
-                        incomeInventoryID,
+                        input: {
+                          incomeInventoryRequestID,
+                          incomeQuantity: quantity!,
+                        },
                       };
 
-                    const incomeInventoryProductQuantityResult: any =
-                      await clientAPI(createIncomeInventoryProductQuantityAPI, {
-                        input: incomeInventoryProductQuantityInput,
-                      });
-
-                    const { id: incomeInventoryProductQuantityID } =
-                      incomeInventoryProductQuantityResult.data
-                        .createIncomeInventoryProductQuantity;
-
-                    //* CREATE INVENTORY PRODUCTs INCOME INVENTORY
-                    const inventoryProductIncomeInventoryInput: IInventoryProductIncomeInventoryInput =
-                      {
-                        incomeInventoryProductQuantityId:
-                          incomeInventoryProductQuantityID,
-                        inventoryProductId: inventoryProductID,
+                    const incomeInventoryProductQuantityRequestResult =
+                      (await clientAPI(
+                        createIncomeInventoryProductQuantityRequest,
+                        incomeInventoryProductQuantityRequestInput
+                      )) as {
+                        data: CreateIncomeInventoryProductQuantityRequestMutation;
                       };
 
-                    const inventoryProductIncomeInventoryResult: any =
-                      await clientAPI(
-                        createInventoryProductIncomeInventoryAPI,
-                        {
-                          input: inventoryProductIncomeInventoryInput,
-                        }
-                      );
+                    const { id: incomeInventoryProductQuantityRequestId } =
+                      incomeInventoryProductQuantityRequestResult.data
+                        .createIncomeInventoryProductQuantityRequest!;
+
+                    // //* CREATE INVENTORY PRODUCTs INCOME INVENTORY
+                    // const inventoryProductIncomeInventoryInput: IInventoryProductIncomeInventoryInput =
+                    //   {
+                    //     incomeInventoryProductQuantityId:
+                    //       incomeInventoryProductQuantityID,
+                    //     inventoryProductId: inventoryProductID,
+                    //   };
+
+                    // const inventoryProductIncomeInventoryResult: any =
+                    //   await clientAPI(
+                    //     createInventoryProductIncomeInventoryAPI,
+                    //     {
+                    //       input: inventoryProductIncomeInventoryInput,
+                    //     }
+                    //   );
+
+                    //* CREATE INVENTORYPRODUCTsINCOMEINVENTORYREQUEST
+                    const inventoryProductIncomeInventoryRequestInput: CreateInventoryProductIncomeInventoryRequestMutationVariables =
+                      {
+                        input: {
+                          incomeInventoryProductQuantityRequestId,
+                          inventoryProductId: inventoryProductID,
+                        },
+                      };
+
+                    const inventoryProductIncomeInventoryRequestResult =
+                      (await clientAPI(
+                        createInventoryProductIncomeInventoryRequest,
+                        inventoryProductIncomeInventoryRequestInput
+                      )) as {
+                        data: CreateInventoryProductIncomeInventoryRequestMutation;
+                      };
                   });
                   console.log("COMPLETED!");
                 } catch (error) {

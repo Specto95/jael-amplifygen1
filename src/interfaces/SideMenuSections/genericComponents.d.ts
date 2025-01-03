@@ -49,6 +49,7 @@ export interface IGeneralBackFinishProps
     IToBeFinished {
   SubmitText?: string;
   popUpMessage?: string;
+  isSubmitting?: boolean;
 }
 
 export interface ICustomGeneralBackFinishProps extends IGeneralBackFinishProps {

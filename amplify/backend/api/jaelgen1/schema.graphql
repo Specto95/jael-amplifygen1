@@ -83,6 +83,8 @@ type CreditRequests @model {
   id: ID!
   clientID: ID @index(name: "byClient", sortKeyFields: ["id"])
   client: Client @belongsTo(fields: ["clientID"])
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
   creditRequestAmount: Float
   creditRequestStatus: CreditRequestStatus
   creditRequestReason: String
@@ -126,7 +128,9 @@ type InventoryOperation @model {
   inventoryID: ID! @index(name: "byInventory")
   inventory: Inventory! @belongsTo(fields: ["inventoryID"])
   incomeInventory: IncomeInventory @hasOne
+  incomeInventoryRequest: IncomeInventoryRequest @hasOne
   outcomeInventory: OutcomeInventory @hasOne
+  outcomeInventoryRequest: OutcomeInventoryRequest @hasOne
   salesOperation: SalesOperation @hasOne
 }
 
@@ -137,10 +141,22 @@ enum OperationType {
   RETURN
 }
 
+enum IOInventoryStatus {
+  PENDING
+  PROCESSING
+  IN_TRANSIT
+  DELIVERED
+  CANCELED
+  RETURNING
+  RETURNED
+  FAILED
+}
+
 type IncomeInventory @model {
   id: ID!
   date: AWSDate!
   comments: String
+  status: IOInventoryStatus
   inventoryOperationID: InventoryOperation @belongsTo
   providerID: ID! @index(name: "byProvider", sortKeyFields: ["id"])
   provider: Provider @belongsTo(fields: ["providerID"])
@@ -156,6 +172,29 @@ type IncomeInventory @model {
     @hasMany(indexName: "byIncomeInventory", fields: ["id"])
 }
 
+type IncomeInventoryRequest @model {
+  id: ID!
+  date: AWSDate!
+  comments: String
+  rejectedReason: String
+  status: IOInventoryStatus!
+  inventoryOperationID: InventoryOperation @belongsTo
+  providerID: ID! @index(name: "byProvider", sortKeyFields: ["id"])
+  provider: Provider @belongsTo(fields: ["providerID"])
+  productProviderResponsibleID: ID!
+    @index(name: "byProductProviderResponsible", sortKeyFields: ["id"])
+  productProviderResponsible: ProductProviderResponsible
+    @belongsTo(fields: ["productProviderResponsibleID"])
+  branchOfficeID: ID! @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  incomeInventoryProductQuantitiesRequest: [IncomeInventoryProductQuantityRequest]
+    @hasMany(indexName: "byIncomeInventoryRequest", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
 type IncomeInventoryProductQuantity @model {
   id: ID!
   incomeQuantity: Int!
@@ -166,10 +205,22 @@ type IncomeInventoryProductQuantity @model {
   incomeInventory: IncomeInventory @belongsTo(fields: ["incomeInventoryID"])
 }
 
+type IncomeInventoryProductQuantityRequest @model {
+  id: ID!
+  incomeQuantity: Int!
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "InventoryProductIncomeInventoryRequest")
+  incomeInventoryRequestID: ID!
+    @index(name: "byIncomeInventoryRequest", sortKeyFields: ["id"])
+  incomeInventoryRequest: IncomeInventoryRequest
+    @belongsTo(fields: ["incomeInventoryRequestID"])
+}
+
 type OutcomeInventory @model {
   id: ID!
   date: AWSDate!
   comments: String
+  status: IOInventoryStatus
   userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
   userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
   branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
@@ -177,6 +228,20 @@ type OutcomeInventory @model {
   inventoryOperationID: InventoryOperation @belongsTo
   outcomeInventoryProductQuantities: [OutcomeInventoryProductQuantity]
     @hasMany(indexName: "byOutcomeInventory", fields: ["id"])
+}
+
+type OutcomeInventoryRequest @model {
+  id: ID!
+  date: AWSDate!
+  comments: String
+  status: IOInventoryStatus
+  userInfoID: ID! @index(name: "byUserInfo", sortKeyFields: ["id"])
+  userInfo: UserInfo @belongsTo(fields: ["userInfoID"])
+  branchOfficeID: ID @index(name: "byBranchOffice", sortKeyFields: ["id"])
+  branchOffice: BranchOffice @belongsTo(fields: ["branchOfficeID"])
+  inventoryOperationID: InventoryOperation @belongsTo
+  outcomeInventoryProductQuantitiesRequest: [OutcomeInventoryProductQuantityRequest]
+    @hasMany(indexName: "byOutcomeInventoryRequest", fields: ["id"])
 }
 
 type OutcomeInventoryProductQuantity @model {
@@ -187,6 +252,17 @@ type OutcomeInventoryProductQuantity @model {
   outcomeInventoryID: ID!
     @index(name: "byOutcomeInventory", sortKeyFields: ["id"])
   outcomeInventory: OutcomeInventory @belongsTo(fields: ["outcomeInventoryID"])
+}
+
+type OutcomeInventoryProductQuantityRequest @model {
+  id: ID!
+  outcomeRequestQuantity: Int!
+  inventoryProducts: [InventoryProduct]
+    @manyToMany(relationName: "InventoryProductOutcomeInventoryRequest")
+  outcomeInventoryRequestID: ID!
+    @index(name: "byOutcomeInventoryRequest", sortKeyFields: ["id"])
+  outcomeInventoryRequest: OutcomeInventoryRequest
+    @belongsTo(fields: ["outcomeInventoryRequestID"])
 }
 
 type ReturnsInventory @model {
@@ -252,7 +328,11 @@ type UserInfo @model {
     @hasMany(indexName: "byUserInfo", fields: ["id"])
   incomeInventories: [IncomeInventory]
     @hasMany(indexName: "byUserInfo", fields: ["id"])
+  incomeInventoriesRequest: [IncomeInventoryRequest]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
   outcomeInventories: [OutcomeInventory]
+    @hasMany(indexName: "byUserInfo", fields: ["id"])
+  outcomeInventoriesRequest: [OutcomeInventoryRequest]
     @hasMany(indexName: "byUserInfo", fields: ["id"])
   returnsInventory: [ReturnsInventory]
     @hasMany(indexName: "byUserInfo", fields: ["id"])
@@ -284,8 +364,12 @@ type InventoryProduct @model {
   discounts: [Discounts] @manyToMany(relationName: "DiscountInventoryProduct")
   inventoryProductIncomeInventory: [IncomeInventoryProductQuantity]
     @manyToMany(relationName: "InventoryProductIncomeInventory")
+  inventoryProductIncomeInventoryRequests: [IncomeInventoryProductQuantityRequest]
+    @manyToMany(relationName: "InventoryProductIncomeInventoryRequest")
   inventoryProductOutcomeInventory: [OutcomeInventoryProductQuantity]
     @manyToMany(relationName: "InventoryProductOutcomeInventory")
+  inventoryProductOutcomeInventoryRequests: [OutcomeInventoryProductQuantityRequest]
+    @manyToMany(relationName: "InventoryProductOutcomeInventoryRequest")
   inventoryProductSalesOperation: [SalesOperationInventoryProductQuantity]
     @manyToMany(relationName: "InventoryProductSalesOperation")
   returnsInventory: [ReturnsInventory]
@@ -303,6 +387,8 @@ type BranchOffice @model {
   branchOffice_commission: Int
   inventories: [Inventory] @hasMany(indexName: "byBranchOffice", fields: ["id"])
   isMain: Boolean
+  creditRequests: [CreditRequests]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
   # discounts: [Discounts] @hasMany(indexName: "byBranchOffice", fields: ["id"])
 
   companyExpenses: [CompanyExpenses]
@@ -311,7 +397,11 @@ type BranchOffice @model {
   clients: [Client] @hasMany(indexName: "byBranchOffice", fields: ["id"])
   outcomeInventories: [OutcomeInventory]
     @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  outcomeInventoriesRequest: [OutcomeInventoryRequest]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
   incomeInventories: [IncomeInventory]
+    @hasMany(indexName: "byBranchOffice", fields: ["id"])
+  incomeInventoriesRequest: [IncomeInventoryRequest]
     @hasMany(indexName: "byBranchOffice", fields: ["id"])
   salesOperations: [SalesOperation]
     @hasMany(indexName: "byBranchOffice", fields: ["id"])
@@ -467,6 +557,8 @@ type Provider @model {
   serviceprovider: ServiceProvider @hasOne
   incomeInventories: [IncomeInventory]
     @hasMany(indexName: "byProvider", fields: ["id"])
+  incomeInventoriesRequest: [IncomeInventoryRequest]
+    @hasMany(indexName: "byProvider", fields: ["id"])
 }
 
 type ProductProvider @model {
@@ -490,6 +582,8 @@ type ProductProviderResponsible @model {
   phone: String!
   RFC: String
   incomeInventories: [IncomeInventory]
+    @hasMany(indexName: "byProductProviderResponsible", fields: ["id"])
+  incomeInventoriesRequest: [IncomeInventoryRequest]
     @hasMany(indexName: "byProductProviderResponsible", fields: ["id"])
 }
 

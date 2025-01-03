@@ -25,7 +25,6 @@ export function useListCreditAccountsReceivable(
             subMovementType!,
             clientID!
           )) || [];
-        // : [];
 
         setListCreditAccountsReceivable(data!);
       } catch (er) {

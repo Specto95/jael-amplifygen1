@@ -59,13 +59,12 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
           {
             id: productID,
             inventoryID:
-              rolID === AccountFormObj.ADMIN
-                ? mainBranchInventory.inventoryID
-                : branchInventory.inventoryID,
+              (rolID === AccountFormObj.ADMIN && branchInventory.inventoryID) ||
+              branchInventory.inventoryID
+                ? branchInventory.inventoryID
+                : mainBranchInventory.inventoryID,
           }
         );
-
-        console.log(result.data.listInventoryProducts.items);
 
         const data = result.data.listInventoryProducts.items.map(
           (
@@ -119,7 +118,6 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
                       (
                         incomeInventory: IUseListInventoryProductIncomeInventoryProductQuantityObj
                       ) => {
-                        console.log(incomeInventory);
                         return {
                           id: incomeInventory.incomeInventoryProductQuantity
                             .incomeInventory.id,
@@ -134,10 +132,11 @@ export function useListInventoryProductIncomeOutcomesHistoryByIDAndInventoryID(
                           inventoryOperationType: "INGRESO",
                           providerName:
                             incomeInventory.incomeInventoryProductQuantity
-                              .incomeInventory.provider.enterprise_name,
+                              .incomeInventory.provider?.enterprise_name ||
+                            "Sin Proveedor",
                           providerID:
                             incomeInventory.incomeInventoryProductQuantity
-                              .incomeInventory.provider.id,
+                              .incomeInventory.provider?.id || "Sin Proveedor",
                           userInfoID:
                             incomeInventory.incomeInventoryProductQuantity
                               .incomeInventory.userInfo.id,

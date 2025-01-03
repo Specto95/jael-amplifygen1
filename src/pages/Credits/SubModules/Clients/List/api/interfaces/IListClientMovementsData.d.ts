@@ -29,6 +29,8 @@ export interface IListClientMovementsDataAPI {
   credit_available: number;
   outstanding_balance: number;
   creditSince: string;
+  totalToPay?: number;
+  totalPayments?: number;
 }
 
 export interface IListClientMovementsDataTableAPI {

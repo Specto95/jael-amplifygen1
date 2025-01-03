@@ -2,6 +2,894 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+import * as APITypes from "../API";
+type GeneratedQuery<InputType, OutputType> = string & {
+  __generatedQueryInput: InputType;
+  __generatedQueryOutput: OutputType;
+};
+
+export const getIncomeInventoryRequest =
+  /* GraphQL */ `query GetIncomeInventoryRequest($id: ID!) {
+  getIncomeInventoryRequest(id: $id) {
+    id
+    date
+    comments
+    status
+    inventoryOperationID {
+      id
+      operationType
+      inventoryID
+      createdAt
+      updatedAt
+      inventoryOperationIncomeInventoryId
+      inventoryOperationIncomeInventoryRequestId
+      inventoryOperationOutcomeInventoryId
+      inventoryOperationOutcomeInventoryRequestId
+      inventoryOperationSalesOperationId
+      __typename
+    }
+    providerID
+    provider {
+      id
+      enterprise_name
+      enterprise_RFC
+      phone
+      fixed_phone
+      type
+      createdAt
+      updatedAt
+      providerProductproviderId
+      providerServiceproviderId
+      __typename
+    }
+    productProviderResponsibleID
+    productProviderResponsible {
+      id
+      productproviderID
+      name
+      second_name
+      lastname
+      second_lastname
+      phone
+      RFC
+      createdAt
+      updatedAt
+      __typename
+    }
+    branchOfficeID
+    branchOffice {
+      id
+      name
+      zipcode
+      state
+      location
+      address
+      phone
+      branchOffice_commission
+      isMain
+      createdAt
+      updatedAt
+      __typename
+    }
+    userInfoID
+    userInfo {
+      id
+      name
+      phone
+      RFC
+      gender
+      createdAt
+      updatedAt
+      userInfoUserId
+      __typename
+    }
+    incomeInventoryProductQuantitiesRequest {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    incomeInventoryRequestInventoryOperationIDId
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.GetIncomeInventoryRequestQueryVariables,
+    APITypes.GetIncomeInventoryRequestQuery
+  >;
+export const getIncomeInventoryProductQuantityRequest =
+  /* GraphQL */ `query GetIncomeInventoryProductQuantityRequest($id: ID!) {
+  getIncomeInventoryProductQuantityRequest(id: $id) {
+    id
+    incomeQuantity
+    inventoryProducts {
+      nextToken
+      __typename
+    }
+    incomeInventoryRequestID
+    incomeInventoryRequest {
+      id
+      date
+      comments
+      status
+      providerID
+      productProviderResponsibleID
+      branchOfficeID
+      userInfoID
+      createdAt
+      updatedAt
+      incomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.GetIncomeInventoryProductQuantityRequestQueryVariables,
+    APITypes.GetIncomeInventoryProductQuantityRequestQuery
+  >;
+export const listIncomeInventoryProductQuantityRequests =
+  /* GraphQL */ `query ListIncomeInventoryProductQuantityRequests(
+  $filter: ModelIncomeInventoryProductQuantityRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listIncomeInventoryProductQuantityRequests(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      incomeQuantity
+      incomeInventoryRequestID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryProductQuantityRequestsQueryVariables,
+    APITypes.ListIncomeInventoryProductQuantityRequestsQuery
+  >;
+export const getOutcomeInventoryRequest =
+  /* GraphQL */ `query GetOutcomeInventoryRequest($id: ID!) {
+  getOutcomeInventoryRequest(id: $id) {
+    id
+    date
+    comments
+    status
+    userInfoID
+    userInfo {
+      id
+      name
+      phone
+      RFC
+      gender
+      createdAt
+      updatedAt
+      userInfoUserId
+      __typename
+    }
+    branchOfficeID
+    branchOffice {
+      id
+      name
+      zipcode
+      state
+      location
+      address
+      phone
+      branchOffice_commission
+      isMain
+      createdAt
+      updatedAt
+      __typename
+    }
+    inventoryOperationID {
+      id
+      operationType
+      inventoryID
+      createdAt
+      updatedAt
+      inventoryOperationIncomeInventoryId
+      inventoryOperationIncomeInventoryRequestId
+      inventoryOperationOutcomeInventoryId
+      inventoryOperationOutcomeInventoryRequestId
+      inventoryOperationSalesOperationId
+      __typename
+    }
+    outcomeInventoryProductQuantitiesRequest {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    outcomeInventoryRequestInventoryOperationIDId
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.GetOutcomeInventoryRequestQueryVariables,
+    APITypes.GetOutcomeInventoryRequestQuery
+  >;
+export const listOutcomeInventoryRequests =
+  /* GraphQL */ `query ListOutcomeInventoryRequests(
+  $filter: ModelOutcomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOutcomeInventoryRequests(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      userInfoID
+      branchOfficeID
+      createdAt
+      updatedAt
+      outcomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListOutcomeInventoryRequestsQueryVariables,
+    APITypes.ListOutcomeInventoryRequestsQuery
+  >;
+export const getOutcomeInventoryProductQuantityRequest =
+  /* GraphQL */ `query GetOutcomeInventoryProductQuantityRequest($id: ID!) {
+  getOutcomeInventoryProductQuantityRequest(id: $id) {
+    id
+    outcomeRequestQuantity
+    inventoryProducts {
+      nextToken
+      __typename
+    }
+    outcomeInventoryRequestID
+    outcomeInventoryRequest {
+      id
+      date
+      comments
+      status
+      userInfoID
+      branchOfficeID
+      createdAt
+      updatedAt
+      outcomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.GetOutcomeInventoryProductQuantityRequestQueryVariables,
+    APITypes.GetOutcomeInventoryProductQuantityRequestQuery
+  >;
+export const listOutcomeInventoryProductQuantityRequests =
+  /* GraphQL */ `query ListOutcomeInventoryProductQuantityRequests(
+  $filter: ModelOutcomeInventoryProductQuantityRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOutcomeInventoryProductQuantityRequests(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      outcomeRequestQuantity
+      outcomeInventoryRequestID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListOutcomeInventoryProductQuantityRequestsQueryVariables,
+    APITypes.ListOutcomeInventoryProductQuantityRequestsQuery
+  >;
+export const getInventoryProductIncomeInventoryRequest =
+  /* GraphQL */ `query GetInventoryProductIncomeInventoryRequest($id: ID!) {
+  getInventoryProductIncomeInventoryRequest(id: $id) {
+    id
+    incomeInventoryProductQuantityRequestId
+    inventoryProductId
+    incomeInventoryProductQuantityRequest {
+      id
+      incomeQuantity
+      incomeInventoryRequestID
+      createdAt
+      updatedAt
+      __typename
+    }
+    inventoryProduct {
+      id
+      inventoryID
+      productID
+      quantity
+      customPrice
+      generalPrice
+      productProviderID
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.GetInventoryProductIncomeInventoryRequestQueryVariables,
+    APITypes.GetInventoryProductIncomeInventoryRequestQuery
+  >;
+export const listInventoryProductIncomeInventoryRequests =
+  /* GraphQL */ `query ListInventoryProductIncomeInventoryRequests(
+  $filter: ModelInventoryProductIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listInventoryProductIncomeInventoryRequests(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      incomeInventoryProductQuantityRequestId
+      inventoryProductId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListInventoryProductIncomeInventoryRequestsQueryVariables,
+    APITypes.ListInventoryProductIncomeInventoryRequestsQuery
+  >;
+export const getInventoryProductOutcomeInventoryRequest =
+  /* GraphQL */ `query GetInventoryProductOutcomeInventoryRequest($id: ID!) {
+  getInventoryProductOutcomeInventoryRequest(id: $id) {
+    id
+    outcomeInventoryProductQuantityRequestId
+    inventoryProductId
+    outcomeInventoryProductQuantityRequest {
+      id
+      outcomeRequestQuantity
+      outcomeInventoryRequestID
+      createdAt
+      updatedAt
+      __typename
+    }
+    inventoryProduct {
+      id
+      inventoryID
+      productID
+      quantity
+      customPrice
+      generalPrice
+      productProviderID
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.GetInventoryProductOutcomeInventoryRequestQueryVariables,
+    APITypes.GetInventoryProductOutcomeInventoryRequestQuery
+  >;
+export const listInventoryProductOutcomeInventoryRequests =
+  /* GraphQL */ `query ListInventoryProductOutcomeInventoryRequests(
+  $filter: ModelInventoryProductOutcomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listInventoryProductOutcomeInventoryRequests(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      outcomeInventoryProductQuantityRequestId
+      inventoryProductId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListInventoryProductOutcomeInventoryRequestsQueryVariables,
+    APITypes.ListInventoryProductOutcomeInventoryRequestsQuery
+  >;
+export const creditRequestsByBranchOfficeIDAndId =
+  /* GraphQL */ `query CreditRequestsByBranchOfficeIDAndId(
+  $branchOfficeID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelCreditRequestsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  creditRequestsByBranchOfficeIDAndId(
+    branchOfficeID: $branchOfficeID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      branchOfficeID
+      creditRequestAmount
+      creditRequestStatus
+      creditRequestReason
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.CreditRequestsByBranchOfficeIDAndIdQueryVariables,
+    APITypes.CreditRequestsByBranchOfficeIDAndIdQuery
+  >;
+export const incomeInventoryRequestsByProviderIDAndId =
+  /* GraphQL */ `query IncomeInventoryRequestsByProviderIDAndId(
+  $providerID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  incomeInventoryRequestsByProviderIDAndId(
+    providerID: $providerID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      providerID
+      productProviderResponsibleID
+      branchOfficeID
+      userInfoID
+      createdAt
+      updatedAt
+      incomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.IncomeInventoryRequestsByProviderIDAndIdQueryVariables,
+    APITypes.IncomeInventoryRequestsByProviderIDAndIdQuery
+  >;
+export const incomeInventoryRequestsByProductProviderResponsibleIDAndId =
+  /* GraphQL */ `query IncomeInventoryRequestsByProductProviderResponsibleIDAndId(
+  $productProviderResponsibleID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  incomeInventoryRequestsByProductProviderResponsibleIDAndId(
+    productProviderResponsibleID: $productProviderResponsibleID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      providerID
+      productProviderResponsibleID
+      branchOfficeID
+      userInfoID
+      createdAt
+      updatedAt
+      incomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.IncomeInventoryRequestsByProductProviderResponsibleIDAndIdQueryVariables,
+    APITypes.IncomeInventoryRequestsByProductProviderResponsibleIDAndIdQuery
+  >;
+export const incomeInventoryRequestsByBranchOfficeIDAndId =
+  /* GraphQL */ `query IncomeInventoryRequestsByBranchOfficeIDAndId(
+  $branchOfficeID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  incomeInventoryRequestsByBranchOfficeIDAndId(
+    branchOfficeID: $branchOfficeID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      providerID
+      productProviderResponsibleID
+      branchOfficeID
+      userInfoID
+      createdAt
+      updatedAt
+      incomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.IncomeInventoryRequestsByBranchOfficeIDAndIdQueryVariables,
+    APITypes.IncomeInventoryRequestsByBranchOfficeIDAndIdQuery
+  >;
+export const incomeInventoryRequestsByUserInfoIDAndId =
+  /* GraphQL */ `query IncomeInventoryRequestsByUserInfoIDAndId(
+  $userInfoID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  incomeInventoryRequestsByUserInfoIDAndId(
+    userInfoID: $userInfoID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      providerID
+      productProviderResponsibleID
+      branchOfficeID
+      userInfoID
+      createdAt
+      updatedAt
+      incomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.IncomeInventoryRequestsByUserInfoIDAndIdQueryVariables,
+    APITypes.IncomeInventoryRequestsByUserInfoIDAndIdQuery
+  >;
+export const incomeInventoryProductQuantityRequestsByIncomeInventoryRequestIDAndId =
+  /* GraphQL */ `query IncomeInventoryProductQuantityRequestsByIncomeInventoryRequestIDAndId(
+  $incomeInventoryRequestID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelIncomeInventoryProductQuantityRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  incomeInventoryProductQuantityRequestsByIncomeInventoryRequestIDAndId(
+    incomeInventoryRequestID: $incomeInventoryRequestID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      incomeQuantity
+      incomeInventoryRequestID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.IncomeInventoryProductQuantityRequestsByIncomeInventoryRequestIDAndIdQueryVariables,
+    APITypes.IncomeInventoryProductQuantityRequestsByIncomeInventoryRequestIDAndIdQuery
+  >;
+export const outcomeInventoryRequestsByUserInfoIDAndId =
+  /* GraphQL */ `query OutcomeInventoryRequestsByUserInfoIDAndId(
+  $userInfoID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelOutcomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  outcomeInventoryRequestsByUserInfoIDAndId(
+    userInfoID: $userInfoID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      userInfoID
+      branchOfficeID
+      createdAt
+      updatedAt
+      outcomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.OutcomeInventoryRequestsByUserInfoIDAndIdQueryVariables,
+    APITypes.OutcomeInventoryRequestsByUserInfoIDAndIdQuery
+  >;
+export const outcomeInventoryRequestsByBranchOfficeIDAndId =
+  /* GraphQL */ `query OutcomeInventoryRequestsByBranchOfficeIDAndId(
+  $branchOfficeID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelOutcomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  outcomeInventoryRequestsByBranchOfficeIDAndId(
+    branchOfficeID: $branchOfficeID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      comments
+      status
+      userInfoID
+      branchOfficeID
+      createdAt
+      updatedAt
+      outcomeInventoryRequestInventoryOperationIDId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.OutcomeInventoryRequestsByBranchOfficeIDAndIdQueryVariables,
+    APITypes.OutcomeInventoryRequestsByBranchOfficeIDAndIdQuery
+  >;
+export const outcomeInventoryProductQuantityRequestsByOutcomeInventoryRequestIDAndId =
+  /* GraphQL */ `query OutcomeInventoryProductQuantityRequestsByOutcomeInventoryRequestIDAndId(
+  $outcomeInventoryRequestID: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelOutcomeInventoryProductQuantityRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  outcomeInventoryProductQuantityRequestsByOutcomeInventoryRequestIDAndId(
+    outcomeInventoryRequestID: $outcomeInventoryRequestID
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      outcomeRequestQuantity
+      outcomeInventoryRequestID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.OutcomeInventoryProductQuantityRequestsByOutcomeInventoryRequestIDAndIdQueryVariables,
+    APITypes.OutcomeInventoryProductQuantityRequestsByOutcomeInventoryRequestIDAndIdQuery
+  >;
+export const inventoryProductIncomeInventoryRequestsByIncomeInventoryProductQuantityRequestId =
+  /* GraphQL */ `query InventoryProductIncomeInventoryRequestsByIncomeInventoryProductQuantityRequestId(
+  $incomeInventoryProductQuantityRequestId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelInventoryProductIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  inventoryProductIncomeInventoryRequestsByIncomeInventoryProductQuantityRequestId(
+    incomeInventoryProductQuantityRequestId: $incomeInventoryProductQuantityRequestId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      incomeInventoryProductQuantityRequestId
+      inventoryProductId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.InventoryProductIncomeInventoryRequestsByIncomeInventoryProductQuantityRequestIdQueryVariables,
+    APITypes.InventoryProductIncomeInventoryRequestsByIncomeInventoryProductQuantityRequestIdQuery
+  >;
+export const inventoryProductIncomeInventoryRequestsByInventoryProductId =
+  /* GraphQL */ `query InventoryProductIncomeInventoryRequestsByInventoryProductId(
+  $inventoryProductId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelInventoryProductIncomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  inventoryProductIncomeInventoryRequestsByInventoryProductId(
+    inventoryProductId: $inventoryProductId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      incomeInventoryProductQuantityRequestId
+      inventoryProductId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.InventoryProductIncomeInventoryRequestsByInventoryProductIdQueryVariables,
+    APITypes.InventoryProductIncomeInventoryRequestsByInventoryProductIdQuery
+  >;
+export const inventoryProductOutcomeInventoryRequestsByOutcomeInventoryProductQuantityRequestId =
+  /* GraphQL */ `query InventoryProductOutcomeInventoryRequestsByOutcomeInventoryProductQuantityRequestId(
+  $outcomeInventoryProductQuantityRequestId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelInventoryProductOutcomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  inventoryProductOutcomeInventoryRequestsByOutcomeInventoryProductQuantityRequestId(
+    outcomeInventoryProductQuantityRequestId: $outcomeInventoryProductQuantityRequestId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      outcomeInventoryProductQuantityRequestId
+      inventoryProductId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.InventoryProductOutcomeInventoryRequestsByOutcomeInventoryProductQuantityRequestIdQueryVariables,
+    APITypes.InventoryProductOutcomeInventoryRequestsByOutcomeInventoryProductQuantityRequestIdQuery
+  >;
+export const inventoryProductOutcomeInventoryRequestsByInventoryProductId =
+  /* GraphQL */ `query InventoryProductOutcomeInventoryRequestsByInventoryProductId(
+  $inventoryProductId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelInventoryProductOutcomeInventoryRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  inventoryProductOutcomeInventoryRequestsByInventoryProductId(
+    inventoryProductId: $inventoryProductId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      outcomeInventoryProductQuantityRequestId
+      inventoryProductId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+    APITypes.InventoryProductOutcomeInventoryRequestsByInventoryProductIdQueryVariables,
+    APITypes.InventoryProductOutcomeInventoryRequestsByInventoryProductIdQuery
+  >;
+
+//*CUSTOM QUERIES
+
 export const getCategory = /* GraphQL */ `
   query GetCategory($id: Int!) {
     getCategory(id: $id) {
@@ -10563,7 +11451,10 @@ export const productsByProductProviderIDAndId = /* GraphQL */ `
       }
     }
   }
-`;
+` as GeneratedQuery<
+  APITypes.ProductsByProductProviderIDAndIdQueryVariables,
+  APITypes.ProductsByProductProviderIDAndIdQuery
+>;
 
 //?CUSTOM QUERIES
 export const listProvidersEnterpriseNameInventoryAPI = /* GraphQL */ `
@@ -10669,7 +11560,7 @@ export const listAccountViewAPI = /* GraphQL */ `
 //?CUSTOM QUERIES
 export const listBranchOfficesIDNamesAPI = /* GraphQL */ `
   query ListBranchOffices {
-    listBranchOffices(filter: { isMain: { eq: false } }) {
+    listBranchOffices {
       items {
         id
         name
@@ -10927,6 +11818,10 @@ export const listSaleDetailsByIDAPI = /* GraphQL */ `
             credit_available
           }
         }
+        nonRegisteredClient {
+          id
+          fullName
+        }
 
         date
         status
@@ -10961,7 +11856,7 @@ export const getClientCreditByIDAPI = /* GraphQL */ `
 `;
 
 //?CUSTOM QUERIES
-export const listClientsFullNameAPI = /* GraphQL */ `
+export const listPDVClientsFullNameAPI = /* GraphQL */ `
   query ListClients($branchOfficeID: ID) {
     listClients(filter: { branchOfficeID: { eq: $branchOfficeID } }) {
       items {
@@ -10969,10 +11864,25 @@ export const listClientsFullNameAPI = /* GraphQL */ `
         name
         lastname
         hasCredit
-        createdAt
-        updatedAt
       }
-      nextToken
+    }
+  }
+`;
+
+//?CUSTOM QUERIES
+export const listPDVClientsFullNameBOAPI = /* GraphQL */ `
+  query ListClients {
+    listClients {
+      items {
+        id
+        name
+        lastname
+        hasCredit
+        branchOffice {
+          name
+          id
+        }
+      }
     }
   }
 `;
@@ -11218,6 +12128,16 @@ export const listUserDataLoginAPI = /* GraphQL */ `
   }
 `;
 
+export const listUsersEmailValidation = /* GraphQL */ `
+  query ListUsers($email: String) {
+    listUsers(filter: { email: { eq: $email } }) {
+      items {
+        email
+      }
+    }
+  }
+`;
+
 //? CUSTOM QUERIES
 export const listClientsViewByBranchOfficeIDAPI = /* GraphQL */ `
   query ClientsByBranchOfficeIDAndId($branchOfficeID: ID!) {
@@ -11262,7 +12182,7 @@ export const listClientsCreditsViewAPI = /* GraphQL */ `
 //? CUSTOM QUERIES
 export const listCreditRequestsViewAPI = /* GraphQL */ `
   query ListClients($branchOfficeID: ID) {
-    listClients(filter: { branchOfficeID: { eq: $branchOfficeID } }) {
+    listClients(filter: { branchOfficeID: { ne: $branchOfficeID } }) {
       items {
         creditRequests {
           items {
@@ -11275,6 +12195,52 @@ export const listCreditRequestsViewAPI = /* GraphQL */ `
             creditRequestStatus
           }
         }
+      }
+    }
+  }
+`;
+
+//? CUSTOM QUERIES
+export const listCreditRequestsMainAPI = /* GraphQL */ `
+  query ListCreditRequests($branchOfficeID: ID) {
+    listCreditRequests(
+      filter: {
+        branchOfficeID: { ne: $branchOfficeID }
+        and: { creditRequestStatus: { eq: PENDING } }
+      }
+    ) {
+      items {
+        id
+        client {
+          id
+          name
+          lastname
+        }
+        branchOffice {
+          name
+        }
+        creditRequestStatus
+      }
+    }
+  }
+`;
+
+export const listCreditRequestsBOAPI = /* GraphQL */ `
+  query ListCreditRequests($branchOfficeID: ID) {
+    listCreditRequests(
+      filter: {
+        branchOfficeID: { eq: $branchOfficeID }
+        and: { creditRequestStatus: { eq: PENDING } }
+      }
+    ) {
+      items {
+        id
+        client {
+          id
+          name
+          lastname
+        }
+        creditRequestStatus
       }
     }
   }
@@ -11457,13 +12423,8 @@ export const listClientCreditMovementsOperationsToPayAPI = /* GraphQL */ `
 
 //?CUSTOM QUERIES
 export const listCreditClientAccountReceivableViewAPI = /* GraphQL */ `
-  query ListSalesOperations(
-    $filter: ModelSalesOperationFilterInput
-    $limit: Int
-    $nextToken: String
-    $includeBranchOffice: Boolean!
-  ) {
-    listSalesOperations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  query ListSalesOperations($includeBranchOffice: Boolean!) {
+    listSalesOperations(filter: { salesOperationType: { eq: CREDIT } }) {
       items {
         lastDatePaid
         currentTotalPayments
@@ -11866,27 +12827,191 @@ export const listAvailableProductsByProviderIDAPI = /* GraphQL */ `
       }
     }
   }
-`;
+` as GeneratedQuery<
+  APITypes.ListInventoryProductsQueryVariables,
+  APITypes.ListInventoryProductsQuery
+>;
 
 // //?CUSTOM QUERIES
-// export const listInventoryProductsByProviderIDAPI = /* GraphQL */ `
-//   query ListInventoryProducts($inventoryID: ID) {
-//     listInventoryProducts(
-//       filter: { inventoryID: { eq: $inventoryID }, quantity: { gt: 0 } }
-//     ) {
-//       items {
-//         id
-//         quantity
-//         product {
-//           category_id
-//           class_id
-//           id
-//           name
-//           price
-//           productProviderID
-//           subcategory_id
-//         }
-//       }
-//     }
-//   }
-// `;
+export const listAvailableProductsAPI = /* GraphQL */ `
+  query ListInventoryProducts($inventoryID: ID, $branchInventoryID: ID) {
+    listInventoryProducts(
+      filter: { quantity: { gt: 0 }, inventoryID: { eq: $inventoryID } }
+    ) {
+      items {
+        product {
+          category_id
+          subcategory_id
+          class_id
+          id
+          name
+          price
+          productProviderID
+          inventoryProduct(
+            filter: { inventoryID: { eq: $branchInventoryID } }
+          ) {
+            items {
+              id
+              quantity
+            }
+          }
+        }
+        quantity
+      }
+    }
+  }
+`;
+
+//?CUSTOM QUERIES
+export const listDiscountInventoryProductsAPI = /* GraphQL */ `
+  query ListDiscountInventoryProducts($inventoryProductId: ID) {
+    listDiscountInventoryProducts(
+      filter: { inventoryProductId: { eq: $inventoryProductId } }
+    ) {
+      items {
+        discounts {
+          discount
+        }
+      }
+    }
+  }
+`;
+
+//?CUSTOM QUERIES
+export const listMainInventoryRequestsViewAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests{
+  listIncomeInventoryRequests {
+    items {
+      status
+      date
+      id
+      branchOffice {
+        name
+      }
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
+//?CUSTOM QUERIES
+export const listBOInventoryRequestsViewByStatusAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests($branchOfficeID: ID!, $status: IOInventoryStatus){
+listIncomeInventoryRequests(filter: {status: {eq: $status}, branchOfficeID: {eq: $branchOfficeID}}) {
+    items {
+      status
+      date
+      id
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
+//?CUSTOM QUERIES
+export const listBOInventoryRequestsViewAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests($branchOfficeID: ID!){
+listIncomeInventoryRequests(filter: {branchOfficeID: {eq: $branchOfficeID}}) {
+    items {
+      status
+      date
+      id
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
+//?CUSTOM QUERIES
+export const listMainInventoryRequestDetailsByIDAPI =
+  /* GraphQL */ `query ListIncomeInventoryRequests($id: ID!){
+listIncomeInventoryRequests(filter: {id: {eq: $id}}) {
+    items {
+      branchOffice {
+        name
+      }
+      comments
+      incomeInventoryProductQuantitiesRequest {
+        items {
+          incomeQuantity
+          inventoryProducts {
+            items {
+              inventoryProduct {
+                product {
+                  name
+                  id
+                }
+                customPrice
+                id
+              }
+            }
+          }
+        }
+      }
+      productProviderResponsible {
+        name
+      }
+      provider {
+        enterprise_name
+      }
+      status
+      rejectedReason
+    }
+  }
+}
+` as GeneratedQuery<
+    APITypes.ListIncomeInventoryRequestsQueryVariables,
+    APITypes.ListIncomeInventoryRequestsQuery
+  >;
+
+//?CUSTOM QUERIES
+export const listMainInventoryProductsQuantityAPI =
+  /* GraphQL */ `query ListInventoryProducts(
+    $productID: ID!
+    $inventoryID: ID!
+  ) {
+    listInventoryProducts(
+      filter: {productID: {eq: $productID}, inventoryID: {eq: $inventoryID}}
+    ) {
+      items {
+        quantity
+        id
+      }
+    }
+  }
+
+` as GeneratedQuery<
+    APITypes.ListInventoryProductsQueryVariables,
+    APITypes.ListInventoryProductsQuery
+  >;
+
+//?CUSTOM QUERIES (LIST)
+export const listUserIDByEmailAPI = /* GraphQL */ `
+  query ListUsers($email: String) {
+    listUsers(filter: { email: { eq: $email } }) {
+      items {
+        id
+      }
+    }
+  }
+` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
+
+//? CUSTOM QUERIES
+export const listValidateClientEmail = /* GraphQL */ `
+  query ListClients($email: String) {
+    listClients(filter: { email: { eq: $email } }) {
+      items {
+        email
+      }
+    }
+  }
+` as GeneratedQuery<
+  APITypes.ListClientsQueryVariables,
+  APITypes.ListClientsQuery
+>;

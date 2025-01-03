@@ -3,5 +3,5 @@ import { IListBranchOfficeProductsAPIResponse } from '../api/listBranchOfficePro
 type GlobalProductsView = keyof IListBranchOfficeProductsAPIResponse;
 
 export const globalProductsViewFilterObjs = {
-    NAME: "name" as GlobalProductsView,
+    NAME: "productName" as GlobalProductsView,
 };

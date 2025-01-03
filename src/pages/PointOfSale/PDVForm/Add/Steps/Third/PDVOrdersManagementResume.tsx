@@ -231,6 +231,7 @@ export function PDVOrdersManagementResume({
         selectedMonthsToPay={selectedMonthsToPay}
         totalWithDiscount={totalWithDiscount}
         totalToPay={totalToPay}
+        termDaysToPay={termDaysToPay}
         values={values}
         currentStepIndex={currentStepIndex}
         previousCreditAvailable={previousCreditAvailable}

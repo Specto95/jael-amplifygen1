@@ -1,6 +1,7 @@
 export interface ISelectedProviderObj {
   id: string;
   name: string;
+  productProviderID?: string;
 }
 
 export interface ISelectedProviderState {
@@ -8,7 +9,7 @@ export interface ISelectedProviderState {
 }
 
 export interface ISetSelectedProviderState {
-  setSelectedProvider?: Dispatch<SetStateAction<ISelectedProviderObj>>;
+  setSelectedProvider?: Dispatch<SetStateAction<List>>;
 }
 
 export interface ISelectedProviderResponsibleObj {
@@ -57,5 +58,5 @@ export interface ISelectedOutcomeBranchOfficeProductsIDResponse {
   id: string;
   product: {
     id: string;
-  }
+  };
 }

@@ -58,7 +58,7 @@ export function Login() {
           validationSchema={loginSchema}
           onSubmit={async (values) => {
             if (values.isSecondButton) {
-              const res = logIn(values.email, values.password);
+              logIn(values.email, values.password);
             }
           }}
         >
@@ -77,7 +77,7 @@ export function Login() {
                   <h2 className="heading__primary">Datos del empleado</h2>
 
                   <label htmlFor="email" className={styles.login__label}>
-                    Email | v240229
+                    Email
                   </label>
                   <Field
                     type="email"
@@ -87,6 +87,7 @@ export function Login() {
                     className={`${styles["login__input"]} ${
                       touched.email && errors.email ? "input-error" : ""
                     }`}
+                    
                   />
                   <ErrorMessage
                     name="email"

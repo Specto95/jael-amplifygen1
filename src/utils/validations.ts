@@ -1,3 +1,4 @@
+import { useValidateClientEmail } from "@/pages/Clients/api/useValidateClientEmail";
 import { string, number, object, array, boolean } from "yup";
 
 //? PRODUCTS
@@ -44,8 +45,19 @@ export const validateAddClient = object().shape({
     /^\d{3}-\d{3}-\d{4}$/,
     "El numero de telefono debe tener 10 digitos"
   ),
-  email: string().email("Correo electrónico inválido"),
-  // .required("Correo electrónico requerido *"),
+  email: string()
+    .email("Correo electrónico inválido")
+    .required("Correo obligatorio *")
+    .test("email-unique", "El correo ya existe", async (value, context) => {
+      if (!value) return true;
+      const validationMessage = await useValidateClientEmail(value);
+      if (validationMessage) {
+        context.createError({ message: validationMessage });
+        return false;
+      }
+      return true;
+    }),
+
   birthday: string(),
   RFC: string().matches(/^[A-Z]{4}\d{6}[A-Z,0-9]{3}$/, "RFC inválido"),
   address: string(),
@@ -243,4 +255,13 @@ export const forgotPasswordSchema = object().shape({
   email: string()
     .email("Correo electrónico inválido *")
     .required("Correo electrónico requerido *"),
+  password: string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres.")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "La contraseña debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial."
+    )
+    .max(128, "La contraseña no puede exceder los 128 caracteres.")
+    .matches(/^\S*$/, "La contraseña no debe contener espacios.")
+    .required("Contraseña requerida *"),
 });

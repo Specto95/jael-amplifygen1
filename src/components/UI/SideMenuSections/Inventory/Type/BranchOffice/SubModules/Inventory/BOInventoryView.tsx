@@ -22,6 +22,7 @@ import { AccountFormObj } from "@/pages/Account/utils/AccountFormObj";
 import { GenericFilteredItems } from "@/components/UI/GenericComponents/FilteredItems/GenericFilteredItems";
 import { BOInventoryViewFilterObjs } from "./Filters/BOInventoryViewFIlterObjs";
 import { UserView } from "@/components/UI/RoleInfo/UserView/UserView";
+import { clearBranchOfficeData } from "./helpers/functions";
 
 export function BOInventoryView() {
   const { branchInventory, setBranchInventory, rolID } = useSessionProvider();
@@ -87,37 +88,6 @@ export function BOInventoryView() {
     });
   };
 
-  const clearBranchOfficeData = () => {
-    const userDataLoginString = sessionStorage.getItem(
-      sessionStorageObjs.userDataLogin
-    );
-    let userDataLogin: IUseListUserDataLoginBranchOfficeNameStorage[] = [];
-    if (userDataLoginString) {
-      userDataLogin = JSON.parse(userDataLoginString);
-    }
-
-    const userDataLoginUpdated = userDataLogin.map((item) => {
-      if (item.branchOfficeData) {
-        const { branchOfficeData, ...itemWithoutBranchOfficeData } = item;
-        return itemWithoutBranchOfficeData;
-      }
-      return item;
-    });
-
-    const updatedUserDataLoginString = JSON.stringify(userDataLoginUpdated);
-
-    sessionStorage.setItem(
-      sessionStorageObjs.userDataLogin,
-      updatedUserDataLoginString
-    );
-
-    setBranchInventory({
-      id: "",
-      name: "",
-      inventoryID: "",
-    });
-  };
-
   return (
     <>
       <UserView
@@ -138,7 +108,7 @@ export function BOInventoryView() {
                   src={ArrowBack}
                   alt="Atras"
                   className="absoluteLeft__img"
-                  onClick={clearBranchOfficeData}
+                  onClick={() => clearBranchOfficeData(setBranchInventory)}
                 />
               </div>
             )}

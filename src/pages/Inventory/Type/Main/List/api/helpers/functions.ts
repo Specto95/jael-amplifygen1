@@ -7,7 +7,6 @@ import {
 export function findMostRecentIncomeDate(
   arr: IUseListInventoryProductIOHistoryByIDAndInventoryIDAPI[]
 ): IUseListInventoryProductIncomeInventoriesHistoryResponse | null {
-  console.log(arr);
   if (arr.length === 0) {
     return null;
   }

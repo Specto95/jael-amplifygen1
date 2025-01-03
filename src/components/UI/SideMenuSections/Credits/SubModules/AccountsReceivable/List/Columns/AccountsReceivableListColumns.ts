@@ -1,3 +1,4 @@
+import { ITotalPayments } from "@/pages/Credits/SubModules/Clients/List/Columns/interfaces/IListClientMovementsColumns";
 import {
   IAccountsReceivableListColumns,
   ICashIncomeSalesColumns,
@@ -11,6 +12,10 @@ export const AccountsReceivableColumns: IAccountsReceivableListColumns[] = [
   {
     Header: "Días Pagos",
     accessor: "termDaysToPay",
+  },
+  {
+    Header: "# Pago",
+    accessor: "totalPayments",
   },
   {
     Header: "Estado",

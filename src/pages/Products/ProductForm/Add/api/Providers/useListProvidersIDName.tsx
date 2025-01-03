@@ -15,8 +15,6 @@ export function useListProvidersIDName() {
     const fetchListProvidersIDName = async () => {
       try {
         const result: any = await clientAPI(listProvidersIDNamesAPI);
-
-        console.log(result);
         // const listProvidersResult: IListProvidersIDNamesAPI[] =
         //   result.data.listProductProviders.items.map(
         //     (item: IListProvidersIDNamesAPIResponse) => {

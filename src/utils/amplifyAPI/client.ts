@@ -1,29 +1,29 @@
-interface IInput {
+interface Input {
   input?: object | { input: object };
 }
 
-interface IClientObj {
+interface ClientObj {
   query: string;
   variables?: {
-    input?: object;
+    input?: object | Input["input"];
   };
 }
 
-export async function clientAPI(API: string, input?: IInput["input"]) {
+export async function clientAPI<T>(
+  API: string,
+  input?: Input["input"],
+  isMutation?: boolean
+) {
   const { generateClient } = await import("aws-amplify/api");
 
   const client = generateClient();
 
-  const clientObj: IClientObj = {
+  const clientObj: ClientObj = {
     query: API,
-    variables: {},
+    variables: isMutation ? { input } : input,
   };
 
-  if (input) {
-    clientObj["variables"]! = input;
-  }
-
-  const result = await client.graphql(clientObj);
+  const result = (await client.graphql(clientObj)) as T;
 
   return result;
 }

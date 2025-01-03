@@ -20,6 +20,12 @@
       },
       "storage": {
         "amplifygen1": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2mqdyjhxd1c23",
+          "type": "manual"
+        }
       }
     }
   }

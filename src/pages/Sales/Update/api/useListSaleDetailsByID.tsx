@@ -26,6 +26,7 @@ export function useListSaleDetailsByID(id: string) {
   useEffect(() => {
     const fetchListSaleDetailsByID = async () => {
       try {
+        if (!id) return;
         setIsLoading(true);
         setError(null);
         const result: any = await clientAPI(listSaleDetailsByIDAPI, {
@@ -35,21 +36,29 @@ export function useListSaleDetailsByID(id: string) {
         const listSaleProductDetailsByIDResult: IUseListSaleProductDetailsByIDAPI[] =
           [];
         const listSaleDetail = result.data.listSalesOperations.items[0];
+
         const listSaleDetailsByIDObj: IUseListSaleDetailsByIDAPI = {
           id: listSaleDetail?.id || "",
           amountPaid: listSaleDetail?.amountPaid || 0,
-          clientID: listSaleDetail?.client.id || "",
+          clientID:
+            listSaleDetail?.client?.id ||
+            listSaleDetail?.nonRegisteredClient.id,
           clientName:
-            listSaleDetail?.client.name +
+            listSaleDetail?.nonRegisteredClient?.fullName ||
+            listSaleDetail?.client?.name +
               " " +
-              listSaleDetail?.client.lastname || "",
-          credit_available: listSaleDetail?.client.credit.credit_available || 0,
+              listSaleDetail?.client?.lastname, 
           status: listSaleDetail?.status || "",
 
           date: listSaleDetail?.date || "",
-          pendingToPay: listSaleDetail?.pendingToPay || 0,
         };
 
+        if (listSaleDetail?.client?.credit) {
+          listSaleDetailsByIDObj["credit_available"] =
+            listSaleDetail?.client?.credit?.credit_available || 0;
+          listSaleDetailsByIDObj["pendingToPay"] =
+            listSaleDetail?.pendingToPay || 0;
+        }
         setListSaleDetailsByID(listSaleDetailsByIDObj);
 
         result.data.listSalesOperations.items.forEach(

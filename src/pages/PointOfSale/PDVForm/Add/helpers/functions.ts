@@ -17,7 +17,6 @@ export const handleTotalToPayGeneral = (
 ) => {
   let total = 0;
   if (data?.some((item) => item.discountPercentage! > 0)) {
-    console.log("si hay uno");
     data?.forEach((item) => {
       if (item.discountPercentage! > 0) {
         const normalTotal = item.price! * item.quantity;

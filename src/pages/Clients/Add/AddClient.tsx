@@ -34,8 +34,9 @@ import { validateAddClient } from "@/utils/validations";
 import { convertDateFormat, toTitleCase } from "@/utils/helpers";
 import MexicanStates from "@/utils/mexicanStates.json";
 import MexicanCities from "@/utils/mexicanStatesMun.json";
+import { getCurrentDate } from "@/utils/dates";
 
-export function AddClient(): JSX.Element {
+export function AddClient() {
   const { branchOfficeIDNames } = useListBranchOfficeIDNames();
   const { handleBackTo } = useSectionProvider();
   const { branchInventory, mainBranchInventory, rolID } = useSessionProvider();
@@ -69,11 +70,11 @@ export function AddClient(): JSX.Element {
         validationSchema={validateAddClient}
         onSubmit={async (values) => {
           if (values.isSecondButton) {
-            //*AMPLIFY IMPORTS
-            const { createClientAPI } = await import("@/graphql/mutations");
-            const { clientAPI } = await import("@/utils/amplifyAPI/client");
-            setIsModalOpen(true);
             try {
+              setIsModalOpen(true);
+              //*AMPLIFY IMPORTS
+              const { createClientAPI } = await import("@/graphql/mutations");
+              const { clientAPI } = await import("@/utils/amplifyAPI/client");
               const clientInput: IAddClientInputAPI = {
                 name: values.name,
                 second_name: values.second_name,
@@ -97,6 +98,53 @@ export function AddClient(): JSX.Element {
               };
               await clientAPI(createClientAPI, { input: clientInput });
 
+              const emailjs = await import("@emailjs/browser");
+
+              try {
+                const sendEmail = () => {
+                  emailjs
+                    .send(
+                      import.meta.env.VITE_SERVICE_ID,
+                      import.meta.env.VITE_NEWCLIENT_TEMPLATE_ID,
+                      {
+                        name: values.name,
+                        fullname:
+                          values.name +
+                          " " +
+                          values.second_name +
+                          " " +
+                          values.lastname +
+                          " " +
+                          values.second_lastname,
+                        branchOffice:
+                          branchInventory.name || mainBranchInventory.name,
+                        phone: values.phone,
+                        email: values.email || "No proporcionado",
+                        birthday: values.birthday || "No proporcionado",
+                        RFC: values.RFC || "No proporcionado",
+                        address: values.address
+                          ? `${values.address}, ${values.settlement}, ${values.postal_code}`
+                          : "No Proporcionado",
+                        state: values.state,
+                        city: values.city || "No Proporcionado",
+                        date: getCurrentDate(),
+                      },
+                      import.meta.env.VITE_API_KEY
+                    )
+                    .then(
+                      (result) => {
+                        console.log(result.text);
+                      },
+                      (error) => {
+                        console.log(error.text);
+                      }
+                    );
+                };
+                sendEmail();
+              } catch (e) {
+                console.error(e);
+              }
+
               return;
             } catch (error) {
               console.log(error);
@@ -117,34 +165,38 @@ export function AddClient(): JSX.Element {
               <h2 className={styles.clientForm__subtitle}>Datos de Contacto</h2>
 
               {mainBranchInventory?.id && (
-                <div className={styles["clientForm__form-inputs"]}>
-                  <label
-                    htmlFor="branchOfficeID"
-                    className={styles.clientForm__label}
-                  >
-                    Sucursal
-                  </label>
-                  <Field
-                    as="select"
-                    name="branchOfficeID"
-                    id="branchOfficeID"
-                    className={styles["clientForm__input-small"]}
-                  >
-                    <option value="" disabled>
-                      Elige la Sucursal a asignar el cliente:
-                    </option>
-                    {branchOfficeIDNames.map((branchoffice) => (
-                      <option key={branchoffice.id} value={branchoffice.id}>
-                        {branchoffice.name}
-                      </option>
-                    ))}
-                  </Field>
-                  <ErrorMessage
-                    name="branchOfficeID"
-                    component="div"
-                    className="error"
-                  />
-                </div>
+                <>
+                  <div className={styles["clientForm__form-inputs"]}>
+                    <label
+                      htmlFor="branchOfficeID"
+                      className={styles.clientForm__label}
+                    >
+                      Sucursal
+                    </label>
+                    <div className={styles.clientForm__divInput}>
+                      <Field
+                        as="select"
+                        name="branchOfficeID"
+                        id="branchOfficeID"
+                        className={styles["clientForm__input-small"]}
+                      >
+                        <option value="" disabled>
+                          Elige la Sucursal a asignar el cliente:
+                        </option>
+                        {branchOfficeIDNames.map((branchoffice) => (
+                          <option key={branchoffice.id} value={branchoffice.id}>
+                            {branchoffice.name}
+                          </option>
+                        ))}
+                      </Field>
+                      <ErrorMessage
+                        name="branchOfficeID"
+                        component="div"
+                        className="error-left"
+                      />
+                    </div>
+                  </div>
+                </>
               )}
 
               <div className={styles["clientForm__form-inputs"]}>
@@ -152,14 +204,20 @@ export function AddClient(): JSX.Element {
                   <label htmlFor="name" className={styles.clientForm__label}>
                     Nombre *
                   </label>
-                  <Field
-                    type="text"
-                    name="name"
-                    placeholder="Nombre:"
-                    id="name"
-                    className={styles["clientForm__input-custom"]}
-                  />
-                  <ErrorMessage name="name" component="div" className="error" />
+                  <div className="flexColumn__WFull">
+                    <Field
+                      type="text"
+                      name="name"
+                      placeholder="Nombre:"
+                      id="name"
+                      className={styles["clientForm__input"]}
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      className="error-left"
+                    />
+                  </div>
                 </div>
 
                 <div className={styles["clientForm__form-inputsInner"]}>
@@ -169,18 +227,20 @@ export function AddClient(): JSX.Element {
                   >
                     Segundo Nombre
                   </label>
-                  <Field
-                    type="text"
-                    name="second_name"
-                    placeholder="Segundo Nombre:"
-                    id="second_name"
-                    className={styles["clientForm__input-custom"]}
-                  />
-                  <ErrorMessage
-                    name="second_name"
-                    component="div"
-                    className="error"
-                  />
+                  <div className="flexColumn__WFull">
+                    <Field
+                      type="text"
+                      name="second_name"
+                      placeholder="Segundo Nombre:"
+                      id="second_name"
+                      className={styles["clientForm__input"]}
+                    />
+                    <ErrorMessage
+                      name="second_name"
+                      component="div"
+                      className="error-left"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -192,18 +252,20 @@ export function AddClient(): JSX.Element {
                   >
                     Apellido Paterno *
                   </label>
-                  <Field
-                    type="text"
-                    name="lastname"
-                    placeholder="Apellido Paterno:"
-                    id="lastname"
-                    className={styles["clientForm__input-custom"]}
-                  />
-                  <ErrorMessage
-                    name="lastname"
-                    component="div"
-                    className="error"
-                  />
+                  <div className="flexColumn__WFull">
+                    <Field
+                      type="text"
+                      name="lastname"
+                      placeholder="Apellido Paterno:"
+                      id="lastname"
+                      className={styles["clientForm__input"]}
+                    />
+                    <ErrorMessage
+                      name="lastname"
+                      component="div"
+                      className="error-left"
+                    />
+                  </div>
                 </div>
 
                 <div className={styles["clientForm__form-inputsInner"]}>
@@ -213,18 +275,20 @@ export function AddClient(): JSX.Element {
                   >
                     Apellido Materno
                   </label>
-                  <Field
-                    type="text"
-                    name="second_lastname"
-                    placeholder="Apellido Materno:"
-                    id="second_lastname"
-                    className={styles["clientForm__input-custom"]}
-                  />
-                  <ErrorMessage
-                    name="second_lastname"
-                    component="div"
-                    className="error"
-                  />
+                  <div className="flexColumn__WFull">
+                    <Field
+                      type="text"
+                      name="second_lastname"
+                      placeholder="Apellido Materno:"
+                      id="second_lastname"
+                      className={styles["clientForm__input"]}
+                    />
+                    <ErrorMessage
+                      name="second_lastname"
+                      component="div"
+                      className="error-left"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -233,23 +297,27 @@ export function AddClient(): JSX.Element {
                   <label htmlFor="phone" className={styles.clientForm__label}>
                     Celular *
                   </label>
-                  <Field name="phone">
-                    {({ field }: FieldProps) => (
-                      <PatternFormat
-                        format="###-###-####"
-                        mask="_"
-                        placeholder="555-555-5555"
-                        id="phone"
-                        className={styles["clientForm__input-custom"]}
-                        {...field}
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="phone"
-                    component="div"
-                    className="error"
-                  />
+
+                  <div className="flexColumn__WFull">
+                    <Field name="phone">
+                      {({ field }: FieldProps) => (
+                        <PatternFormat
+                          format="###-###-####"
+                          mask="_"
+                          placeholder="555-555-5555"
+                          id="phone"
+                          className={styles["clientForm__input"]}
+                          {...field}
+                        />
+                      )}
+                    </Field>
+
+                    <ErrorMessage
+                      name="phone"
+                      component="div"
+                      className="error-left"
+                    />
+                  </div>
                 </div>
 
                 <div className={styles["clientForm__form-inputsInner"]}>
@@ -259,69 +327,86 @@ export function AddClient(): JSX.Element {
                   >
                     Telefono fijo
                   </label>
-                  <Field name="fixed_phone">
-                    {({ field }: FieldProps) => (
-                      <PatternFormat
-                        format="###-###-####"
-                        mask="_"
-                        placeholder="555-555-5555"
-                        id="fixed_phone"
-                        className={styles["clientForm__input-custom"]}
-                        {...field}
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="fixed_phone"
-                    component="div"
-                    className="error"
-                  />
+                  <div className="flexColumn__WFull">
+                    <Field name="fixed_phone">
+                      {({ field }: FieldProps) => (
+                        <PatternFormat
+                          format="###-###-####"
+                          mask="_"
+                          placeholder="555-555-5555"
+                          id="fixed_phone"
+                          className={styles["clientForm__input"]}
+                          {...field}
+                        />
+                      )}
+                    </Field>
+
+                    <ErrorMessage
+                      name="fixed_phone"
+                      component="div"
+                      className="error-left"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
                 <label htmlFor="email" className={styles.clientForm__label}>
-                  Correo Electronico
+                  Correo Electronico *
                 </label>
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="Correo Electronico"
-                  id="email"
-                  className={styles.clientForm__input}
-                />
-                <ErrorMessage name="email" component="div" className="error" />
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Correo Electronico"
+                    id="email"
+                    className={styles.clientForm__input}
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
                 <label htmlFor="birthday" className={styles.clientForm__label}>
                   Fecha de Nacimiento
                 </label>
-                <Field
-                  type="date"
-                  name="birthday"
-                  id="birthday"
-                  className={styles.clientForm__input}
-                />
-                <ErrorMessage
-                  name="birthday"
-                  component="div"
-                  className="error"
-                />
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    type="date"
+                    name="birthday"
+                    id="birthday"
+                    className={styles.clientForm__input}
+                  />
+                  <ErrorMessage
+                    name="birthday"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
                 <label htmlFor="RFC" className={styles.clientForm__label}>
                   RFC
                 </label>
-                <Field
-                  type="text"
-                  name="RFC"
-                  placeholder="Ejemplo: AAAA000000A29"
-                  id="RFC"
-                  className={styles.clientForm__input}
-                />
-                <ErrorMessage name="RFC" component="div" className="error" />
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    type="text"
+                    name="RFC"
+                    placeholder="Ejemplo: AAAA000000A29"
+                    id="RFC"
+                    className={styles.clientForm__input}
+                  />
+                  <ErrorMessage
+                    name="RFC"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <h2 className={styles.clientForm__subtitle}>
@@ -332,18 +417,20 @@ export function AddClient(): JSX.Element {
                 <label htmlFor="address" className={styles.clientForm__label}>
                   Calle y Numero
                 </label>
-                <Field
-                  type="text"
-                  name="address"
-                  placeholder="Ejemplo: Loma Ancha 20F"
-                  id="address"
-                  className={styles.clientForm__input}
-                />
-                <ErrorMessage
-                  name="address"
-                  component="div"
-                  className="error"
-                />
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    type="text"
+                    name="address"
+                    placeholder="Ejemplo: Loma Ancha 20F"
+                    id="address"
+                    className={styles.clientForm__input}
+                  />
+                  <ErrorMessage
+                    name="address"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
@@ -353,18 +440,20 @@ export function AddClient(): JSX.Element {
                 >
                   Colonia
                 </label>
-                <Field
-                  type="text"
-                  name="settlement"
-                  placeholder="Ejemplo: Bosques de Antara"
-                  id="settlement"
-                  className={styles.clientForm__input}
-                />
-                <ErrorMessage
-                  name="settlement"
-                  component="div"
-                  className="error"
-                />
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    type="text"
+                    name="settlement"
+                    placeholder="Ejemplo: Bosques de Antara"
+                    id="settlement"
+                    className={styles.clientForm__input}
+                  />
+                  <ErrorMessage
+                    name="settlement"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
@@ -374,68 +463,83 @@ export function AddClient(): JSX.Element {
                 >
                   Codigo Postal
                 </label>
-                <Field name="postal_code">
-                  {({ field }: FieldProps) => (
-                    <PatternFormat
-                      format="#####"
-                      mask=""
-                      placeholder="Ejemplo: 63111"
-                      id="postal_code"
-                      className={styles["clientForm__input-small"]}
-                      {...field}
-                    />
-                  )}
-                </Field>
-                <ErrorMessage
-                  name="postal_code"
-                  component="div"
-                  className="error"
-                />
+                <div className={styles.clientForm__divInput}>
+                  <Field name="postal_code">
+                    {({ field }: FieldProps) => (
+                      <PatternFormat
+                        format="#####"
+                        mask=""
+                        placeholder="Ejemplo: 63111"
+                        id="postal_code"
+                        className={styles["clientForm__input"]}
+                        {...field}
+                      />
+                    )}
+                  </Field>
+                  <ErrorMessage
+                    name="postal_code"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
                 <label htmlFor="state" className={styles.clientForm__label}>
                   Estado
                 </label>
-                <select
-                  name="state"
-                  id="state"
-                  className={styles["clientForm__input-small"]}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    setSelectedState(toTitleCase(e.target.value));
-                    setFieldValue("state", selectedState);
-                  }}
-                >
-                  <option value="" disabled>
-                    Elige tu estado:
-                  </option>
-                  {MexicanStates.map((state) => (
-                    <option key={state.clave} value={state.nombre}>
-                      {state.nombre}
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    as="select"
+                    name="state"
+                    id="state"
+                    className={styles["clientForm__input"]}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      setSelectedState(toTitleCase(e.target.value));
+                      setFieldValue("state", e.target.value);
+                    }}
+                  >
+                    <option value="" disabled>
+                      Elige tu estado:
                     </option>
-                  ))}
-                </select>
-                <ErrorMessage name="state" component="div" className="error" />
+                    {MexicanStates.map((state) => (
+                      <option key={state.clave} value={state.nombre}>
+                        {state.nombre}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="state"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-inputs"]}>
                 <label htmlFor="city" className={styles.clientForm__label}>
                   Ciudad
                 </label>
-                <Field
-                  as="select"
-                  name="city"
-                  id="city"
-                  className={styles["clientForm__input-small"]}
-                >
-                  <option value="" disabled>
-                    Elegir Ciudad
-                  </option>
-                  {cities.map((city) => (
-                    <option key={city}>{city.toUpperCase()}</option>
-                  ))}
-                </Field>
-                <ErrorMessage name="city" component="div" className="error" />
+                <div className={styles.clientForm__divInput}>
+                  <Field
+                    as="select"
+                    name="city"
+                    id="city"
+                    className={styles["clientForm__input"]}
+                  >
+                    <option value="" disabled>
+                      Elegir Ciudad
+                    </option>
+                    {cities.map((city) => (
+                      <option key={city}>{city.toUpperCase()}</option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="city"
+                    component="div"
+                    className="error-left"
+                  />
+                </div>
               </div>
 
               <div className={styles["clientForm__form-buttons"]}>

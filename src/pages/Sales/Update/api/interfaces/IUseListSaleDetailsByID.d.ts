@@ -1,3 +1,6 @@
+import { SalesOperationStatus } from "@/API";
+import { ISalesOperationStatus } from "@/pages/PointOfSale/PDVForm/Add/FormProps/PDVGeneralFormData";
+
 export interface IUseListSaleDetailsByIDAPIResponse {
   id: string;
   amountPaid: number;
@@ -27,10 +30,10 @@ export interface IUseListSaleDetailsByIDAPI {
   amountPaid: number;
   clientName: string;
   clientID: string;
-  credit_available: number | string;
+  credit_available?: number | string;
   date: string;
-  status: string;
-  pendingToPay: number;
+  status: SalesOperationStatus;
+  pendingToPay?: number;
 }
 
 export interface IUseListSaleProductDetailsByIDAPI {

@@ -38,9 +38,11 @@ export const ProtectedRoute = ({
     }
   }, [sectionName]);
 
-  return isLogged || location.pathname === "/login" ? (
+  return isLogged ||
+    location.pathname === "/login" ||
+    location.pathname === "/forgot-password" ? (
     <Outlet />
   ) : (
-    <Navigate to={redirectTo}  />
+    <Navigate to={redirectTo} />
   );
 };

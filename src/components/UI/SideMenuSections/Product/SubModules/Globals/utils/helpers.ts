@@ -31,10 +31,18 @@ import {
 //   }, []);
 // };
 
+export interface TransformedProduct {
+  id: string;
+  productID: string;
+  productName: string;
+  price: number;
+  [branchOfficeCustomPrice: string]: number | string; // Dynamic properties for custom prices and branch-specific IDs
+}
+
 export const transformData = (
   branchOfficeInventoryProducts: IListBranchOfficeProductsAPIResponse[]
 ) => {
-  let result: any[] = [];
+  let result: TransformedProduct[] = [];
 
   branchOfficeInventoryProducts.forEach((inventory) => {
     inventory.inventoryProduct.forEach(

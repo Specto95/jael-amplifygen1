@@ -24,7 +24,7 @@ import {
 } from "../../helpers/functions";
 
 //*APIs
-import { useListClientsFullNameByBranchOfficeID } from "./api/useListClientsFullNameByBranchOfficeID";
+import { useListRegisteredClients } from "./api/useListRegisteredClients";
 import { useGetClientCreditByID } from "./api/useGetClientCreditByID";
 import { useGetBranchOfficeCommission } from "./api/useGetBranchOfficeCommission";
 
@@ -93,12 +93,10 @@ export function PDVOrdersManagement({
   nonRegisteredClientID,
   salesOperationID,
 }: IPDVOrdersManagementProps) {
-
-  console.log(values)
+  console.log(currentStepIndex);
 
   const { isDownloading, setIsDownloading } = useSectionProvider();
   const { branchInventory, rolID, mainBranchInventory } = useSessionProvider();
-
 
   const columns: Column<IListProductsPDVAPI>[] = useMemo(
     () => PDVSelectedDataColumns,
@@ -127,8 +125,11 @@ export function PDVOrdersManagement({
   const [isTyping, setIsTyping] = useState(false);
   const [toSelectPaymentType, setToSelectPaymentType] = useState(false);
 
-  const { listClientsFullName } = useListClientsFullNameByBranchOfficeID(
-    rolID === AccountFormObj.ADMIN ? mainBranchInventory.id : branchInventory.id
+  const { listClientsFullName } = useListRegisteredClients(
+    rolID === AccountFormObj.ADMIN
+      ? mainBranchInventory.id
+      : branchInventory.id,
+    values!.isClientRegistered
   );
   const { getClientCreditByID, isLoading } = useGetClientCreditByID(
     selectedClient!.id
@@ -136,8 +137,6 @@ export function PDVOrdersManagement({
   const { getBranchOfficeCommission } = useGetBranchOfficeCommission(
     rolID === AccountFormObj.ADMIN ? mainBranchInventory.id : branchInventory.id
   );
-
-  console.log(listClientsFullName)
 
   const debouncedInputClientName = useCallback(
     debounce(() => {
@@ -212,10 +211,8 @@ export function PDVOrdersManagement({
   }, [values?.isClientRegistered]);
 
   useEffect(() => {
-    console.log("aqui");
     const fetchData = async () => {
       if (selectedClient?.hasCredit) {
-        console.log("si");
         setClientCredit(getClientCreditByID);
       }
     };
@@ -414,6 +411,82 @@ export function PDVOrdersManagement({
               />
             ) : (
               <>
+                {/* <Select
+                  options={options}
+                  name="orderManagement.clientName"
+                  id="clientName"
+                  isClearable={true}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    const { value } = e.target;
+                    const selectedClientObj = listClientsFullName.find(
+                      (client) => client.fullName === value
+                    );
+
+                    setSelectedClient!(
+                      (prevState: IPDVOrdersManagementClientSelected) => ({
+                        ...prevState,
+                        id: selectedClientObj ? selectedClientObj.id : "",
+                        fullName: value,
+                        hasCredit: selectedClientObj
+                          ? selectedClientObj.hasCredit
+                          : false,
+                      })
+                    );
+
+                    setFieldValue!("orderManagement.clientName", value);
+                  }}
+                  styles={{
+                    option: (provided) => ({
+                      ...provided,
+                      backgroundColor: "var(--bg-secondary)",
+                      color: "var(--text-primary)",
+                      cursor: "pointer",
+                      ":hover": {
+                        backgroundColor: "var(--text-secondary)",
+                      },
+                    }),
+
+                    control: (provided) => ({
+                      ...provided,
+                      height: "var(--h-button)",
+                      backgroundColor: "var(--bg-secondary)",
+                      border: "var(--border-2px)",
+                      borderRadius: "var(--radius-sm)",
+                      cursor: "pointer",
+                      ":hover": {
+                        border: "var(--border-2px)",
+                      },
+                    }),
+                    indicatorSeparator: (provided) => ({
+                      ...provided,
+                      display: "none",
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      color: "var(--text-primary)",
+                      fontWeight: "bold",
+                    }),
+                    indicatorsContainer: (provided) => ({
+                      ...provided,
+                      color: "var(--text-primary)",
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      margin: "0",
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color: "var(--text-primary)",
+                    }),
+                    menuList: (provided) => ({
+                      ...provided,
+                      cursor: "pointer",
+                      margin: "0",
+                      padding: "0",
+                      backgroundColor: "var(--bg-secondary)",
+                    }),
+                  }}
+                /> */}
                 <Field
                   as="select"
                   name="orderManagement.clientName"
@@ -445,7 +518,9 @@ export function PDVOrdersManagement({
                   {listClientsFullName.map((client) => {
                     return (
                       <option key={client.fullName} value={client.fullName}>
-                        {client.fullName}
+                        {mainBranchInventory.id
+                          ? `${client.fullName} - ${client.branchOfficeName}`
+                          : client.fullName}
                       </option>
                     );
                   })}
@@ -672,6 +747,7 @@ export function PDVOrdersManagement({
       </main>
       {/* <div className={styles2.shoppingCart__div}> */}
       <FixedResumeSale
+        currentStepIndex={currentStepIndex}
         selectedClient={selectedClient}
         handleBackStep={handleBackStep}
         selectedData={selectedData}

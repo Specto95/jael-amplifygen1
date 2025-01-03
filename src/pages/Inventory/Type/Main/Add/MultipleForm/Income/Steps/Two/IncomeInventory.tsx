@@ -4,7 +4,7 @@ import styles from "../../../../../InventoryForm.module.css";
 import { IIncomeInventoryProps } from "@/interfaces/Inventory/inventory";
 
 //* API
-import { useListProductsByProductProviderID } from "./api/useListProductsByProductProviderID";
+import { useListMainProductsByProductProviderID } from "./api/useListMainProductsByProductProviderID";
 
 //* HOOKS
 import { useSessionProvider } from "@/hooks/useSessionProvider";
@@ -27,7 +27,7 @@ export function IncomeInventory({
 }: IIncomeInventoryProps) {
   const { mainBranchInventory } = useSessionProvider();
   const { listProductProviderProductsByProductProviderID, isLoading } =
-    useListProductsByProductProviderID(
+    useListMainProductsByProductProviderID(
       selectedProvider?.productProviderID!,
       mainBranchInventory.inventoryID
     );

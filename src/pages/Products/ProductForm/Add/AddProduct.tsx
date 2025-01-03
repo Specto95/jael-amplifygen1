@@ -94,7 +94,6 @@ export function AddProduct() {
               },
             },
           });
-          console.log(result);
           setSubCategories(result.data.listSubCategories.items);
         } catch (error) {
           console.log(error);

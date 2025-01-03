@@ -50,9 +50,10 @@ import {
 } from "../FormProps/schema/AccountFormValidationSchema";
 import { AccountFormObj } from "../utils/AccountFormObj";
 import { ICreateBranchOfficeUserAPI } from "@/pages/BranchOffices/Add/FormProps/BranchOfficeGeneralData.d";
-import { currentIndexObj } from "@/utils/multiStepForm/currentIndexObj";
 
 //* UTILS
+import { currentIndexObj } from "@/utils/multiStepForm/currentIndexObj";
+import { useListUsersEmailValidation } from "./api/useListUsersEmailValidation";
 
 export function AccountGeneralForm(): JSX.Element {
   const form = useRef<HTMLFormElement>(null);
@@ -166,12 +167,9 @@ export function AccountGeneralForm(): JSX.Element {
                     branchOfficeId: values.branchOffice,
                     userId,
                   };
-                  const branchOfficeUserResult: any = await clientAPI(
-                    createBranchOfficeUserAPI,
-                    {
-                      input: inputBranchOfficeUser,
-                    }
-                  );
+                  await clientAPI(createBranchOfficeUserAPI, {
+                    input: inputBranchOfficeUser,
+                  });
                 }
 
                 if (values.userType === AccountFormObj.ADMIN) {
@@ -183,12 +181,9 @@ export function AccountGeneralForm(): JSX.Element {
                           branchOfficeId,
                           userId,
                         };
-                      const branchOfficeUserResultADMIN: any = await clientAPI(
-                        createBranchOfficeUserAPI,
-                        {
-                          input: inputBranchOfficeUser,
-                        }
-                      );
+                      await clientAPI(createBranchOfficeUserAPI, {
+                        input: inputBranchOfficeUser,
+                      });
                     });
                 }
 

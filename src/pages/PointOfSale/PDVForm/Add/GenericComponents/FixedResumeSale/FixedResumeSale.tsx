@@ -30,9 +30,14 @@ export function FixedResumeSale({
   const { getClientCreditByID } = useGetClientCreditByID(
     selectedClient ? selectedClient!.id : ""
   );
-
   return (
-    <footer className={styles.PDV__FixedResumeSale}>
+    <footer
+      className={`${styles.PDV__FixedResumeSale} ${
+        currentStepIndex === currentIndexObj.TWO || currentStepIndex === currentIndexObj.THREE
+          ? styles["PDV__FixedResumeSale-NoM"]
+          : ""
+      }`}
+    >
       <MainHeading title="Resúmen de venta" customStyle="heading__primaryPSM" />
 
       <div className="flex__spacing2BetweenWrap">
@@ -67,7 +72,9 @@ export function FixedResumeSale({
                     {selectedMonthsToPay! > 0 && (
                       <div className="flex__spacing">
                         <p className="button__primary-blueCR">
-                          Total a pagar meses
+                          {termDaysToPay === "BIWEEKLY"
+                            ? "Total a pagar quincenal"
+                            : "Total a pagar meses"}
                         </p>
                         <p
                           className={`${
@@ -117,7 +124,9 @@ export function FixedResumeSale({
                         selectedMonthsToPay! > 0 && (
                           <div className="flex__spacing">
                             <p className="button__primary-blueCR">
-                              Total a pagar meses
+                              {termDaysToPay === "BIWEEKLY"
+                                ? "Total a pagar quincenal"
+                                : "Total a pagar meses"}
                             </p>
                             <p
                               className={`${

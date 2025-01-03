@@ -17,8 +17,6 @@ export function IncomeInventoryGeneralDataProvidersTable({
 }: IIncomeInventoryGeneralDataProvidersProps) {
   const { handleBackTo } = useSectionProvider();
 
-  console.log(providersInventoryByName)
-
   const data = useMemo(
     () =>
       isArrayEmpty(providersInventoryByName)

@@ -33,10 +33,7 @@ export function UpdateSaleForm() {
   const { id } = useParams<{ id: string }>();
   const { listSaleDetailsByID, listSaleProductDetailsByID, isLoading } =
     useListSaleDetailsByID(id!);
-
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  console.log(listSaleDetailsByID);
 
   return (
     <>
@@ -65,10 +62,10 @@ export function UpdateSaleForm() {
                 <div className="flex__spacing-betweenMY">
                   <MainHeading title={`ID de venta: ${formatKey(id!)}`} />
                   <div className="flex__spacing">
-                    <button className="button__secondaryFit">
+                    <button className="button__secondaryFit" type="button">
                       Imprimir Ticket
                     </button>
-                    <button className="button__secondaryFit">
+                    <button className="button__secondaryFit" type="button">
                       Guardar Ticket
                     </button>
                   </div>
@@ -141,34 +138,49 @@ export function UpdateSaleForm() {
                     <MainHeading title="Resumen de Pagos" />
 
                     <div className="flex__spacing2-MY">
-                      <BoldField text="Total Pagado" />
-                      <ResumeDataField
-                        text={
-                          "$" +
-                          commaSeparator(listSaleDetailsByID?.amountPaid! || 0)
-                        }
-                      />
+                      {listSaleDetailsByID?.status === "PAID" ? (
+                        <BoldField text="Pagado" />
+                      ) : (
+                        <>
+                          <BoldField text="Total Pagado" />
+                          <ResumeDataField
+                            text={
+                              "$" +
+                              commaSeparator(
+                                listSaleDetailsByID?.amountPaid! || 0
+                              )
+                            }
+                          />
+                        </>
+                      )}
                     </div>
 
-                    <MainHeading title="Adeudo de Venta" />
-                    <div className="flex__spacing">
-                      <ButtonPrimaryBlueRadius text="Adeudo de Venta" />
-                      <ResumeDataField
-                        text={
-                          "$" +
-                          commaSeparator(
-                            listSaleDetailsByID?.pendingToPay! || 0
-                          )
-                        }
-                      />
-                    </div>
+                    {listSaleDetailsByID?.credit_available ? (
+                      <>
+                        <MainHeading title="Adeudo de Venta" />
+                        <div className="flex__spacing">
+                          <ButtonPrimaryBlueRadius text="Adeudo de Venta" />
+                          <ResumeDataField
+                            text={
+                              "$" +
+                              commaSeparator(
+                                listSaleDetailsByID?.pendingToPay! || 0
+                              )
+                            }
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+
 
                     <CloseEditFinish
                       isEditing={isEditing}
                       setIsEditing={setIsEditing}
+                      isMutable={!!listSaleDetailsByID?.credit_available}
                       customFinishText="Cobrar Adeudo"
                       setFieldValue={setFieldValue}
-                      
                     />
                   </>
                 )}
